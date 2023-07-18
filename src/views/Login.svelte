@@ -28,48 +28,95 @@
     //console.log("Email:", email);
     //console.log("Password:", password);
   }
-    //creemos un usuario objeto con nombre correo y uid del usuario
-    let usuario = {
-      nombre: "",
-      correo: "",
-      uid: "",
-    };
+  //creemos un usuario objeto con nombre correo y uid del usuario
+  let usuario = {
+    nombre: "",
+    correo: "",
+    uid: "",
+  };
 
-    const accederConGoogle = async () => {
-      console.log("SI");
-      try {
-        const provider = new GoogleAuthProvider();
-        const resp = await signInWithPopup(auth, provider);
-        console.log(resp.user);
-        usuario.nombre = resp.user.displayName;
-        usuario.correo = resp.user.email;
-        usuario.uid = resp.user.uid;
-        console.log(usuario);
-        if (adminUid.includes(resp.user.uid)) {
-          console.log("admin");
-          admin.setAdmin(resp.user);
-          console.log($admin);
-        } else {
-          user.setUser(resp.user);
-          console.log($user);
-        }
-
-        navigate("/", { replace: true });
-      } catch (error) {
-        console.log(error.message);
+  const accederConGoogle = async () => {
+    console.log("SI");
+    try {
+      const provider = new GoogleAuthProvider();
+      const resp = await signInWithPopup(auth, provider);
+      console.log(resp.user);
+      usuario.nombre = resp.user.displayName;
+      usuario.correo = resp.user.email;
+      usuario.uid = resp.user.uid;
+      console.log(usuario);
+      if (adminUid.includes(resp.user.uid)) {
+        console.log("admin");
+        admin.setAdmin(resp.user);
+        console.log($admin);
+      } else {
+        user.setUser(resp.user);
+        console.log($user);
       }
-    };
 
-    //crtea una funcion que diga aqui estoy debe ser flecha
-    const decirHola = () => {
-      console.log("Hola");
-    };
+      navigate("/", { replace: true });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  //Logica de la parte de creación de cuenta con correo y contraseña
+  let emailAndpassword = true;
+
+  const changeEmailAndPassword = () => {
+    emailAndpassword = !emailAndpassword;
+  };
+
+  const registrarseConEmailPassword = async () => {
+    try {
+      if (!email.trim() || !password.trim()) {
+        console.log("Campos vacios");
+        return;
+      }
+      auth.username = username;
+      const resp2 = await createUserWithEmailAndPassword(auth, email, password);
+      user.setUser(resp2.user);
+      console.log($user);
+      navigate("/", { replace: true });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  //Logica de la parte de ingreso a una cuenta ya existente con correo y contraseña (login)
+  import { signInWithEmailAndPassword } from "firebase/auth";
+  const login = async () => {
+    try {
+      if (!email.trim() || !password.trim()) {
+        console.log("Campos vacios");
+        return;
+      }
+      const resp = await signInWithEmailAndPassword(auth, email, password);
+      if (adminUid.includes(resp.user.uid)) {
+        admin.setAdmin(true);
+        console.log($admin);
+      } else {
+        user.setUser(resp.user);
+        console.log($user);
+      }
+      navigate("/", { replace: true });
+    } catch (error) {
+      alert("The user or the password is incorrect");
+      console.log(error.message);
+    }
+  };
+
+
+
   
 </script>
 
 <div class="container">
   <form class="form" on:submit|preventDefault={handleSubmit}>
-    <input class="input" placeholder="UserName" bind:value={username} />
+    {#if !emailAndpassword}
+      <input class="input" placeholder="UserName" bind:value={username} />
+    {/if}
+
     <input class="input" type="email" placeholder="Email" bind:value={email} />
     <input
       class="input"
@@ -77,18 +124,26 @@
       placeholder="Password"
       bind:value={password}
     />
-    <button class="button" type="submit">Iniciar sesión</button>
+
+    {#if !emailAndpassword}
+      <button class="button" type="submit" on:click={registrarseConEmailPassword}>Crear Cuenta</button>
+      <a href="#" on:click|preventDefault={changeEmailAndPassword}
+        >Ingrese con una cuenta ya existente</a
+      >
+    {:else}
+      <button class="button" type="submit" on:click={login}>Iniciar sesión</button>
+      <a href="#" on:click|preventDefault={changeEmailAndPassword}
+        >Cree una cuenta</a
+      >
+    {/if}
+
     <div class="google-login">
       <a href="URL_DE_INICIO_DE_SESION_DE_GOOGLE">
-       
-        <button on:click={accederConGoogle}>
-            Ingresar con Google</button>
+        <button on:click={accederConGoogle}> Ingresar con Google</button>
       </a>
     </div>
   </form>
 </div>
-
-
 
 <style>
   .container {

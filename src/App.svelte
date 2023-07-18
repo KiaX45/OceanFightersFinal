@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { user, admin } from "./stores/User";
   import { Router, Link, Route, navigate } from "svelte-routing";
   import { onMount } from "svelte";
