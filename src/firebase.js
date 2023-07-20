@@ -3,6 +3,8 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
+//Imports de la parte de base de datos 
+import {getFirestore} from "firebase/firestore"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -28,4 +30,7 @@ export const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-export{auth, provider};
+//FireStore
+const db = getFirestore(app); // lo que decimos es que una ves importado el medio de getFirestore le pasamos por parametro nuestra app para que sepa donde conectarse 
+
+export{auth, provider, db};

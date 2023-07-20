@@ -22,7 +22,7 @@
       navigate("/login", { replace: true });
       console.log("se ha cerrado cesión con exito");
     } catch (error) {
-      console.log(error.message);
+     // console.log(error.message);
     }
   };
 </script>

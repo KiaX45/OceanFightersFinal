@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="js">
   import { user, admin } from "./stores/User";
   import { Router, Link, Route, navigate } from "svelte-routing";
   import { onMount } from "svelte";
@@ -14,20 +14,57 @@
   //Importamos Navbar y Footer
   import Navbar from "./components/Navbar.svelte";
   import Footer from "./components/Footer.svelte";
+
+  const adminUid = [];
+
+  onAuthStateChanged(auth, (authUser) => {
+    if (!authUser) {
+      cerrarSesion();
+      return;
+    }
+    if (adminUid.includes(authUser.uid)) {
+      admin.setAdmin(authUser);
+      console.log($admin);
+    } else {
+      user.setUser(authUser);
+      console.log($user);
+    }
+  });
+
+  onMount(() => {
+    if (!$user) {
+      navigate("/", { replace: true });
+    }
+  });
+
+
+  const cerrarSesion = async () => {
+    try {
+      await signOut(auth);
+      user.setUser(null);
+      navigate("/", { replace: true });
+      console.log("se ha cerrado cesión con exito");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 </script>
 
-<div>
-  <h1>Test 1</h1>
-  <Router>
-    <Navbar />
+<body>
+  <div>
+    <Router>
+      <Navbar />
 
-    <!--Creamos las rutas de las vistas-->
-    <Route path="/"><Home /></Route>
-    <Route path="/login"><Login /></Route>
-    <Route path="/perfil"><Perfil /></Route>
-  </Router>
-  <Footer />
-</div>
+      <!--Creamos las rutas de las vistas-->
+      <Route path="/"><Home /></Route>
+      <Route path="/login">
+        <Login />
+      </Route>
+      <Route path="/perfil"><Perfil /></Route>
+    </Router>
+    <Footer />
+  </div>
+</body>
 
 <style>
   h1 {
