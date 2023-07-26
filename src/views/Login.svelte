@@ -16,7 +16,7 @@
   import { db } from "../firebase";
 
   //Arreglo con las UID de los administradores
-  const adminUid = ["H0QDpxoMMWPD3WRSMvV9fGr1pEQ2"];
+  const adminUid = ["rrXXm7j0UNbo5qdb10SFgp84Co82"];
 
   let email = "";
   let password = "";

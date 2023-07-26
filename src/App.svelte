@@ -15,7 +15,16 @@
   import Navbar from "./components/Navbar.svelte";
   import Footer from "./components/Footer.svelte";
 
-  const adminUid = [];
+  //Importamos los modulos necesarios para mostrar notificaciones
+  import Toastify from "toastify-js";
+
+
+  //Importamos los modulos de restaurante tanto de usuario como de administrador
+  import Restaurante from "./views/Restaurante.svelte";
+  import AdicionRestaurantes from "./views/Admin/AdiciónRestaurantes.svelte";
+  import AdicionMenus from "./views/Admin/AdiciónMenus.svelte";
+
+  const adminUid = ["rrXXm7j0UNbo5qdb10SFgp84Co82"];
 
   onAuthStateChanged(auth, (authUser) => {
     if (!authUser) {
@@ -55,22 +64,19 @@
     <Router>
       <Navbar />
 
-      <!--Creamos las rutas de las vistas-->
+      <!--Creamos las rutas de las vistas de todos los usuarios-->
       <Route path="/"><Home /></Route>
-      <Route path="/login">
-        <Login />
-      </Route>
+      <Route path="/login"> <Login /></Route> 
       <Route path="/perfil"><Perfil /></Route>
+      <Route path="/restaurante"><Restaurante /></Route>
+      <!--Creamos las vistas de los administradores-->
+      <Route path="/adicionrestaurantes"><AdicionRestaurantes /></Route>
+      <Route path="/adicionmenus"><AdicionMenus /></Route>
     </Router>
     <Footer />
   </div>
 </body>
 
 <style>
-  h1 {
-    color: #ff3e00;
-    text-transform: uppercase;
-    font-size: 4em;
-    font-weight: 100;
-  }
+  
 </style>
