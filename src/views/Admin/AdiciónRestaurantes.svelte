@@ -317,7 +317,7 @@
       <div class="col-md-6">
         {#each restaurantes as restaurante}
           <div style="border: 2px solid;">
-            <div class="form-control w-100">
+            <div class="form-control h-100">
               {restaurante.nombre}
               {restaurante.idRestaurante}
               <img src={restaurante.img} alt="Imagen del restaurante" style="width: 300px; height: 200px;">

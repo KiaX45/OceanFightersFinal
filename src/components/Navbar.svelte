@@ -35,6 +35,7 @@
 <Link to="/">Inicio</Link>
 <Link to="/login">Login</Link>
 <Link to="/restaurante">Restaurantes</Link>
+<Link to="/avistamientos">Avistamientos</Link>
 {#if $user}
    <Link to="/perfil">Perfil</Link>
 {/if}
@@ -42,7 +43,7 @@
 <!--Links para las vistas de administrador -->
 {#if $admin}
    <Link to="/adicionrestaurantes">Adición de Restaurantes</Link>
-  
+    <Link to="/comproavistamientos">Comprobación de Avistamientso</Link>
 {/if}
 
 <!--Links para las vistas de usuario autenticado -->
