@@ -28,6 +28,9 @@
   import Avistamientos from "./views/Avistamientos.svelte";
   import ComprobacionAvistamientos from "./views/Admin/ComprobaciónAvistamientos.svelte";
 
+  //importamos los modulos de Eventos
+  import Eventos from "./views/Eventos.svelte";
+
   //Creamos un array con los uid de los administradores
 
   const adminUid = ["rrXXm7j0UNbo5qdb10SFgp84Co82"];
@@ -76,6 +79,7 @@
       <Route path="/perfil"><Perfil /></Route>
       <Route path="/restaurante"><Restaurante /></Route>
       <Route path="/avistamientos"><Avistamientos /></Route>
+      <Route path="/eventos"><Eventos /></Route>
       <!--Creamos las vistas de los administradores-->
       <Route path="/adicionrestaurantes"><AdicionRestaurantes /></Route>
       <Route path="/adicionmenus"><AdicionMenus /></Route>

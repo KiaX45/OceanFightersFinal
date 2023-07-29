@@ -6,4 +6,5 @@ export type Avistamiento = {
     descripcion: string;
     foto: string;
     idUsuario: string;
+    visible: boolean;
 };

@@ -26,8 +26,8 @@
   import { storage } from "../firebase";
   import { signOut } from "firebase/auth";
 
-  //Funciones para mostrar imagenes de diversas locaciones
-  const handleChange = () => {};
+  //impotamos onmount y ondestroy
+  import { onMount, onDestroy } from "svelte";
 
   //variable que nos permitira ocultar o mostrar el boton de subida de imagenes
   let availableUpload = false;
@@ -41,6 +41,7 @@
     descripcion: "",
     foto: "",
     idUsuario: "",
+    visible: false,
   };
 
   //Funciones para la subida de imagenes
@@ -73,7 +74,12 @@
     avistamiento.hora = getActualHour();
     console.log(avistamiento.hora);
     //Ponemos el id del usuario
-    avistamiento.idUsuario = $user.uid;
+    //comprobamos si el usuario es un administrador
+    if ($admin) {
+      avistamiento.idUsuario = $admin.uid;
+    } else {
+      avistamiento.idUsuario = $user.uid;
+    }
     console.log(avistamiento.idUsuario);
     console.log(avistamiento.locacion);
     //Comprobamos si hay una imagen seleccionada
@@ -114,7 +120,7 @@
     console.log(resultImage);
     if (resultImage) {
       avistamiento.foto = resultImage;
-    }
+    };
 
     //Comprobamos si el usuario lleno correctamente el formulario
     if (!checkForm()) {
@@ -126,7 +132,7 @@
 
     //llamamos a la función para subir los datos
     addAvistamiento();
-  }
+  };
 
   //funciones para la adición de fecha
   const getActualDate = () => {
@@ -176,6 +182,7 @@
       descripcion: "",
       foto: "",
       idUsuario: "",
+      visible: false,
     };
   };
 
@@ -206,21 +213,100 @@
     }).showToast();
   };
 
-  //Funciones para mostrar imagen de precisualización
+  //Funciones para mostrar imagen de previsualización
   let showimagePreview = false;
+
+  //funciones para el filtrado de avistamientos en base a la locacion
+  //variable para guardar la variable de filtrado
+  let locacion: string = "Locación 1";
+  //funcion diseañada para el cambio de locacion
+  const handleChange = (locacionenter: number) => {
+    if (locacionenter == 1) {
+      locacion = "Locación 1";
+    } else if (locacionenter == 2) {
+      locacion = "Locación 2";
+    } else if (locacionenter == 3) {
+      locacion = "Locación 3";
+    } else if (locacionenter == 4) {
+      locacion = "Locación 4";
+    }
+    console.log(locacion);
+  };
+
+  //Funciones para mostrar las imagenes subidas por el usuario
+  //variable para guardar los avistamientos sin filtrar
+  let avistamientosSinFiltrar: any = [];
+  //variable para guardar los avistamientos
+  let avistamientos: any = [];
+
+  //funcion para traer los avistamientos de la base de datos
+  const unsub = onSnapshot(
+    collection(db, "Avistamientos"),
+    (querySnapshot) => {
+      avistamientos = querySnapshot.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id }; //con esto decimos que por cada recorrido trasformamos los datos en un objeto
+      });
+      //guardamos los avistamientos sin filtrar
+      avistamientosSinFiltrar = avistamientos;
+
+      console.log("Filtrando");
+      avistamientos = avistamientosSinFiltrar.filter((avistamiento: any) => {
+        return (
+          avistamiento.visible == true && avistamiento.locacion == locacion
+        );
+      });
+
+      //comprobamos que se esten filtrando los avistamientos
+      console.log(avistamientos.length);
+      console.log(avistamientos);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+
+  //Vamos a dejar de que escuche los cambios
+  onDestroy(() => {
+    unsub();
+  });
+
+  //función reactiva para mostrar los avistamientos cuando cambie la locación
+  $: {
+    //filtramos primero por los avistamientos visibles
+    console.log("Filtrando");
+    avistamientos = avistamientosSinFiltrar.filter((avistamiento: any) => {
+      return avistamiento.visible == true && avistamiento.locacion == locacion;
+    });
+  }
 </script>
 
 <!--Creamos las tags necesarias para mostrar las locaciones correspondientes-->
 
 <div class="containerTags">
-  <button on:click|preventDefault={handleChange}>Locación 1</button>
-  <button on:click|preventDefault={handleChange}>Locación 2</button>
-  <button on:click|preventDefault={handleChange}>Locación 3</button>
-  <button on:click|preventDefault={handleChange}>Locación 4</button>
+  <button on:click|preventDefault={() => handleChange(1)}>Locación 1</button>
+  <button on:click|preventDefault={() => handleChange(2)}>Locación 2</button>
+  <button on:click|preventDefault={() => handleChange(3)}>Locación 3</button>
+  <button on:click|preventDefault={() => handleChange(4)}>Locación 4</button>
 </div>
 
 <!--Parte de la carga de las imagenes subidas por el usuario-->
-
+<!--Comprobamos si el arreglo esta vació-->
+{#if avistamientos.length == 0}
+  <h1>No hay avistamientos</h1>
+{:else}
+  <!--Se mostraran los avistamientos de la locacion seleccionada-->
+  {#each avistamientos as avistamiento}
+    <div class="containerAvistamientos">
+      <img src={avistamiento.foto} alt="" style="width: 60%; height: 60%;" />
+      <div class="conteinertagsAvistamiento">
+        <p>{avistamiento.nombre}</p>
+        <p>{avistamiento.fecha}</p>
+        <p>{avistamiento.locacion}</p>
+        <p>{avistamiento.descripcion}</p>
+      </div>
+    </div>
+  {/each}
+{/if}
 <!--Parte de la solicitud de subida de imagenes-->
 {#if !availableUpload}
   <button on:click|preventDefault={handleUpload}>Sube tu propia imagen</button>
@@ -396,5 +482,30 @@
   /* Estilo para las opciones al desplegarse */
   select option:hover {
     background-color: #f8f8f8;
+  }
+
+  /*estilos para las locaciones*/
+  .containerAvistamientos {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 500px;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    margin: 10px;
+  }
+
+  .conteinertagsAvistamiento {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    margin: 10px;
   }
 </style>

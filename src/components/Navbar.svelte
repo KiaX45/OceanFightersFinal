@@ -15,18 +15,18 @@
     navigate("/login", { replace: true });
   };
 
-   const cerrarSesion = async () => {
+  const cerrarSesion = async () => {
     try {
       await signOut(auth);
-      if($admin){
+      if ($admin) {
         admin.setAdmin(null);
-      }else{
+      } else {
         user.setUser(null);
       }
       navigate("/login", { replace: true });
       console.log("se ha cerrado cesión con exito");
     } catch (error) {
-     // console.log(error.message);
+      // console.log(error.message);
     }
   };
 </script>
@@ -36,22 +36,20 @@
 <Link to="/login">Login</Link>
 <Link to="/restaurante">Restaurantes</Link>
 <Link to="/avistamientos">Avistamientos</Link>
+<Link to="/eventos">Eventos</Link>
 {#if $user}
-   <Link to="/perfil">Perfil</Link>
+  <Link to="/perfil">Perfil</Link>
 {/if}
 
 <!--Links para las vistas de administrador -->
 {#if $admin}
-   <Link to="/adicionrestaurantes">Adición de Restaurantes</Link>
-    <Link to="/comproavistamientos">Comprobación de Avistamientso</Link>
+  <Link to="/adicionrestaurantes">Adición de Restaurantes</Link>
+  <Link to="/comproavistamientos">Comprobación de Avistamientso</Link>
 {/if}
 
 <!--Links para las vistas de usuario autenticado -->
 {#if !$user && !$admin}
-   <button class="btn btn-warning" on:click={goLogin}>Iniciar Sesión</button>
+  <button class="btn btn-warning" on:click={goLogin}>Iniciar Sesión</button>
 {:else}
-   <button class="btn btn-danger" on:click={cerrarSesion}>Cerrar Sesión</button>
+  <button class="btn btn-danger" on:click={cerrarSesion}>Cerrar Sesión</button>
 {/if}
-
-
-
