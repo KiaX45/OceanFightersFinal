@@ -231,7 +231,7 @@
       eventosSinFiltrar = eventos;
 
       //vamos a filtrrar los avistamientos en base a la fecha de los avistamientos dejando de primero los mas recientes
-      eventos = eventos.sort((a, b) => {
+      eventos = eventosSinFiltrar.sort((a, b) => {
         return (
           new Date(b.dia + " " + b.hora).getTime() -
           new Date(a.dia + " " + a.hora).getTime()
@@ -253,6 +253,8 @@
 
       //comprobamos
       console.log(eventos);
+
+  
     },
     (error) => {
       console.log(error);

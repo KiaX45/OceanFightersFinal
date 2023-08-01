@@ -3,7 +3,7 @@
   import { eventoStore, idEvento } from "../../stores/Evento";
 
   //importamos onMount para que se ejecute cuando se monte el componente
-  import { onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
 
   //importamos el tipo evento
   import type { evento } from "../../lib/logic/eventos";
@@ -20,6 +20,9 @@
 
   //importamos user y admin
   import { user, admin } from "../../stores/User";
+
+  //importamos el tipo participantes
+  import type { Participacion } from "../../lib/logic/participaciones";
 
   //creamos una variable para almacenar el evento
   let evento: evento = {
@@ -57,7 +60,9 @@
     evento.participantes++;
     eventoStore.set(evento);
     console.log(evento);
+    addParticipante();
     actualizar();
+    availableParticipation = false;
   };
 
   //función para actualizar la base de datos
@@ -69,7 +74,67 @@
     }
   };
 
+  //creamos una variable de tipo Participacion
+  let participacion: Participacion = {
+    uidParticipante: "",
+    uidEvento: "",
+  };
+
+  //funciones para añadir el participante a la base de datos
+  const addParticipante = async () => {
+    try {
+      participacion.uidParticipante = $user.uid;
+      participacion.uidEvento = currentid;
+      const docRef = await addDoc(collection(db, "participantes"), participacion);
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
+
   //funciones para garantizar un solo participante
+  //creamos una variabla para almacenar las participaciones sin filtrar del usuario de la base de datos
+  let participantesSinFiltrar: any[] = [];
+  //creamos una variable para almacenar las participaciones del usuario
+  let participantes: any[] = [];
+  //variable par habilitar o deshabilitar el boton de participar
+  let availableParticipation = true;
+
+  const unsub2 = onSnapshot(
+    collection(db, "participantes"),
+    (querySnapshot) => {
+      participantes = querySnapshot.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id }; //con esto decimos que por cada recorrido trasformamos los datos en un objeto
+      });
+      //guardamos las participaciones sin filtrar
+      participantesSinFiltrar = participantes;
+
+      //Vamos a filtrar los participantes hasta el punto de solo dejar los que pertenecen al usuario
+      participantes = participantesSinFiltrar.filter((participacion) => {
+        return participacion.uidParticipante == $user.uid;
+      });
+
+      //vamos a filtrar pero en base al evento actual para saber si el usuario esta participando en este evento
+      participantes = participantes.filter((participacion) => {
+        return participacion.uidEvento == currentid;
+      });
+      
+      //comprobamos 
+      if (participantes.length > 0) {
+        console.log("Ya estas participando en este evento");
+        availableParticipation = false;
+      } else {
+        console.log("No estas participando en este evento");
+      }
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+
+  onDestroy(() => {
+    unsub2();
+  });
 
   const available = () => {
     //traemos la base de datos de participantes
@@ -78,9 +143,15 @@
 </script>
 
 <h1>{evento.nombre}</h1>
+<h1>{currentid}</h1>
 
 <!--Boton para participar-->
-<button on:click={participar}>¿Quieres Participar?</button>
+{#if availableParticipation}
+   <button on:click={participar}>¿Quieres Participar?</button>
+{:else}
+    <button disabled>Ya estas participando</button>
+{/if}
+
 
 <style>
 </style>
