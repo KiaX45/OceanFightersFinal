@@ -6,5 +6,6 @@ export type evento = {
     imagen: string;
     visible: boolean;  
     participantes: number;
+    maxParticipantes: number;
     precio: number; 
 };  

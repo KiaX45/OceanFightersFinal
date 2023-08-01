@@ -11,4 +11,4 @@ export const getRestaurante = () => {
         restaurante = value;
     });
     return restaurante;
-}
+};

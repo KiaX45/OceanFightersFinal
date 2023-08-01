@@ -18,7 +18,6 @@
   //Importamos los modulos necesarios para mostrar notificaciones
   import Toastify from "toastify-js";
 
-
   //Importamos los modulos de restaurante tanto de usuario como de administrador
   import Restaurante from "./views/Restaurante.svelte";
   import AdicionRestaurantes from "./views/Admin/AdiciónRestaurantes.svelte";
@@ -30,6 +29,7 @@
 
   //importamos los modulos de Eventos
   import Eventos from "./views/Eventos.svelte";
+  import Evento from "./views/User/Evento.svelte";
 
   //Creamos un array con los uid de los administradores
 
@@ -55,7 +55,6 @@
     }
   });
 
-
   const cerrarSesion = async () => {
     try {
       await signOut(auth);
@@ -75,11 +74,13 @@
 
       <!--Creamos las rutas de las vistas de todos los usuarios-->
       <Route path="/"><Home /></Route>
-      <Route path="/login"> <Login /></Route> 
+      <Route path="/login"><Login /></Route>
       <Route path="/perfil"><Perfil /></Route>
       <Route path="/restaurante"><Restaurante /></Route>
       <Route path="/avistamientos"><Avistamientos /></Route>
       <Route path="/eventos"><Eventos /></Route>
+      <!--Creamos las rutas para las vistas de los usuarios verificados-->
+      <Route path="/evento"><Evento /></Route>
       <!--Creamos las vistas de los administradores-->
       <Route path="/adicionrestaurantes"><AdicionRestaurantes /></Route>
       <Route path="/adicionmenus"><AdicionMenus /></Route>
@@ -90,5 +91,4 @@
 </body>
 
 <style>
-  
 </style>

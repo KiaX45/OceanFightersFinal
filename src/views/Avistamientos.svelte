@@ -277,7 +277,12 @@
     avistamientos = avistamientosSinFiltrar.filter((avistamiento: any) => {
       return avistamiento.visible == true && avistamiento.locacion == locacion;
     });
-  }
+  };
+  //funciones para la parte de evento mas especifico
+  const gotoEvento = () => {
+    navigate("/evento");
+  };
+
 </script>
 
 <!--Creamos las tags necesarias para mostrar las locaciones correspondientes-->
