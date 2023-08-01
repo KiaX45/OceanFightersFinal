@@ -24,6 +24,12 @@
   //importamos el tipo participantes
   import type { Participacion } from "../../lib/logic/participaciones";
 
+  //importamos los modulos de notificaciones
+  import Toastify from "toastify-js";
+
+  //impoporamos el tipo notificacion
+  import type { Notificacion } from "../../lib/logic/notificación";
+
   //creamos una variable para almacenar el evento
   let evento: evento = {
     nombre: "",
@@ -55,9 +61,34 @@
     });
   });
 
+  //creamos un tipo de dato notificaión
+  let notificacion: Notificacion = {
+    uidEvento: currentid,
+    nombreEvento: evento.nombre,
+    mensaje: "",
+    fecha: new Date().toLocaleDateString(),
+    viable: true,
+  };
+
   //funciones para el adicionamiento de participantes
   const participar = () => {
     evento.participantes++;
+    //comprobamps que el numero de participantes no sea mayor al maximo
+    if (evento.participantes > evento.maxParticipantes) {
+      evento.participantes--;
+      notificacion.uidEvento = currentid;
+      notificacion.nombreEvento = evento.nombre;
+      notificacion.mensaje =
+        "No hay mas cupos disponibles en este evento por lo que las personas no pueden participar";
+      addNotificacion();
+      showMistake("No hay mas cupos disponibles");
+      return;
+    }
+    if (evento.participantes == evento.maxParticipantes) {
+      notificacion.mensaje =
+        "El evento ha alcanzado el numero maximo de participantes por lo que las personas no pueden participar";
+      addNotificacion();
+    }
     eventoStore.set(evento);
     console.log(evento);
     addParticipante();
@@ -68,7 +99,7 @@
   //función para actualizar la base de datos
   const actualizar = async () => {
     try {
-        await updateDoc(doc(db, "Eventos", currentid), evento);
+      await updateDoc(doc(db, "Eventos", currentid), evento);
     } catch (error) {
       console.log(error);
     }
@@ -85,7 +116,23 @@
     try {
       participacion.uidParticipante = $user.uid;
       participacion.uidEvento = currentid;
-      const docRef = await addDoc(collection(db, "participantes"), participacion);
+      const docRef = await addDoc(
+        collection(db, "participantes"),
+        participacion
+      );
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
+
+  //funciones para añadir notificaciones
+  const addNotificacion = async () => {
+    try {
+      const docRef = await addDoc(
+        collection(db, "notificaciones"),
+        notificacion
+      );
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
@@ -118,8 +165,8 @@
       participantes = participantes.filter((participacion) => {
         return participacion.uidEvento == currentid;
       });
-      
-      //comprobamos 
+
+      //comprobamos
       if (participantes.length > 0) {
         console.log("Ya estas participando en este evento");
         availableParticipation = false;
@@ -140,6 +187,19 @@
     //traemos la base de datos de participantes
   };
 
+  //funciones para mostrar notificaciones
+  const showMistake = (message: string) => {
+    //crear notificacion de error
+    Toastify({
+      text: message,
+      duration: 3000,
+      close: true,
+      gravity: "top",
+      position: "center",
+      backgroundColor: "linear-gradient(to right, #ff416c, #ff4b2b)",
+      stopOnFocus: true,
+    }).showToast();
+  };
 </script>
 
 <h1>{evento.nombre}</h1>
@@ -147,11 +207,10 @@
 
 <!--Boton para participar-->
 {#if availableParticipation}
-   <button on:click={participar}>¿Quieres Participar?</button>
+  <button on:click={participar}>¿Quieres Participar?</button>
 {:else}
-    <button disabled>Ya estas participando</button>
+  <button disabled>Ya estas participando</button>
 {/if}
-
 
 <style>
 </style>

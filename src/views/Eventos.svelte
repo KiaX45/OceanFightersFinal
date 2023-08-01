@@ -441,11 +441,6 @@
       <input type="checkbox" bind:checked={evento.visible} />
     </label>
 
-    <label>
-      Precio:
-      <input type="number" step="0.01" bind:value={evento.precio} />
-    </label>
-
     <button type="submit">Enviar</button>
   </form>
 
