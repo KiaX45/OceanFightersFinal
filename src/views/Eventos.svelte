@@ -178,6 +178,7 @@
         showMistake(
           "El evento que editaste ya no esta vigente, por lo tanto no se mostrara en la pagina de eventos para los usuarios"
         );
+        evento.visible = false;
       } else {
         //si esta vigente le mostramos una notificación de exito
         Toastify({
@@ -189,6 +190,8 @@
           stopOnFocus: true,
         }).showToast();
       }
+
+      console.log(evento.visible);
 
       const docRef = await addDoc(collection(db, "Eventos"), evento);
       //addDoc es un elemento propio de firebase para añadir documentos a la base de datos tenemos que enviar por parametros el db que lo importamos anteriormente y el nombre de la coleccion en la que queremos guardar el documento adicional a esto le enviamos el objeto que queremos guardar si no hay una colección con el nombre que le enviamos se creara una nueva y si ya existe se añadira el documento a la colección
@@ -253,8 +256,6 @@
 
       //comprobamos
       console.log(eventos);
-
-  
     },
     (error) => {
       console.log(error);
@@ -301,10 +302,6 @@
         );
         return;
       }
-      await updateDoc(doc(db, "Eventos", currentid), evento);
-      console.log("Document successfully updated!");
-      //cambiamos el valor de la variable onEdit
-      onEdit = false;
       //comprobamos si el maximo de participantes es 0
       if (evento.maxParticipantes == 0) {
         showMistake(
@@ -318,6 +315,7 @@
         showMistake(
           "El evento que editaste ya no esta vigente, por lo tanto no se mostrara en la pagina de eventos para los usuarios"
         );
+        evento.visible = false;
       } else {
         //si esta vigente le mostramos una notificación de exito
         Toastify({
@@ -329,6 +327,13 @@
           stopOnFocus: true,
         }).showToast();
       }
+
+      console.log(evento.visible);
+
+      await updateDoc(doc(db, "Eventos", currentid), evento);
+      console.log("Document successfully updated!");
+      //cambiamos el valor de la variable onEdit
+      onEdit = false;
       //reestablecemos el formulario
       resetForm();
     } catch (e) {
@@ -346,24 +351,24 @@
 
   //funciones para ocultar y mostrar evenetos
   const showOrHideEvent = (eventoShoworHide) => {
-    if(eventoShoworHide){
+    if (eventoShoworHide) {
       //comprobamos si es vigente o no
-    if (!checkDate(eventoShoworHide)) {
-      //si no esta vigente le mostramos una notificaión de advertencia
-      showMistake(
-        "El evento que editaste ya no esta vigente, por lo tanto no se mostrara en la pagina de eventos para los usuarios"
-      );
-      return;
-    };
-    //corroboramos que el maximo de participantes no sea cero
-    if (eventoShoworHide.maxParticipantes == 0) {
-      showMistake(
-        "El maximo de participantes es 0 por lo que no se pondra visible el evento"
-      );
-      return
+      if (!checkDate(eventoShoworHide)) {
+        //si no esta vigente le mostramos una notificaión de advertencia
+        showMistake(
+          "El evento que editaste ya no esta vigente, por lo tanto no se mostrara en la pagina de eventos para los usuarios"
+        );
+        return;
+      }
+      //corroboramos que el maximo de participantes no sea cero
+      if (eventoShoworHide.maxParticipantes == 0) {
+        showMistake(
+          "El maximo de participantes es 0 por lo que no se pondra visible el evento"
+        );
+        return;
+      }
     }
-    };
-    
+
     currentid = eventoShoworHide.id;
     evento = eventoShoworHide;
     evento.visible = !evento.visible;
