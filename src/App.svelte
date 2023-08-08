@@ -22,6 +22,7 @@
   import Restaurante from "./views/Restaurante.svelte";
   import AdicionRestaurantes from "./views/Admin/AdiciónRestaurantes.svelte";
   import AdicionMenus from "./views/Admin/AdiciónMenus.svelte";
+  import Menus from "./views/Menus.svelte";
 
   //Importamos los modulos de avistamientos
   import Avistamientos from "./views/Avistamientos.svelte";
@@ -36,7 +37,7 @@
 
   //Creamos un array con los uid de los administradores
 
-  const adminUid = ["rrXXm7j0UNbo5qdb10SFgp84Co82"];
+  const adminUid = ["rrXXm7j0UNbo5qdb10SFgp84Co82", "UgTZ9HuP1Og66qii9of6WbCKuzD2"];
 
   onAuthStateChanged(auth, (authUser) => {
     if (!authUser) {
@@ -82,6 +83,7 @@
       <Route path="/restaurante"><Restaurante /></Route>
       <Route path="/avistamientos"><Avistamientos /></Route>
       <Route path="/eventos"><Eventos /></Route>
+      <Route path="/menus"><Menus /></Route>
       <!--Creamos las rutas para las vistas de los usuarios verificados-->
       <Route path="/evento"><Evento /></Route>
       <Route path="/perfiluser"><PerfilUser /></Route>

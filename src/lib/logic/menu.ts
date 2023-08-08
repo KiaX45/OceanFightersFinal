@@ -6,3 +6,5 @@ export type Menu = {
     imagen: string;
     visible: boolean;
 };
+
+
