@@ -31,6 +31,9 @@
   import Eventos from "./views/Eventos.svelte";
   import Evento from "./views/User/Evento.svelte";
 
+  //importamos los modulos de perfilUser
+  import PerfilUser from "./views/User/PerfilUser.svelte";
+
   //Creamos un array con los uid de los administradores
 
   const adminUid = ["rrXXm7j0UNbo5qdb10SFgp84Co82"];
@@ -81,6 +84,7 @@
       <Route path="/eventos"><Eventos /></Route>
       <!--Creamos las rutas para las vistas de los usuarios verificados-->
       <Route path="/evento"><Evento /></Route>
+      <Route path="/perfiluser"><PerfilUser /></Route>
       <!--Creamos las vistas de los administradores-->
       <Route path="/adicionrestaurantes"><AdicionRestaurantes /></Route>
       <Route path="/adicionmenus"><AdicionMenus /></Route>

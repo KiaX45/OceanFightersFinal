@@ -38,7 +38,7 @@
 <Link to="/avistamientos">Avistamientos</Link>
 <Link to="/eventos">Eventos</Link>
 {#if $user}
-  <Link to="/perfil">Perfil</Link>
+  <Link to="/perfiluser">Perfil</Link>
 {/if}
 
 <!--Links para las vistas de administrador -->
