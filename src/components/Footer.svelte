@@ -20,6 +20,8 @@
     background-color: #f0f0f0;
     padding: 20px;
     text-align: center;
+    position: fixed;
+    bottom: 0;
   }
 
   .footer-content {

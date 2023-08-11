@@ -44,7 +44,7 @@
 <!--Links para las vistas de administrador -->
 {#if $admin}
   <Link to="/adicionrestaurantes">Adición de Restaurantes</Link>
-  <Link to="/comproavistamientos">Comprobación de Avistamientso</Link>
+  <Link to="/comproavistamientos">Comprobación de Avistamientos</Link>
   <Link to="/perfil">Perfil</Link>
 {/if}
 

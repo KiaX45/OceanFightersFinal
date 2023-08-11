@@ -45,6 +45,11 @@
   //creamos una variable para guardar los menus
   let menus = [];
 
+  // VARIABLES PARA CALIFICACION DE RESTAURANTE
+  let selectedRating = null;
+  let reviewText = "";
+  
+
   const unsub = onSnapshot(
     collection(db, "Menus"),
     (querySnapshot) => {
@@ -73,21 +78,119 @@
   const mostrarMenuCalificacion = () => {
     calificando = !calificando;
   };
+ 
+
+ 
 </script>
+<div class="menus">
+  <h1>Menusss</h1>
+  <h1>{restaurante.nombre}</h1>
 
-<h1>Menusss</h1>
-<h1>{restaurante.nombre}</h1>
-
-{#each menus as menu}
-  <h1>{menu.nombre}</h1>
-{/each}
+  {#each menus as menu}
+    <h1>{menu.nombre}</h1>
+  {/each}
+</div>
 
 {#if !calificando}
   <button on:click={mostrarMenuCalificacion}>Calificar restaurante</button>
 {:else}
-  Aqui la parate pata calificar restaurante
-  <button on:click={mostrarMenuCalificacion}> Enviar calificación</button>
+  <div class="center">
+    <div class="stars">
+      <input type="radio" id="five" name="rate" value="5" bind:group={selectedRating}>
+      <label for="five"></label>
+      <input type="radio" id="four" name="rate" value="4" bind:group={selectedRating}>
+      <label for="four"></label>
+      <input type="radio" id="three" name="rate" value="3" bind:group={selectedRating}>
+      <label for="three"></label>
+      <input type="radio" id="two" name="rate" value="2" bind:group={selectedRating}>
+      <label for="two"></label>
+      <input type="radio" id="one" name="rate" value="1" bind:group={selectedRating}>
+      <label for="one"></label>
+      <span class="result"></span>
+    </div>
+
+    <div class="text-input">
+      <label for="review">Ingresa tu opinión:</label>
+      <textarea id="review" name="review" rows="4" cols="50" bind:value={reviewText}></textarea>
+    </div>
+
+  </div>
+
+  <button on:click={mostrarMenuCalificacion}>Enviar calificación</button>
 {/if}
 
 <style>
+  *{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.center{
+  position: fixed;
+  top: 45%;
+  left: 20%;
+  transform: translate(-50%, -50%);
+}
+.center .stars{
+  height: 150px;
+  width: 500px;
+  text-align: center;
+}
+.stars input{
+  display: none;
+}
+.stars label{
+  float: right;
+  font-size: 100px;
+  color: lightgrey;
+  margin: 0 5px;
+  text-shadow: 1px 1px #bbb;
+}
+.stars label:before{
+  content: '★';
+}
+.stars input:checked ~ label{
+  color: gold;
+  text-shadow: 1px 1px #c60;
+}
+.stars:not(:checked) > label:hover,
+.stars:not(:checked) > label:hover ~ label{
+  color: gold;
+}
+.stars input:checked > label:hover,
+.stars input:checked > label:hover ~ label{
+  color: gold;
+  text-shadow: 1px 1px goldenrod;
+}
+.stars .result:before{
+  position: absolute;
+  content: "";
+  width: 100%;
+  left: 50%;
+  transform: translateX(-47%);
+  bottom: -30px;
+  font-size: 30px;
+  font-weight: 500;
+  color: gold;
+  font-family: 'Poppins', sans-serif;
+  display: none;
+}
+.stars input:checked ~ .result:before{
+  display: block;
+}
+.stars #five:checked ~ .result:before{
+  content: "Me encanta ";
+}
+.stars #four:checked ~ .result:before{
+  content: "Me gusta ";
+}
+.stars #three:checked ~ .result:before{
+  content: "Está Bien ";
+}
+.stars #two:checked ~ .result:before{
+  content: "No me gusta ";
+}
+.stars #one:checked ~ .result:before{
+  content: "Me disgusta ";
+}
 </style>
