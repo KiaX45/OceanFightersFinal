@@ -81,6 +81,7 @@
         }).showToast();
         return;
       }
+      console.log(restaurante);
       const docRef = await addDoc(collection(db, "Restaurantes"), restaurante);
       //addDoc es un elemento propio de firebase para añadir documentos a la base de datos tenemos que enviar por parametros el db que lo importamos anteriormente y el nombre de la coleccion en la que queremos guardar el documento adicional a esto le enviamos el objeto que queremos guardar si no hay una colección con el nombre que le enviamos se creara una nueva y si ya existe se añadira el documento a la colección
       console.log("Document written with ID: ", docRef.id);
@@ -151,6 +152,7 @@
   let resultImage: string | undefined;
 
   async function uploadFile(file) {
+    console.log(file);
     const storageRef = ref(storage, `Restaurantes/${restaurante.nombre}`);
     await uploadBytes(storageRef, file);
     resultImage = await getDownloadURL(storageRef);
@@ -158,9 +160,11 @@
     if(resultImage){
       restaurante.img = resultImage;
     }
-    if(editTask){
+    if(onEdit){
+      console.log("Editando");
       handleEdit();
     }else{
+      console.log("Añadiendo");
       addRestaurante();
     }
   }
