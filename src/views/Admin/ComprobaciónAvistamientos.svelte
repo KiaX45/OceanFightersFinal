@@ -1,5 +1,6 @@
 <script lang="ts">
   /**
+   * @version 1.0.0
    * Este modulo cumplira la función de permitir a los administradores comprobar las imagenes subidas por los usuarios
    * y decidir si son validas o no.
    * Tambien vamos a permitir a los administrasdores controlar la visibilidad de los avistamientos de cada una de las ubicaciones validas
@@ -7,6 +8,10 @@
 
   //Importar onMount y onDestroy
   import { onMount, onDestroy } from "svelte";
+
+  //importamos los modulos para mostrar notificaciones de toastify
+  import Toastify from "toastify-js";
+
 
   //importamos los modulos necesarios para comunicar con la base de datos
   import { db } from "../../firebase";
@@ -91,10 +96,24 @@
         doc(db, "Avistamientos", Avistamientodit.id),
         Avistamientodit
       );
+      //mostramos la notificación de exito
+      mostrarNotificacionExito();
       console.log("Avistamiento editado");
     } catch (error) {
       console.log(error);
     }
+  };
+
+  //Funciones para la muestra de notificaciones de exito
+  const mostrarNotificacionExito = () => {
+    Toastify({
+      text: "Avistamiento editado con exito",
+      duration: 3000,
+      gravity: "top",
+      position: "center",
+      backgroundColor: "#4caf50",
+      stopOnFocus: true,
+    }).showToast();
   };
 </script>
 

@@ -165,6 +165,8 @@
       );
       //addDoc es un elemento propio de firebase para añadir documentos a la base de datos tenemos que enviar por parametros el db que lo importamos anteriormente y el nombre de la coleccion en la que queremos guardar el documento adicional a esto le enviamos el objeto que queremos guardar si no hay una colección con el nombre que le enviamos se creara una nueva y si ya existe se añadira el documento a la colección
       console.log("Document written with ID: ", docRef.id);
+      //mostramos una notificación de exito
+      showSuccess("Avistamiento subido con exito");
       //Se reestablece el formulario
       resetForm();
     } catch (e) {
@@ -184,6 +186,8 @@
       idUsuario: "",
       visible: false,
     };
+    selectedImage = undefined;
+    availableUpload = false;
   };
 
   //Función para compr obar si el usuario lleno correctamente el formulario
@@ -281,6 +285,20 @@
   //funciones para la parte de evento mas especifico
   const gotoEvento = () => {
     navigate("/evento");
+  };
+
+  //Funciones para mostrar notificaciones de exito
+  const showSuccess = (successMessage: string) => {
+    // Utilizando toastify para mostrar notificaciones
+    Toastify({
+      text: successMessage,
+      duration: 3000,
+      gravity: "top",
+      position: "center",
+      backgroundColor: "#00ff00",
+      stopOnFocus: true,
+      close: true,
+    }).showToast();
   };
 
 </script>

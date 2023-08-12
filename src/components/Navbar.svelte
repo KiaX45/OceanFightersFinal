@@ -33,7 +33,7 @@
 
 <!--Links para las vistas de todo el publico -->
 <Link to="/">Inicio</Link>
-<Link to="/login">Login</Link>
+<!-- <Link to="/login">Login</Link> -->
 <Link to="/restaurante">Restaurantes</Link>
 <Link to="/avistamientos">Avistamientos</Link>
 <Link to="/eventos">Eventos</Link>

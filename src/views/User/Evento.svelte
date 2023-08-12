@@ -42,6 +42,7 @@
     maxParticipantes: 0,
     visible: false,
     precio: 0,
+    visibleAdministrador: true,
   };
 
   let currentid = "";

@@ -52,6 +52,7 @@
     maxParticipantes: 0,
     visible: false,
     precio: 0,
+    visibleAdministrador: true,
   };
 
   //variable para saber cuando se esta editando un evento
@@ -60,7 +61,8 @@
   //funcion para enviar el formulario
   const handleSubmit = () => {
     //Comprobamos si hay una imagen seleccionada
-    if (selectedImage) {
+    if (selectedImage != undefined) {
+      console.log("No deberia entrar aqui");
       uploadFile(selectedImage);
     } else {
       //comprobamos si se esta editando un evento
@@ -97,8 +99,12 @@
   async function uploadFile(file) {
     const storageRef = ref(storage, `Avistamientos/${evento.nombre}`);
     await uploadBytes(storageRef, file);
+    //Comprobamos si ya hay una imagen sin la necesidad del seleccionador
+
+    //obtenemos la url de la imagen
     resultImage = await getDownloadURL(storageRef);
     console.log(resultImage);
+
     if (resultImage) {
       evento.imagen = resultImage;
     }
@@ -211,12 +217,15 @@
       descripcion: "",
       dia: "",
       hora: "",
-      imagen: "",
+      imagen:
+        "https://firebasestorage.googleapis.com/v0/b/ocean-ad72b.appspot.com/o/Restaurantes%2Fnot-found-icon-4.jpg?alt=media&token=5b0a8e01-c4b6-4218-8983-bbc4648cbf67",
       participantes: 0,
       maxParticipantes: 0,
       visible: false,
       precio: 0,
+      visibleAdministrador: true,
     };
+    selectedImage = undefined;
   };
 
   //funciones para poder obtener los datos de la base de datos
@@ -240,8 +249,12 @@
           new Date(a.dia + " " + a.hora).getTime()
         );
       });
+      //Comprobamos que solo se muestren los que visibles para los administradores
+      eventos = eventosSinFiltrar.filter((evento) => {
+        return evento.visibleAdministrador;
+      });
 
-      //ka siguiente comprobaión solo se debe hacer si el usuario no es administrador
+      //la siguiente comprobaión solo se debe hacer si el usuario no es administrador
       if ($user && !$admin) {
         //vamos a filtrar los eventos para que solo se muestren los que esten vigentes
         eventos = eventosSinFiltrar.filter((evento) => {
@@ -290,6 +303,11 @@
     evento = eventoonEdit;
     //guardamos el id del evento
     currentid = eventoonEdit.id;
+    //la imagen del evento se debe guardar en la variable selectedImage
+    console.log(evento.imagen);
+    console.log(selectedImage);
+    //mostramos la imagen de previsualización
+    //showimagePreview = true;
   };
 
   //funcion para actualizar los datos de un evento
@@ -317,15 +335,21 @@
         );
         evento.visible = false;
       } else {
-        //si esta vigente le mostramos una notificación de exito
-        Toastify({
-          text: "El evento se actualizo correctamente",
-          duration: 3000,
-          gravity: "top",
-          position: "center",
-          backgroundColor: "#00ff00",
-          stopOnFocus: true,
-        }).showToast();
+        //comprobamos si se esta eliminando un evento
+        if (onDeleting) {
+          //si se esta eliminando un evento le mostramos una notificación de exito
+          //el color del background es amarillo para que se diferencie de las notificaciones de exito
+        } else {
+          //si esta vigente le mostramos una notificación de exito
+          Toastify({
+            text: "El evento se actualizo correctamente",
+            duration: 3000,
+            gravity: "top",
+            position: "center",
+            backgroundColor: "#00ff00",
+            stopOnFocus: true,
+          }).showToast();
+        }
       }
 
       console.log(evento.visible);
@@ -343,6 +367,12 @@
 
   //funciones para ingresar un evento en la store
   const gotoEvento = (evento: any) => {
+    //comprobamos si el usuario esta registrado
+    if (!$user) {
+      showMistake("Debes iniciar sesión para participar en los eventos");
+      navigate("/login");
+      return;
+    }
     eventoStore.set(evento);
     idEvento.set(evento.id);
     console.log(evento.id);
@@ -374,6 +404,40 @@
     evento.visible = !evento.visible;
     updateEvento();
   };
+  //Variable para saber cuando se esta eliminando un evento
+  let onDeleting: boolean = false;
+  //Funciones para eliminar eventos
+  const eliminarEvento = (evento) => {
+    //comprobamos si el evento esta vigente y tiene participantes
+    if (checkDate(evento) && evento.participantes > 0) {
+      showMistake(
+        "El evento tiene participantes por lo que no se puede eliminar"
+      );
+      return;
+    }
+    onDeleting = true;
+    //Editamos la propiedad visibleAdministrador
+    evento.visibleAdministrador = false;
+    //Editamos la visibilidad de los usuarios
+    evento.visible = false;
+    //Actualizamos el evento
+    try {
+      updateDoc(doc(db, "Eventos", evento.id), evento);
+      Toastify({
+        text: "El evento se elimino correctamente",
+        duration: 3000,
+        gravity: "top",
+        position: "center",
+        backgroundColor: "#F4D03F",
+        color: "#000000",
+        stopOnFocus: true,
+      }).showToast();
+      onDeleting = false;
+      console.log("Document successfully updated!");
+    } catch (e) {
+      console.error("Error updating document: ", e);
+    }
+  };
 </script>
 
 <!--Apartado para mostrar los eventos previamente creados-->
@@ -393,6 +457,7 @@
       {:else}
         <button on:click={() => showOrHideEvent(evento)}>Mostrar</button>
       {/if}
+      <button on:click={() => eliminarEvento(evento)}>Eliminar</button>
     {:else}
       <button on:click={() => gotoEvento(evento)}>Mas información</button>
     {/if}
@@ -450,7 +515,7 @@
   </form>
 
   <!--Apartado para la imagen de previsualización-->
-  {#if showimagePreview}
+  {#if showimagePreview && selectedImage != undefined}
     <div style="justify-content: center; align-items: center;">
       <img
         src={URL.createObjectURL(selectedImage)}

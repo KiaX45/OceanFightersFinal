@@ -8,4 +8,5 @@ export type evento = {
     participantes: number;
     maxParticipantes: number;
     precio: number; 
+    visibleAdministrador: boolean;
 };  
