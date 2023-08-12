@@ -190,48 +190,39 @@
     }
   });
 </script>
-
+<body>
 <div class="container">
   <form class="form" on:submit|preventDefault={handleSubmit}>
     {#if !emailAndpassword}
-      <input class="input" placeholder="UserName" bind:value={username} />
+      <h1 class="heading">Registrarse</h1>
+      <label class="form-label" for="username">Usuario</label>
+      <input class="input" placeholder="Nombre de Usuario" bind:value={username} />
+    {:else}
+      <h1 class="heading">Inicio de Sesion</h1>
     {/if}
 
+    <label class="form-label" for="email">Email</label>
     <input class="input" type="email" placeholder="Email" bind:value={email} />
-    <input
-      class="input"
-      type="password"
-      placeholder="Password"
-      bind:value={password}
-    />
+
+    <label class="form-label" for="password">Contraseña</label>
+    <input class="input" type="password" placeholder="Contraseña" bind:value={password} />
 
     {#if !emailAndpassword}
-      <button
-        class="button"
-        type="submit"
-        on:click={registrarseConEmailPassword}>Crear Cuenta</button
-      >
-      <a href="#" on:click|preventDefault={changeEmailAndPassword}
-        >Ingrese con una cuenta ya existente</a
-      >
+      <button class="button primary" type="submit" on:click={registrarseConEmailPassword}>Crear Cuenta</button>
+      <a class="link" href="#" on:click|preventDefault={changeEmailAndPassword}>Ingrese con una cuenta ya existente</a>
     {:else}
-      <button class="button" type="submit" on:click={login}
-        >Iniciar sesión</button
-      >
-      <a href="#" on:click|preventDefault={changeEmailAndPassword}
-        >Cree una cuenta</a
-      >
+      <button class="button primary" type="submit" on:click={login}>Iniciar sesión</button>
+      <a class="link" href="#" on:click|preventDefault={changeEmailAndPassword}>Cree una cuenta</a>
     {/if}
 
     <div class="google-login">
       <a href="URL_DE_INICIO_DE_SESION_DE_GOOGLE">
-        <button on:click={accederConGoogle}> Ingresar con Google</button>
+        <button class="button secondary" on:click={accederConGoogle}>Ingresar con Google</button>
       </a>
     </div>
   </form>
 </div>
-
-
+</body>
 
 <style>
   .container {
@@ -240,7 +231,10 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: #f0f0f0;
+    background-color: #1687ED;
+  }
+  body {
+    background-color: #1687ED;
   }
 
   .form {
@@ -249,29 +243,61 @@
     align-items: center;
     background-color: #ffffff;
     padding: 20px;
-    border-radius: 4px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   }
 
   .input {
     width: 300px;
     margin-bottom: 10px;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 8px;
+  }
+
+  .form-label {
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: #1687ED;
   }
 
   .button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.2s, color 0.2s;
+  }
+
+  .primary {
     background-color: #007bff;
     color: #ffffff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  }
+
+  .secondary {
+    background-color: #09ACD6;
+    color: #ffffff;
   }
 
   .button:hover {
     background-color: #0056b3;
+  }
+
+  .link {
+    color: #09ACD6;
+    text-decoration: none;
+    margin-top: 10px;
+  }
+
+  .link:hover {
+    text-decoration: underline;
+  }
+
+  .heading {
+    color: #1687ED;
+    margin-bottom: 10px;
   }
 
   .google-login {
