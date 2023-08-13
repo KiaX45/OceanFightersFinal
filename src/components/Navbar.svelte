@@ -31,26 +31,164 @@
   };
 </script>
 
-<!--Links para las vistas de todo el publico -->
-<Link to="/">Inicio</Link>
-<!-- <Link to="/login">Login</Link> -->
-<Link to="/restaurante">Restaurantes</Link>
-<Link to="/avistamientos">Avistamientos</Link>
-<Link to="/eventos">Eventos</Link>
-{#if $user}
-  <Link to="/perfiluser">Perfil</Link>
-{/if}
+<body>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
-<!--Links para las vistas de administrador -->
-{#if $admin}
-  <Link to="/adicionrestaurantes">Adición de Restaurantes</Link>
-  <Link to="/comproavistamientos">Comprobación de Avistamientos</Link>
-  <Link to="/perfil">Perfil</Link>
-{/if}
+  <header class="header">
+    <a href="#" class="logo">LOGO</a>
+    <label for="" class="icons">
+      <i class='bx bx-water'></i>
+    </label>
 
-<!--Links para las vistas de usuario autenticado -->
-{#if !$user && !$admin}
-  <button class="btn btn-warning" on:click={goLogin}>Iniciar Sesión</button>
-{:else}
-  <button class="btn btn-danger" on:click={cerrarSesion}>Cerrar Sesión</button>
-{/if}
+    <label for="" class="icons-1">
+      <i class='bx bx-water'></i>
+    </label>
+
+    <nav class="navbar">
+      <!--Links para las vistas de todo el publico -->
+      <Link to="/"><p>Inicio</p></Link>
+      <Link to="/login"><p>Login</p></Link>
+      <Link to="/restaurante"><p>Restaurantes</p></Link>
+      <Link to="/avistamientos"><p>Avistamientos</p></Link>
+      <Link to="/eventos"><p>Eventos</p></Link>
+        {#if $user}
+          <Link to="/perfil"><p>Perfil</p></Link>
+        {/if}
+      
+      <!--Links para las vistas de administrador -->
+        {#if $admin}
+          <Link to="/adicionrestaurantes"><p>Adición de Restaurantes</p></Link>
+          <Link to="/comproavistamientos"><p>Comprobación de Avistamientos</p></Link>
+          <Link to="/perfil"><p>Perfil</p></Link>
+        {/if}
+      
+      <!--Links para las vistas de usuario autenticado -->
+        {#if !$user && !$admin}
+          <button class="btn" on:click={goLogin}
+            >Iniciar Sesión</button
+          >
+        {:else}
+          <button class="btn" on:click={cerrarSesion}
+            >Cerrar Sesión</button
+          >
+        {/if}
+      
+    </nav>
+  </header>
+</body>
+
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  text-decoration: none;
+}
+
+body{
+  margin-bottom: 100px;
+}
+
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.3rem 10%;
+  background: rgba(0, 0, 0, .1);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .1);
+  backdrop-filter: blur(100px);
+  z-index: -1;
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,
+  255,255,.4), transparent);
+  transition: .5s;
+}
+
+.header:hover::after{
+  left: 100%;
+
+}
+
+.logo {
+  font-size: 2rem;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.navbar p {
+  font-size: 1.15rem;
+  color: #fff;
+  font-weight: 500;
+  margin-left: 2.5rem;
+  text-decoration: underline;
+}
+
+.navbar p:hover{
+  color: #EFBC70;
+}
+
+.icons {
+  font-size: 2.8rem;
+  color: #fff;
+  cursor: pointer;
+  display: none;
+}
+
+.icons {
+  font-size: 2.8rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+.btn {
+  border: none;
+  margin-left: 30px;
+  background: #A37125;
+  padding: 10px 20px;
+  border-radius: 30px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 15px;
+  transition: .4s;
+}
+
+.btn:hover{
+  color: #30A6FF;
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+/* BREALPOINTS /*
+
+
+</style>
