@@ -30,7 +30,7 @@
   import Toastify from "toastify-js";
 
   //importamos ondestroy para dejar de escuchar los cambios
-  import { onDestroy } from "svelte";
+  import { onDestroy, onMount } from "svelte";
 
   //importamos las stores necesarias
   import { eventoStore, idEvento } from "../stores/Evento";
@@ -438,6 +438,41 @@
       console.error("Error updating document: ", e);
     }
   };
+
+  //funciones para cambiar el estado de visibilidad a los eventos que ya no son viables
+  const changeVisibility = () => {
+    //obtenemos la fecha actual
+    let fechaActual = new Date();
+    //recorremos los eventos
+    console.log(eventos);
+    eventos.forEach((evento) => {
+      //obtenemos la fecha del evento
+      let fechaEvento = new Date(evento.dia + " " + evento.hora);
+      //comparamos las fechas
+      if (fechaActual.getTime() > fechaEvento.getTime()) {
+        //si la fecha actual es mayor a la fecha del evento cambiamos la visibilidad del evento
+        evento.visible = false;
+        //actualizamos el evento
+        try {
+          updateDoc(doc(db, "Eventos", evento.id), evento);
+          console.log("Document successfully updated!");
+        } catch (e) {
+          console.error("Error updating document: ", e);
+        }
+      }
+    });
+  };
+
+  //Funcion onMount
+  onMount(() => {
+    //creamos un await de tres segundos para que se llene el arreglo de los eventos
+    setTimeout(() => {
+      console.log("Se ejecuto el setTimeout");
+      //Cambiamos la visibilidad de los eventos que ya no son viables
+      changeVisibility();
+    }, 3000);
+    
+  });
 </script>
 
 <!--Apartado para mostrar los eventos previamente creados-->

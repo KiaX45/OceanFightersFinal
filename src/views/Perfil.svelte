@@ -88,7 +88,6 @@
       <div class="notifications">
         <h1>{notificacion.nombreEvento}</h1>
         <h1>{notificacion.mensaje}</h1>
-        <h1>{notificacion.descripcion}</h1>
         <h1>{notificacion.fecha}</h1>
         <button on:click={() => resolverNotificacion(notificacion)}
           >Resolver notificacion</button

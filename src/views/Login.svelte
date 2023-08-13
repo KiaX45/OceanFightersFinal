@@ -14,6 +14,8 @@
   //Imports de las bases de datos
   import { addDoc, collection, onSnapshot } from "firebase/firestore";
   import { db } from "../firebase";
+  //importamos las notificaciones de firestore
+  import Toastify from "toastify-js";
 
   //Arreglo con las UID de los administradores
   const adminUid = ["rrXXm7j0UNbo5qdb10SFgp84Co82", "UgTZ9HuP1Og66qii9of6WbCKuzD2"];
@@ -22,7 +24,7 @@
   let password = "";
   let username = "";
   let nombreUsuarioyaRegistrado = false;
-
+  
 
   //Función para registrar un usuario
 
@@ -71,12 +73,12 @@
   const registrarseConEmailPassword = async () => {
     try {
       if (!email.trim() || !password.trim()) {
-        console.log("Campos vacios");
+       showMistake("Campos vacios");
         return;
       }
       verificarNombreDeUsuario();
       if (nombreUsuarioyaRegistrado) {
-        alert("El nombre de usuario ya esta registrado");
+        showMistake("El nombre de usuario ya esta registrado");
         return;
       }
       auth.username = username;
@@ -86,9 +88,10 @@
       console.log($user.uid);
       llenarDatos();
       saveUser();
+      showSuccess("Se ha creado la cuenta con exito");
       navigate("/", { replace: true });
     } catch (error) {
-      console.log(error.message);
+      showMistake(error.message);
     }
   };
 
@@ -109,7 +112,7 @@
   const login = async () => {
     try {
       if (!email.trim() || !password.trim()) {
-        console.log("Campos vacios");
+        showMistake("Campos vacios");
         return;
       }
       const resp = await signInWithEmailAndPassword(auth, email, password);
@@ -120,9 +123,10 @@
         user.setUser(resp.user);
         console.log($user);
       }
+      showSuccess("Se ha iniciado sesión con exito");
       navigate("/", { replace: true });
     } catch (error) {
-      alert("The user or the password is incorrect");
+      showMistake("The user or the password is incorrect");
       console.log(error.message);
     }
   };
@@ -189,6 +193,31 @@
       navigate("/login", { replace: true });
     }
   });
+
+  //funciones para mopstrar notificaciones de errores
+  const showMistake = (mensaje) => {
+    Toastify({
+      text: mensaje,
+      duration: 3000,
+      close: true,
+      gravity: "top",
+      position: "center",
+      backgroundColor: "#ff0000",
+      stopOnFocus: true,
+    }).showToast();
+  };
+  //funciones para mopstrar notificaciones de exito
+  const showSuccess = (mensaje) => {
+    Toastify({
+      text: mensaje,
+      duration: 3000,
+      close: true,
+      gravity: "top",
+      position: "center",
+      backgroundColor: "#00ff00",
+      stopOnFocus: true,
+    }).showToast();
+  };
 </script>
 <body>
 <div class="container">
