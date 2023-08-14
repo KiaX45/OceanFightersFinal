@@ -220,60 +220,86 @@
   };
 </script>
 <body>
-<div class="container">
-  <form class="form" on:submit|preventDefault={handleSubmit}>
-    {#if !emailAndpassword}
-      <h1 class="heading">Registrarse</h1>
-      <label class="form-label" for="username">Usuario</label>
-      <input class="input" placeholder="Nombre de Usuario" bind:value={username} />
-    {:else}
-      <h1 class="heading">Inicio de Sesion</h1>
-    {/if}
+  <div class="container">
+    <form class="form" on:submit|preventDefault={handleSubmit}>
+      {#if !emailAndpassword}
+        <h1 class="heading">Registrarse</h1>
+        <label class="form-label" for="username">Usuario</label>
+        <input class="input" placeholder="Nombre de Usuario" bind:value={username} />
+      {:else}
+        <h1 class="heading">Inicio de Sesion</h1>
+      {/if}
 
-    <label class="form-label" for="email">Email</label>
-    <input class="input" type="email" placeholder="Email" bind:value={email} />
+      <label class="form-label" for="email">Email</label>
+      <input class="input" type="email" placeholder="Email" bind:value={email} />
 
-    <label class="form-label" for="password">Contraseña</label>
-    <input class="input" type="password" placeholder="Contraseña" bind:value={password} />
+      <label class="form-label" for="password">Contraseña</label>
+      <input class="input" type="password" placeholder="Contraseña" bind:value={password} />
 
-    {#if !emailAndpassword}
-      <button class="button primary" type="submit" on:click={registrarseConEmailPassword}>Crear Cuenta</button>
-      <a class="link" href="#" on:click|preventDefault={changeEmailAndPassword}>Ingrese con una cuenta ya existente</a>
-    {:else}
-      <button class="button primary" type="submit" on:click={login}>Iniciar sesión</button>
-      <a class="link" href="#" on:click|preventDefault={changeEmailAndPassword}>Cree una cuenta</a>
-    {/if}
+      {#if !emailAndpassword}
+        <button class="button primary" type="submit" on:click={registrarseConEmailPassword}>Crear Cuenta</button>
+        <a class="link" href="#" on:click|preventDefault={changeEmailAndPassword}>Ingrese con una cuenta ya existente</a>
+      {:else}
+        <button class="button primary" type="submit" on:click={login}>Iniciar sesión</button>
+        <a class="link" href="#" on:click|preventDefault={changeEmailAndPassword}>Cree una cuenta</a>
+      {/if}
 
-    <div class="google-login">
-      <a href="URL_DE_INICIO_DE_SESION_DE_GOOGLE">
-        <button class="button secondary" on:click={accederConGoogle}>Ingresar con Google</button>
-      </a>
-    </div>
-  </form>
-</div>
+      <div class="google-login">
+        <a href="URL_DE_INICIO_DE_SESION_DE_GOOGLE">
+          <button class="button secondary" on:click={accederConGoogle}>Ingresar con Google</button>
+        </a>
+      </div>
+    </form>
+  </div>
 </body>
 
 <style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #007bff;
+  }
+
   .container {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: #1687ED;
+    background: url(https://firebasestorage.googleapis.com/v0/b/ocean-ad72b.appspot.com/o/Home%2Fr2.png?alt=media&token=ed78e807-7471-422e-b35c-6039f41ba1e7) no-repeat center center;
+    background-size: cover;
+    overflow: hidden;
   }
-  body {
+
+  .container::before,
+  .container::after {
+    content: '';
+    position: absolute;
+    width: 50vw; /* Cambia esta línea */
+    height: 100%;
+    top: 0;
     background-color: #1687ED;
+    transform: skew(-15deg);
+    z-index: -1;
+  }
+
+  .container::after {
+    right: 0;
+    transform: skew(15deg);
   }
 
   .form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.9);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
   }
 
   .input {
