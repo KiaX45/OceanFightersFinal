@@ -224,31 +224,37 @@
     <form class="form" on:submit|preventDefault={handleSubmit}>
       {#if !emailAndpassword}
         <h1 class="heading">Registrarse</h1>
-        <label class="form-label" for="username">Usuario</label>
+        
         <input class="input" placeholder="Nombre de Usuario" bind:value={username} />
       {:else}
         <h1 class="heading">Inicio de Sesion</h1>
       {/if}
 
-      <label class="form-label" for="email">Email</label>
+      
       <input class="input" type="email" placeholder="Email" bind:value={email} />
 
-      <label class="form-label" for="password">Contraseña</label>
+      
       <input class="input" type="password" placeholder="Contraseña" bind:value={password} />
 
       {#if !emailAndpassword}
         <button class="button primary" type="submit" on:click={registrarseConEmailPassword}>Crear Cuenta</button>
+        <div class="google-login">
+          <a href="URL_DE_INICIO_DE_SESION_DE_GOOGLE">
+            <button class="button secondary" on:click={accederConGoogle}>Ingresar con Google</button>
+          </a>
+        </div>
         <a class="link" href="#" on:click|preventDefault={changeEmailAndPassword}>Ingrese con una cuenta ya existente</a>
       {:else}
         <button class="button primary" type="submit" on:click={login}>Iniciar sesión</button>
+        <div class="google-login">
+          <a href="URL_DE_INICIO_DE_SESION_DE_GOOGLE">
+            <button class="button secondary" on:click={accederConGoogle}>Ingresar con Google</button>
+          </a>
+        </div>
         <a class="link" href="#" on:click|preventDefault={changeEmailAndPassword}>Cree una cuenta</a>
       {/if}
 
-      <div class="google-login">
-        <a href="URL_DE_INICIO_DE_SESION_DE_GOOGLE">
-          <button class="button secondary" on:click={accederConGoogle}>Ingresar con Google</button>
-        </a>
-      </div>
+      
     </form>
   </div>
 </body>
@@ -258,7 +264,7 @@
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #007bff;
+    background-color: #092038;
   }
 
   .container {
@@ -277,24 +283,24 @@
   .container::after {
     content: '';
     position: absolute;
-    width: 50vw; /* Cambia esta línea */
+    width: 80%;
     height: 100%;
     top: 0;
     background-color: #1687ED;
-    transform: skew(-15deg);
+    transform: skewX(-15deg);
     z-index: -1;
   }
 
   .container::after {
     right: 0;
-    transform: skew(15deg);
+    transform: skewX(15deg);
   }
 
   .form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.1);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -304,44 +310,40 @@
 
   .input {
     width: 300px;
-    margin-bottom: 10px;
+    margin-bottom: 15px; /* Cambio de espaciado */
     padding: 12px;
     border: 1px solid #ccc;
-    border-radius: 8px;
+    border-radius: 16px;
+    background-color: rgba(255, 255, 255, 0.3);
+    color: white;
   }
 
   .form-label {
     font-weight: bold;
     margin-bottom: 6px;
-    color: #1687ED;
+    color: white;
   }
 
   .button {
-    padding: 12px 24px;
+    padding: 5px 10px; /* Cambio de tamaño */
     border: none;
-    border-radius: 8px;
+    border-radius: 16px;
     cursor: pointer;
     font-weight: bold;
     text-transform: uppercase;
     transition: background-color 0.2s, color 0.2s;
-  }
-
-  .primary {
-    background-color: #007bff;
-    color: #ffffff;
-  }
-
-  .secondary {
-    background-color: #09ACD6;
-    color: #ffffff;
+    background-color: white;
+    color: black;
+    margin-right: 10px;
+    font-size: 12px; /* Cambio de tamaño de letra */
   }
 
   .button:hover {
-    background-color: #0056b3;
+    background-color: #f0f0f0;
   }
 
   .link {
-    color: #09ACD6;
+    color: white;
     text-decoration: none;
     margin-top: 10px;
   }
@@ -351,11 +353,16 @@
   }
 
   .heading {
-    color: #1687ED;
-    margin-bottom: 10px;
+    color: white;
+    margin-bottom: 20px;
   }
 
   .google-login {
     margin-top: 20px;
+  }
+
+  /* Cambio de color del placeholder */
+  ::placeholder {
+    color: white;
   }
 </style>
