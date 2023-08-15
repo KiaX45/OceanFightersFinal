@@ -339,7 +339,7 @@
   }
 
   .button:hover {
-    background-color: #f0f0f0;
+    background-color: #bebaba;
   }
 
   .link {
