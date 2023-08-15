@@ -15,11 +15,9 @@
 </script>
 
 <body>
-  
   <div class="medina">
     <button on:click={diHola}> diHola</button>
   </div>
-  
 
   <header class="header">
     <div class="menu container">
@@ -86,9 +84,9 @@
       <div class="info-circle">
         <div class="circle-txt">
           <div class="circle-1">
-            <h3 class="slide-in-top1">13M TN</h3>
+            <h3 class="wobble-hor-bottom">13M TN</h3>
           </div>
-          <p>
+          <p class="wobble-hor-bottom">
             Gracias a la ayuda de Ocean fighters y de todos las personas que han
             ayudado y colaborado se ha logrado recoger cerce de 12,7 millones de
             toneladas de basura de todos los oceanos y mares
@@ -96,9 +94,9 @@
         </div>
         <div class="circle-txt">
           <div class="circle-1">
-            <h3>90.5%</h3>
+            <h3 class="wobble-hor-bottom">90.5%</h3>
           </div>
-          <p>
+          <p class="wobble-hor-bottom">
             Cerca del 91% de la area de todo los oceanos y mares está salva
             guardada contra la pesca excesiva, esto para prevenir que la vida
             maritima disminuya considerablemente a tal punto que la vida
@@ -107,9 +105,9 @@
         </div>
         <div class="circle-txt">
           <div class="circle-1">
-            <h3>100+</h3>
+            <h3 class="wobble-hor-bottom">100+</h3>
           </div>
-          <p>
+          <p class="wobble-hor-bottom">
             Más de 100 restaurantes ha n sido verificados por el equipo y la
             comunidad de Ocean fighters como restaurantes certificados cons su
             compromiso con la preservación de la fauna marítima.
@@ -117,9 +115,9 @@
         </div>
         <div class="circle-txt">
           <div class="circle-1">
-            <h3>28.1M KM</h3>
+            <h3 class="wobble-hor-bottom">28.1M KM</h3>
           </div>
-          <p>
+          <p class="wobble-hor-bottom">
             Se estima que ya hay alrededor de 28.1 millones de kilometros que
             están protegidos contra la pesca y conservación de su vida maritima
             en todo el mundo, contando con constante vigilancia de la guardía
@@ -135,31 +133,37 @@
 
     <div class="general-content">
       <div class="general-4 txt">
-        <h3>Video 1</h3>
-        <p>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magni
-          pariatur quod alias porro, deserunt, iusto ducimus et sunt non itaque
-          commodi iste animi beatae! Molestiae nostrum molestias pariatur vel
-          obcaecati.
-        </p>
+        <iframe
+          width="370"
+          height="250"
+          src="https://www.youtube.com/embed/OC4V4nhyt8Y"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        />
       </div>
       <div class="general-5 txt">
-        <h3>Video 2</h3>
-        <p>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magni
-          pariatur quod alias porro, deserunt, iusto ducimus et sunt non itaque
-          commodi iste animi beatae! Molestiae nostrum molestias pariatur vel
-          obcaecati.
-        </p>
+        <iframe
+          width="370"
+          height="250"
+          src="https://www.youtube.com/embed/YRUZzQqqHBw"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        />
       </div>
       <div class="general-6 txt">
-        <h3>Video 3</h3>
-        <p>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magni
-          pariatur quod alias porro, deserunt, iusto ducimus et sunt non itaque
-          commodi iste animi beatae! Molestiae nostrum molestias pariatur vel
-          obcaecati.
-        </p>
+        <iframe
+          width="370"
+          height="250"
+          src="https://www.youtube.com/embed/h9Lw2wpZEwE"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        />
       </div>
     </div>
   </section>
@@ -190,10 +194,12 @@
             />
             <h3>Jorge</h3>
             <p>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nostrum
-              quaerat id qui officia? Dolor recusandae laudantium dolorum
-              mollitia excepturi voluptate praesentium cumque voluptas labore
-              architecto voluptatum non, quos sequi odit?
+              "Mi tiempo en esta organización ha sido una travesía apasionante.
+              Colaborar en la restauración de arrecifes coralinos y en la
+              concienciación sobre la contaminación plástica marina me ha
+              llenado de orgullo. Cada paso cuenta para proteger nuestro
+              preciado ecosistema marítimo y dejar un legado positivo para las
+              futuras generaciones."
             </p>
           </div>
         </div>
@@ -205,10 +211,12 @@
             />
             <h3>Samantha</h3>
             <p>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nostrum
-              quaerat id qui officia? Dolor recusandae laudantium dolorum
-              mollitia excepturi voluptate praesentium cumque voluptas labore
-              architecto voluptatum non, quos sequi odit?
+              "Trabajar en esta organización ha sido una experiencia increíble.
+              Cada día, contribuimos activamente a la preservación del
+              ecosistema marítimo a través de acciones concretas, desde la
+              limpieza de playas hasta la promoción de prácticas pesqueras
+              sostenibles. Saber que mi esfuerzo marca una diferencia real en la
+              salud de nuestros océanos es verdaderamente gratificante."
             </p>
           </div>
         </div>
@@ -218,11 +226,9 @@
 </body>
 
 <style>
-
-
-.medina {
-  display: none;
-}
+  .medina {
+    display: none;
+  }
   * {
     margin: 0;
     padding: 0;
@@ -233,12 +239,13 @@
 
   body {
     min-height: 100vh;
+
     background: -webkit-linear-gradient(
       -180deg,
       rgb(22, 135, 237),
-      rgb(20, 55, 90)
+      rgb(8, 37, 67)
     );
-    background: linear-gradient(-180deg, rgb(22, 135, 237), rgb(20, 55, 90));
+    background: linear-gradient(-180deg, rgb(22, 135, 237), rgb(8, 37, 67));
   }
 
   .container {
@@ -300,7 +307,7 @@
 
   .header-txt h1 {
     font-size: 85px;
-    color: #A37125;
+    color: #a37125;
     text-transform: uppercase;
     margin-bottom: 20px;
   }
@@ -339,7 +346,7 @@
   }
 
   .general-1 {
-    background-image: url(https://firebasestorage.googleapis.com/v0/b/ocean-ad72b.appspot.com/o/Home%2Fr2.png?alt=media&token=ed78e807-7471-422e-b35c-6039f41ba1e7);
+    background-image: url(https://firebasestorage.googleapis.com/v0/b/ocean-ad72b.appspot.com/o/Home%2Ftortuga%20circular%202.png?alt=media&token=298cb1b5-4bf6-40eb-8322-8b13f8606f92);
     background-position: center center;
     background-position: no-repeat;
     background-size: cover;
@@ -348,7 +355,7 @@
   }
 
   .general-2 {
-    background-image: url(https://firebasestorage.googleapis.com/v0/b/ocean-ad72b.appspot.com/o/Home%2Fr2.png?alt=media&token=ed78e807-7471-422e-b35c-6039f41ba1e7);
+    background-image: url(https://firebasestorage.googleapis.com/v0/b/ocean-ad72b.appspot.com/o/Home%2Ftortuga%20circular%202.png?alt=media&token=298cb1b5-4bf6-40eb-8322-8b13f8606f92);
     background-position: center center;
     background-position: no-repeat;
     background-size: cover;
@@ -357,7 +364,7 @@
   }
 
   .general-3 {
-    background-image: url(https://firebasestorage.googleapis.com/v0/b/ocean-ad72b.appspot.com/o/Home%2Fr2.png?alt=media&token=ed78e807-7471-422e-b35c-6039f41ba1e7);
+    background-image: url(https://firebasestorage.googleapis.com/v0/b/ocean-ad72b.appspot.com/o/Home%2Ftortuga%20circular%202.png?alt=media&token=298cb1b5-4bf6-40eb-8322-8b13f8606f92);
     background-position: center center;
     background-position: no-repeat;
     background-size: cover;
@@ -371,7 +378,7 @@
     background-position: no-repeat;
     background-size: cover;
     height: 450px;
-    padding: 170px 55px;
+    padding: 170px 20px;
   }
 
   .general-5 {
@@ -380,7 +387,7 @@
     background-position: no-repeat;
     background-size: cover;
     height: 450px;
-    padding: 170px 55px;
+    padding: 170px 20px;
   }
 
   .general-6 {
@@ -389,7 +396,7 @@
     background-position: no-repeat;
     background-size: cover;
     height: 450px;
-    padding: 170px 55px;
+    padding: 170px 20px;
   }
 
   h2 {
@@ -584,6 +591,82 @@
       -webkit-transform: translateY(0);
       transform: translateY(0);
       opacity: 1;
+    }
+  }
+
+  .wobble-hor-bottom:hover {
+    -webkit-animation: wobble-hor-bottom 0.8s both;
+    animation: wobble-hor-bottom 0.8s both;
+  }
+
+  /* ----------------------------------------------
+ * Generated by Animista on 2023-8-14 20:41:10
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+  /**
+ * ----------------------------------------
+ * animation wobble-hor-bottom
+ * ----------------------------------------
+ */
+  @-webkit-keyframes wobble-hor-bottom {
+    0%,
+    100% {
+      -webkit-transform: translateX(0%);
+      transform: translateX(0%);
+      -webkit-transform-origin: 50% 50%;
+      transform-origin: 50% 50%;
+    }
+    15% {
+      -webkit-transform: translateX(-30px) rotate(-6deg);
+      transform: translateX(-30px) rotate(-6deg);
+    }
+    30% {
+      -webkit-transform: translateX(15px) rotate(6deg);
+      transform: translateX(15px) rotate(6deg);
+    }
+    45% {
+      -webkit-transform: translateX(-15px) rotate(-3.6deg);
+      transform: translateX(-15px) rotate(-3.6deg);
+    }
+    60% {
+      -webkit-transform: translateX(9px) rotate(2.4deg);
+      transform: translateX(9px) rotate(2.4deg);
+    }
+    75% {
+      -webkit-transform: translateX(-6px) rotate(-1.2deg);
+      transform: translateX(-6px) rotate(-1.2deg);
+    }
+  }
+  @keyframes wobble-hor-bottom {
+    0%,
+    100% {
+      -webkit-transform: translateX(0%);
+      transform: translateX(0%);
+      -webkit-transform-origin: 50% 50%;
+      transform-origin: 50% 50%;
+    }
+    15% {
+      -webkit-transform: translateX(-30px) rotate(-6deg);
+      transform: translateX(-30px) rotate(-6deg);
+    }
+    30% {
+      -webkit-transform: translateX(15px) rotate(6deg);
+      transform: translateX(15px) rotate(6deg);
+    }
+    45% {
+      -webkit-transform: translateX(-15px) rotate(-3.6deg);
+      transform: translateX(-15px) rotate(-3.6deg);
+    }
+    60% {
+      -webkit-transform: translateX(9px) rotate(2.4deg);
+      transform: translateX(9px) rotate(2.4deg);
+    }
+    75% {
+      -webkit-transform: translateX(-6px) rotate(-1.2deg);
+      transform: translateX(-6px) rotate(-1.2deg);
     }
   }
 </style>

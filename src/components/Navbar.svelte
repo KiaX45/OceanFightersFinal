@@ -32,16 +32,19 @@
 </script>
 
 <body>
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link
+    href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+    rel="stylesheet"
+  />
 
   <header class="header">
-    <a href="#" class="logo">LOGO</a>
+    <a href="#" class="logo pulsate-fwd">O/F</a>
     <label for="" class="icons">
-      <i class='bx bx-water'></i>
+      <i class="bx bx-water" />
     </label>
 
     <label for="" class="icons-1">
-      <i class='bx bx-water'></i>
+      <i class="bx bx-water pulsate-fwd" />
     </label>
 
     <nav class="navbar">
@@ -51,28 +54,25 @@
       <Link to="/restaurante"><p>Restaurantes</p></Link>
       <Link to="/avistamientos"><p>Avistamientos</p></Link>
       <Link to="/eventos"><p>Eventos</p></Link>
-        {#if $user}
-          <Link to="/perfil"><p>Perfil</p></Link>
-        {/if}
-      
+      {#if $user}
+        <Link to="/perfil"><p>Perfil</p></Link>
+      {/if}
+
       <!--Links para las vistas de administrador -->
-        {#if $admin}
-          <Link to="/adicionrestaurantes"><p>Adición de Restaurantes</p></Link>
-          <Link to="/comproavistamientos"><p>Comprobación de Avistamientos</p></Link>
-          <Link to="/perfil"><p>Perfil</p></Link>
-        {/if}
-      
+      {#if $admin}
+        <Link to="/adicionrestaurantes"><p>Adición de Restaurantes</p></Link>
+        <Link to="/comproavistamientos"
+          ><p>Comprobación de Avistamientos</p></Link
+        >
+        <Link to="/perfil"><p>Perfil</p></Link>
+      {/if}
+
       <!--Links para las vistas de usuario autenticado -->
-        {#if !$user && !$admin}
-          <button class="btn" on:click={goLogin}
-            >Iniciar Sesión</button
-          >
-        {:else}
-          <button class="btn" on:click={cerrarSesion}
-            >Cerrar Sesión</button
-          >
-        {/if}
-      
+      {#if !$user && !$admin}
+        <button class="btn" on:click={goLogin}>Iniciar Sesión</button>
+      {:else}
+        <button class="btn" on:click={cerrarSesion}>Cerrar Sesión</button>
+      {/if}
     </nav>
   </header>
 </body>
@@ -82,113 +82,160 @@
 
   @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-  text-decoration: none;
-}
+  @import url("https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap");
 
-body{
-  margin-bottom: 100px;
-}
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    text-decoration: none;
+  }
 
+  body {
+    margin-bottom: 100px;
+  }
 
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 1.3rem 10%;
-  background: rgba(0, 0, 0, .1);
-  backdrop-filter: blur(10px);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 100;
-}
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.3rem 10%;
+    background: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+  }
 
-.header::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, .1);
-  backdrop-filter: blur(100px);
-  z-index: -1;
-}
+  .header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(100px);
+    z-index: -1;
+  }
 
-.header::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,
-  255,255,.4), transparent);
-  transition: .5s;
-}
+  .header::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    transition: 0.5s;
+  }
 
-.header:hover::after{
-  left: 100%;
+  .header:hover::after {
+    left: 100%;
+  }
 
-}
+  .logo {
+    font-family: "Dancing Script", cursive;
+    font-size: 2rem;
+    color: #1F64A1;
+    text-decoration: none;
+    font-weight: 700;
+  }
 
-.logo {
-  font-size: 2rem;
-  color: #fff;
-  text-decoration: none;
-  font-weight: 700;
-}
+  .navbar p {
+    font-size: 1.15rem;
+    color: #fff;
+    font-weight: 500;
+    margin-left: 2.5rem;
+    text-decoration: underline;
+  }
 
-.navbar p {
-  font-size: 1.15rem;
-  color: #fff;
-  font-weight: 500;
-  margin-left: 2.5rem;
-  text-decoration: underline;
-}
+  .navbar p:hover {
+    color: #efbc70;
+  }
 
-.navbar p:hover{
-  color: #EFBC70;
-}
+  .icons {
+    font-size: 2.8rem;
+    color: #fff;
+    cursor: pointer;
+    display: none;
+  }
 
-.icons {
-  font-size: 2.8rem;
-  color: #fff;
-  cursor: pointer;
-  display: none;
-}
+  .icons {
+    font-size: 2.8rem;
+    color: #fff;
+    cursor: pointer;
+  }
 
-.icons {
-  font-size: 2.8rem;
-  color: #fff;
-  cursor: pointer;
-}
+  .btn {
+    border: none;
+    margin-left: 30px;
+    background: #a37125;
+    padding: 10px 20px;
+    border-radius: 30px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 15px;
+    transition: 0.4s;
+  }
 
-.btn {
-  border: none;
-  margin-left: 30px;
-  background: #A37125;
-  padding: 10px 20px;
-  border-radius: 30px;
-  color: #fff;
-  font-weight: bold;
-  font-size: 15px;
-  transition: .4s;
-}
+  .btn:hover {
+    color: #30a6ff;
+    transform: scale(1.1);
+    cursor: pointer;
+  }
 
-.btn:hover{
-  color: #30A6FF;
-  transform: scale(1.1);
-  cursor: pointer;
-}
+  .pulsate-fwd {
+    -webkit-animation: pulsate-fwd 1.8s ease-in-out infinite both;
+    animation: pulsate-fwd 1.8s ease-in-out infinite both;
+  }
 
-/* BREALPOINTS /*
+  /* ----------------------------------------------
+ * Generated by Animista on 2023-8-14 21:9:19
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
 
-
+  /**
+ * ----------------------------------------
+ * animation pulsate-fwd
+ * ----------------------------------------
+ */
+  @-webkit-keyframes pulsate-fwd {
+    0% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+    50% {
+      -webkit-transform: scale(1.1);
+      transform: scale(1.1);
+    }
+    100% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+  }
+  @keyframes pulsate-fwd {
+    0% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+    50% {
+      -webkit-transform: scale(1.1);
+      transform: scale(1.1);
+    }
+    100% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+  }
 </style>
