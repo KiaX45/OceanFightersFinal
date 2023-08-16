@@ -50,7 +50,7 @@
     <nav class="navbar">
       <!--Links para las vistas de todo el publico -->
       <Link to="/"><p>Inicio</p></Link>
-      <Link to="/login"><p>Login</p></Link>
+      <!-- <Link to="/login"><p>Login</p></Link> -->
       <Link to="/restaurante"><p>Restaurantes</p></Link>
       <Link to="/avistamientos"><p>Avistamientos</p></Link>
       <Link to="/eventos"><p>Eventos</p></Link>
