@@ -76,28 +76,58 @@
 
 
 </script>
+<body>
+  <h1 style="color: #1687ED; display: flex; justify-content: center;">Restaurantes</h1>
 
-<h1 style="color: #1687ED;">Restaurantes</h1>
+  <!--Busqueda de restaurantes-->
+  <div style="display: flex; justify-content: center;">
+    <input
+      type="text"
+      placeholder="Busque por el nombre del restaurante"
+      bind:value={busqueda}
+      style="margin-bottom: 20px; padding: 5px; border: 1px solid #1687ED; border-radius: 5px;"
+    />
+  </div>
 
-<!--Busqueda de restaurantes-->
-<input type="text" placeholder="Busque por el nombre del restaurante" bind:value={busqueda} style="margin-bottom: 20px; padding: 5px; border: 1px solid #1687ED; border-radius: 5px;">
-
-<div class="container1">
-  {#each restaurantes as restaurante}
+  <div class="container1">
+    {#each restaurantes as restaurante}
     {#if restaurante.visible}
-      <div class="restaurant-card">
-        <h1>{restaurante.nombre}</h1>
-        <h2>{restaurante.direccion}</h2>
-        <h3>{restaurante.telefono}</h3>
-        <h4>{restaurante.horario}</h4>
-        <h5>{restaurante.descripcion}</h5>
-        <button on:click={() => gotoMenu(restaurante)}>Ver Menú</button>
-      </div>
+    <div class="restaurant-card">
+      <img src={restaurante.img} alt="Imagen del restaurante" style="max-width: 100%;" />
+      <h1>{restaurante.nombre}</h1>
+      <h2>{restaurante.direccion}</h2>
+      <h3>{restaurante.telefono}</h3>
+      <h4>Hora de Apertura: {restaurante.horaApertura}</h4>
+      <h4>Hora de Cierre: {restaurante.horaCierre}</h4>
+      <h5>{restaurante.descripcion}</h5>
+      <button on:click={() => gotoMenu(restaurante)}>Ver Menú</button>
+    </div>
     {/if}
-  {/each}
-</div>
+    {/each}
+  </div>
+</body>
 
 <style>
+  body {
+    /* background-image: url(https://firebasestorage.googleapis.com/v0/b/ocean-ad72b.appspot.com/o/Restaurantes%2FK3EAJ6SLJFDWBAQQWNTH6NGF3I.jpg?alt=media&token=2c97631e-1c8c-4345-9b10-76ab612d27b9);
+    background-size: cover; */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: rgba(248, 243, 243, 0.5);
+  }
+
+  body::before {
+    content: "";
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: -1;
+  }
+
   .container1 {
     display: flex;
     flex-wrap: wrap;
@@ -110,7 +140,7 @@
     padding: 15px;
     border-radius: 10px;
     width: 300px;
-    background-color: #fff;
+    background-color: #1e72b7;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
@@ -125,13 +155,14 @@
     color: #1687ED;
     margin-bottom: 5px;
   }
+  
 
   .restaurant-card h2,
   .restaurant-card h3,
   .restaurant-card h4,
   .restaurant-card h5 {
     font-size: 14px;
-    color: #666;
+    color: #fff; /* Cambio de color de letra en las tarjetas */
     margin-bottom: 3px;
   }
 

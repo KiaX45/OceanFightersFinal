@@ -83,7 +83,7 @@
  
 </script>
 <div class="menus">
-  <h1>Menusss</h1>
+  <h1>Menu's</h1>
   <h1>{restaurante.nombre}</h1>
 
   {#each menus as menu}
