@@ -425,6 +425,7 @@
       console.log("Document successfully updated!");
       //Obtenemos los correos de los participantes
       console.log(getCorreos(currentid));
+      let correos5 = getCorreos(currentid);
 
 
       //cambiamos el valor de la variable onEdit

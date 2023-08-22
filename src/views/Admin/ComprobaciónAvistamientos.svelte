@@ -61,8 +61,13 @@
       console.log(avistamientos);
 
       console.log("Filtrando");
-      avistamientos = avistamientos.filter((avistamiento: any) => {
+      avistamientos = avistamientosSinFiltrar.filter((avistamiento: any) => {
         return avistamiento.locacion == locacion;
+      });
+
+      //solo se deben mostrar los avistamientos cuya visbleAdmin sea verdadero
+      avistamientos = avistamientos.filter((avistamiento: any) => {
+        return avistamiento.visibleAdmin == true;
       });
 
       //comprobamos que se esten filtrando los avistamientos
@@ -84,6 +89,11 @@
     avistamientos = avistamientosSinFiltrar.filter((avistamiento: any) => {
       return avistamiento.locacion == locacion;
     });
+    //solo se deben mostrar los avistamientos cuya visbleAdmin sea verdadero
+      avistamientos = avistamientos.filter((avistamiento: any) => {
+        return avistamiento.visibleAdmin == true;
+      });
+
     console.log(avistamientos);
   }
 
@@ -103,6 +113,29 @@
       console.log(error);
     }
   };
+
+  //Funciones para la eliminación de avistamientos
+  const handleDelete = async (avistamientoonDelete) => {
+    try {
+      //Pedimos una confirmación en forma de alerta
+      const confirmacion = confirm("¿Estas seguro de eliminar el avistamiento?");
+      if (!confirmacion) {
+        return;
+      }
+      //eliminamos el avistamiento
+      avistamientoonDelete.visibleAdmin = false;
+      //oculatamos el avistamiento para los usuarios
+      avistamientoonDelete.visible = false;
+      updateDoc(doc(db, "Avistamientos", avistamientoonDelete.id), avistamientoonDelete);
+      //mostramos la notificación de exito
+      mostrarNotificacionExito();
+      console.log("Avistamiento eliminado");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
 
   //Funciones para la muestra de notificaciones de exito
   const mostrarNotificacionExito = () => {
@@ -144,6 +177,7 @@
       {:else}
         <button on:click={() => handleEdit(avistamiento)}>Ocultar</button>
       {/if}
+      <button on:click={() => handleDelete(avistamiento)}>Eliminar</button>
     </div>
   {/each}
 {/if}
