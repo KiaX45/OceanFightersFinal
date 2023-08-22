@@ -55,7 +55,7 @@
       <Link to="/avistamientos"><p>Avistamientos</p></Link>
       <Link to="/eventos"><p>Eventos</p></Link>
       {#if $user}
-        <Link to="/perfil"><p>Perfil</p></Link>
+        <Link to="/perfiluser"><p>Perfil</p></Link>
       {/if}
 
       <!--Links para las vistas de administrador -->

@@ -1,4 +1,7 @@
 <script>
+  //importamos onmount
+  import { onMount } from "svelte";
+
   //importamos bootstrap y toastify
   import Toastify from "toastify-js";
   const diHola = () => {
@@ -12,6 +15,29 @@
     }).showToast();
     console.log("Hola");
   };
+
+  let datos;
+
+  //creamos la función de conexión con el servidor
+  const conexion = async () => {
+    try {
+        const respuesta = await fetch('https://oceanfightersserver.onrender.com/ping');
+        if (respuesta.ok) {
+            datos = await respuesta.json();
+            console.log("Datos obtenidos:", datos);
+        } else {
+            console.error("Error al obtener datos:", respuesta.statusText);
+        }
+    } catch (error) {
+        console.error("Error al realizar la solicitud:", error);
+    }
+  };
+
+  //creamos onmount
+  onMount(() => {
+    //llamamos la función de conexión con el servidor
+    conexion();
+  });
 </script>
 
 <body>

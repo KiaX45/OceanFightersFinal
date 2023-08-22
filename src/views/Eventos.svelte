@@ -37,6 +37,7 @@
 
   //Importamos los modulos de svelte routing
   import { navigate } from "svelte-routing";
+  import { get } from "svelte/store";
 
   //funciones para crear eventos
 
@@ -278,6 +279,9 @@
   //Vamos a dejar de que escuche los cambios
   onDestroy(() => {
     unsub();
+    getParticipantes();
+    getUsuarios();
+   
   });
 
   //función para comprobar si un evento sigue estando vigenete
@@ -308,6 +312,69 @@
     console.log(selectedImage);
     //mostramos la imagen de previsualización
     //showimagePreview = true;
+
+    //Vamos a extraer los correos de las personas que estan inscritas en este evento
+  };
+
+  //Función para extraer los correos de las personas que estan inscritas en este evento
+  //creamos una variable para almacenar los correos
+  let correos: any[] = [];
+  let participantes2: any[] = [];
+
+  const getParticipantes =onSnapshot(
+    collection(db, "participantes"),
+    (querySnapshot) => {
+      participantes2 = querySnapshot.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id }; //con esto decimos que por cada recorrido trasformamos los datos en un objeto
+      });
+     
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+
+  let usuarios: any[] = [];
+  let usuariosSinFiltrar: any[] = [];
+  const getUsuarios = onSnapshot(
+    collection(db, "Usuarios"),
+    (querySnapshot) => {
+      usuarios = querySnapshot.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id }; //con esto decimos que por cada recorrido trasformamos los datos en un objeto
+      });
+      //guardamos los avistamientos sin filtrar
+      usuariosSinFiltrar = usuarios;
+      console.log(usuarios);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+
+  const getCorreos = (evnetoCorreosid) =>{
+      console.log(participantes2);
+      console.log(evnetoCorreosid);
+      console.log(usuarios);
+      //vamos a filtrrar los participantes para que solo salgan los correos de los que estan participando en el evento a editar
+      participantes2 = participantes2.filter((participante) => {
+        return participante.uidEvento == evnetoCorreosid;
+      });
+      console.log(participantes2);  
+
+      //vamos a extraer los correos de los participantes
+      participantes2.forEach((participante) => {
+        //vamos a filtrar los usuarios para que solo salgan los que estan participando en el evento a editar
+        usuarios = usuariosSinFiltrar.filter((usuario) => {
+          return usuario.uid == participante.uidParticipante;
+        });
+        //vamos a extraer los correos de los usuarios
+        usuarios.forEach((usuario) => {
+          correos.push(usuario.email);
+        });
+      });
+
+      console.log(correos);
+      return correos;
   };
 
   //funcion para actualizar los datos de un evento
@@ -356,6 +423,10 @@
 
       await updateDoc(doc(db, "Eventos", currentid), evento);
       console.log("Document successfully updated!");
+      //Obtenemos los correos de los participantes
+      console.log(getCorreos(currentid));
+
+
       //cambiamos el valor de la variable onEdit
       onEdit = false;
       //reestablecemos el formulario
