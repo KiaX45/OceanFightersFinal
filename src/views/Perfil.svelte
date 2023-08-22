@@ -79,7 +79,7 @@
 
   <div class="row_options">
     <div class="item_admin">
-      <h4 class="text_top">Seccion para foto e informacion</h4>
+      <h4 class="text_top">Seccion para foto e informacion Mas adelante</h4>
     </div>
     <div class="item_options">
       <h5 class="text_top">Seccion para resolver notificaciones</h5>
