@@ -16,21 +16,23 @@
   import { db } from "../firebase";
   //importamos las notificaciones de firestore
   import Toastify from "toastify-js";
+  import "toastify-js/src/toastify.css";
 
   //Arreglo con las UID de los administradores
-  const adminUid = ["rrXXm7j0UNbo5qdb10SFgp84Co82", "UgTZ9HuP1Og66qii9of6WbCKuzD2", "7x3tWOQWjFckGTBWNC8srj1ddat1"];
+  const adminUid = [
+    "rrXXm7j0UNbo5qdb10SFgp84Co82",
+    "UgTZ9HuP1Og66qii9of6WbCKuzD2",
+    "7x3tWOQWjFckGTBWNC8srj1ddat1",
+  ];
 
   let email = "";
   let password = "";
   let username = "";
   let nombreUsuarioyaRegistrado = false;
-  
 
   //Función para registrar un usuario
 
-  function handleSubmit() {
-  
-  }
+  function handleSubmit() {}
   //creemos un usuario objeto con nombre correo y uid del usuario
   let usuario = {
     nombre: "",
@@ -54,7 +56,7 @@
         console.log($admin);
       } else {
         user.setUser(resp.user);
-       // console.log($user);
+        // console.log($user);
       }
 
       navigate("/", { replace: true });
@@ -73,7 +75,7 @@
   const registrarseConEmailPassword = async () => {
     try {
       if (!email.trim() || !password.trim()) {
-       showMistake("Campos vacios");
+        showMistake("Campos vacios");
         return;
       }
       verificarNombreDeUsuario();
@@ -126,7 +128,7 @@
       showSuccess("Se ha iniciado sesión con exito");
       navigate("/", { replace: true });
     } catch (error) {
-      showMistake("The user or the password is incorrect");
+      showMistake("El usuario o contraseña no son correctos");
       console.log(error.message);
     }
   };
@@ -141,7 +143,6 @@
     uid: "",
     admin: false,
   };
-
 
   //creamos una funcion para llenar los datos dentro del objeto
   const llenarDatos = () => {
@@ -195,66 +196,145 @@
   });
 
   //funciones para mopstrar notificaciones de errores
+  let notificationShown = false;
+
+  const styleElement = document.createElement("style");
+  styleElement.innerHTML = `
+  @keyframes vibrate {
+    0% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(3px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+`;
+  document.head.appendChild(styleElement);
+
   const showMistake = (mensaje) => {
-    Toastify({
-      text: mensaje,
-      duration: 3000,
-      close: true,
-      gravity: "top",
-      position: "center",
-      backgroundColor: "#ff0000",
-      stopOnFocus: true,
-    }).showToast();
+    if (!notificationShown) {
+      notificationShown = true;
+
+      const toast = Toastify({
+        text: mensaje,
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "center",
+        stopOnFocus: true,
+        style: {
+          animation: "fadeIn 0.5s ease-in-out, vibrate 0.2s infinite",
+          background: "linear-gradient(to right, #ff0000, #FF8F00)",
+          boxShadow: "0px 10px 60px rgba(256, 0, 0, 10)",
+        },
+      });
+
+      toast.showToast();
+
+      setTimeout(() => {
+        notificationShown = false;
+      }, 3000);
+    }
   };
+
   //funciones para mopstrar notificaciones de exito
+  let successNotificationShown = false;
+
   const showSuccess = (mensaje) => {
-    Toastify({
-      text: mensaje,
-      duration: 3000,
-      close: true,
-      gravity: "top",
-      position: "center",
-      backgroundColor: "#00ff00",
-      stopOnFocus: true,
-    }).showToast();
+    if (!successNotificationShown) {
+      successNotificationShown = true;
+
+      const toast = Toastify({
+        text: mensaje,
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "center",
+        stopOnFocus: true,
+        style: {
+          animation: "fadeIn 0.5s ease-in-out, vibrate 0.2s infinite",
+          background: "linear-gradient(to right, #1BF81F, #05DE6E)",
+          boxShadow: "0px 10px 60px rgba(0, 0, 256, 10)",
+        },
+      });
+
+      toast.showToast();
+
+      setTimeout(() => {
+        successNotificationShown = false;
+      }, 3000); // Reset the flag after the notification duration
+    }
   };
 </script>
+
 <body>
   <div class="container">
     <form class="form" on:submit|preventDefault={handleSubmit}>
       {#if !emailAndpassword}
         <h1 class="heading">Registrarse</h1>
-        
-        <input class="input" placeholder="Nombre de Usuario" bind:value={username} />
+
+        <input
+          class="input"
+          placeholder="Nombre de Usuario"
+          bind:value={username}
+        />
       {:else}
         <h1 class="heading">Inicio de Sesion</h1>
       {/if}
 
-      
-      <input class="input" type="email" placeholder="Email" bind:value={email} />
+      <input
+        class="input"
+        type="email"
+        placeholder="Email"
+        bind:value={email}
+      />
 
-      
-      <input class="input" type="password" placeholder="Contraseña" bind:value={password} />
+      <input
+        class="input"
+        type="password"
+        placeholder="Contraseña"
+        bind:value={password}
+      />
 
       {#if !emailAndpassword}
-        <button class="button primary" type="submit" on:click={registrarseConEmailPassword}>Crear Cuenta</button>
+        <button
+          class="button primary"
+          type="submit"
+          on:click={registrarseConEmailPassword}>Crear Cuenta</button
+        >
         <div class="google-login">
           <a href="URL_DE_INICIO_DE_SESION_DE_GOOGLE">
-            <button class="button secondary" on:click={accederConGoogle}>Ingresar con Google</button>
+            <button class="button secondary" on:click={accederConGoogle}
+              >Ingresar con Google</button
+            >
           </a>
         </div>
-        <a class="link" href="#" on:click|preventDefault={changeEmailAndPassword}>Ingrese con una cuenta ya existente</a>
+        <a
+          class="link"
+          href="#"
+          on:click|preventDefault={changeEmailAndPassword}
+          >Ingrese con una cuenta ya existente</a
+        >
       {:else}
-        <button class="button primary" type="submit" on:click={login}>Iniciar sesión</button>
+        <button class="button primary" type="submit" on:click={login}
+          >Iniciar sesión</button
+        >
         <div class="google-login">
           <a href="URL_DE_INICIO_DE_SESION_DE_GOOGLE">
-            <button class="button secondary" on:click={accederConGoogle}>Ingresar con Google</button>
+            <button class="button secondary" on:click={accederConGoogle}
+              >Ingresar con Google</button
+            >
           </a>
         </div>
-        <a class="link" href="#" on:click|preventDefault={changeEmailAndPassword}>Cree una cuenta</a>
+        <a
+          class="link"
+          href="#"
+          on:click|preventDefault={changeEmailAndPassword}>Cree una cuenta</a
+        >
       {/if}
-
-      
     </form>
   </div>
 </body>
@@ -274,19 +354,20 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background: url(https://firebasestorage.googleapis.com/v0/b/ocean-ad72b.appspot.com/o/Home%2Fr2.png?alt=media&token=ed78e807-7471-422e-b35c-6039f41ba1e7) no-repeat center center;
+    background: url(https://firebasestorage.googleapis.com/v0/b/ocean-ad72b.appspot.com/o/Home%2Fr2.png?alt=media&token=ed78e807-7471-422e-b35c-6039f41ba1e7)
+      no-repeat center center;
     background-size: cover;
     overflow: hidden;
   }
 
   .container::before,
   .container::after {
-    content: '';
+    content: "";
     position: absolute;
     width: 80%;
     height: 100%;
     top: 0;
-    background-color: #1687ED;
+    background-color: #1687ed;
     transform: skewX(-15deg);
     z-index: -1;
   }
