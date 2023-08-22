@@ -59,6 +59,18 @@
         // console.log($user);
       }
 
+      //Comprobamos que el usuario no este ya registrado en la base de datos
+      verificarNombreDeUsuario();
+      if (!nombreUsuarioyaRegistrado) {
+        //llamamos a la función para guardar el usuario en la base de datos
+        console.log("guardar usuario sOY gENIO")
+        userSave.username = resp.user.displayName;
+        userSave.email = resp.user.email;
+        userSave.image = resp.user.photoURL;
+        userSave.uid = resp.user.uid;
+        saveUser();
+      }
+
       navigate("/", { replace: true });
     } catch (error) {
       console.log(error.message);
@@ -78,11 +90,14 @@
         showMistake("Campos vacios");
         return;
       }
+
       verificarNombreDeUsuario();
       if (nombreUsuarioyaRegistrado) {
         showMistake("El nombre de usuario ya esta registrado");
         return;
       }
+
+
       auth.username = username;
       const resp2 = await createUserWithEmailAndPassword(auth, email, password);
       user.setUser(resp2.user);
@@ -90,6 +105,8 @@
       console.log($user.uid);
       llenarDatos();
       saveUser();
+      //llamamos a la función para guardar el usuario en la base de datos
+      guardarUsuario();
       showSuccess("Se ha creado la cuenta con exito");
       navigate("/", { replace: true });
     } catch (error) {
@@ -156,6 +173,7 @@
   //creamos la función para guardar el usuario en la base de datos
   const saveUser = async () => {
     try {
+      console.log(userSave);
       const docRef = await addDoc(collection(db, "Usuarios"), userSave);
       //addDoc es un elemento propio de firebase para añadir documentos a la base de datos tenemos que enviar por parametros el db que lo importamos anteriormente y el nombre de la coleccion en la que queremos guardar el documento adicional a esto le enviamos el objeto que queremos guardar si no hay una colección con el nombre que le enviamos se creara una nueva y si ya existe se añadira el documento a la colección
       console.log("Document written with ID: ", docRef.id);
@@ -268,6 +286,44 @@
       }, 3000); // Reset the flag after the notification duration
     }
   };
+
+  //Vamos a crear un objeto apto para subir a la base de datos
+  let userdb = {
+    username: "",
+    email: "",
+    imagen: "",
+    contraseña: "",
+    esAdministrador: false,
+  };
+
+  //Creamos la función para hacer el envio de los datos del usuario
+  const guardarUsuario = async () =>{
+    //llenamos los datos del objeto que debemos enviar
+    userdb.username = username;
+    userdb.email = email;
+    userdb.imagen = "https://firebasestorage.googleapis.com/v0/b/ocean-ad72b.appspot.com/o/Users%2Fuserfoto.jpg?alt=media&token=1bb0cebc-14a5-4e20-94ed-aaa191ddf958";
+    userdb.esAdministrador = false;
+    userdb.contraseña = password;
+    console.log(userdb);
+    //enviamos el objeto a la base de datos
+    try {
+        const response = await fetch("https://oceanfightersserver.onrender.com/AnadirUsuarios", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(userdb)
+        });
+
+        const data = await response.json();
+        showSuccess("Usuario guardado con éxito");
+        console.log("Usuario guardado con éxito:", data);
+    } catch (error) {
+        showMistake("Error al guardar el usuario");
+        console.error("Error al guardar el usuario:", error);
+    }
+  }
+
 </script>
 
 <body>

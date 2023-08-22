@@ -27,7 +27,9 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.0",
+    "emailjs-com": "^3.2.0",
     "firebase": "^10.0.0",
+    "node-fetch": "^3.3.2",
     "sirv-cli": "^2.0.0",
     "svelte-routing": "^1.11.0",
     "toastify-js": "^1.12.0"
