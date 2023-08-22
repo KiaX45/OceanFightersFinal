@@ -26,13 +26,18 @@
   //Traemos la base de datos de Restaurantes
   //creamos una variable para guardar los restaurantes
   let restaurantes = [];
-
+  
+  let restauranntesSinFiltro = [];
   const unsub = onSnapshot(
     collection(db, "Restaurantes"),
     (querySnapshot) => {
       restaurantes = querySnapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id }; //con esto decimos que por cada recorrido trasformamos los datos en un objeto
       });
+      //vamos a guardar los restaurantes solo que sean visibles
+      restauranntesSinFiltro = restaurantes;
+      restaurantes = restauranntesSinFiltro.filter((restaurante) => restaurante.visible);
+
       console.log(restaurantes);
     },
     (error) => {
@@ -43,7 +48,6 @@
   onDestroy(() => {
     unsub();
   });
-
   //Función parala busqueda de restaurantes
   let busqueda = "";
 
@@ -77,7 +81,7 @@
 
 </script>
 <body>
-  <h1 style="color: #1687ED; display: flex; justify-content: center;">Restaurantes</h1>
+  <h1 style="color: #ee8b09; display: flex; justify-content: center;">Restaurantes</h1>
 
   <!--Busqueda de restaurantes-->
   <div style="display: flex; justify-content: center;">
@@ -85,7 +89,7 @@
       type="text"
       placeholder="Busque por el nombre del restaurante"
       bind:value={busqueda}
-      style="margin-bottom: 20px; padding: 5px; border: 1px solid #1687ED; border-radius: 5px;"
+      style="margin-bottom: 20px; padding: 5px; border: 1px solid #ee8b09; border-radius: 5px;"
     />
   </div>
 
@@ -109,11 +113,11 @@
 
 <style>
   body {
-    /* background-image: url(https://firebasestorage.googleapis.com/v0/b/ocean-ad72b.appspot.com/o/Restaurantes%2FK3EAJ6SLJFDWBAQQWNTH6NGF3I.jpg?alt=media&token=2c97631e-1c8c-4345-9b10-76ab612d27b9);
-    background-size: cover; */
+     background-image: url(https://firebasestorage.googleapis.com/v0/b/ocean-ad72b.appspot.com/o/Restaurantes%2Frestaurantefondo.jpg?alt=media&token=63d7cc45-03b3-475b-9a94-f8d53462dfa5);
+    background-size: cover; 
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-color: rgba(248, 243, 243, 0.5);
+    background-color: rgba(248, 243, 243, 0.1);
   }
 
   body::before {
@@ -136,14 +140,14 @@
   }
 
   .restaurant-card {
-    border: 2px solid #1687ED;
-    padding: 15px;
-    border-radius: 10px;
-    width: 300px;
-    background-color: #1e72b7;
-    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
+  border: 2px solid #dfbe08;
+  padding: 15px;
+  border-radius: 10px;
+  width: 300px;
+  background-color: rgba(209, 166, 23, 1); /* Cambia el valor alpha para ajustar la transparencia */
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
   .restaurant-card:hover {
     transform: translateY(-5px);
@@ -152,7 +156,7 @@
 
   .restaurant-card h1 {
     font-size: 24px;
-    color: #1687ED;
+    color: #f7e334;
     margin-bottom: 5px;
   }
   
@@ -167,7 +171,7 @@
   }
 
   .restaurant-card button {
-    background-color: #1687ED;
+    background-color: #ee8b09;
     color: white;
     border: none;
     padding: 8px 16px;
@@ -178,6 +182,6 @@
   }
 
   .restaurant-card button:hover {
-    background-color: #1369c2;
+    background-color: #9b4b09;
   }
 </style>
