@@ -424,9 +424,15 @@
       await updateDoc(doc(db, "Eventos", currentid), evento);
       console.log("Document successfully updated!");
       //Obtenemos los correos de los participantes
-      console.log(getCorreos(currentid));
-      let correos5 = getCorreos(currentid);
-
+      //console.log(getCorreos(currentid));
+      let correos5 =  getCorreos(currentid);
+      for (let index = 0; index < correos5.length; index++) {
+           console.log(correos5[index]);
+           sendNotification(correos5[index]);
+ 
+      }
+        
+       
 
       //cambiamos el valor de la variable onEdit
       onEdit = false;
@@ -436,6 +442,57 @@
       console.error("Error updating document: ", e);
     }
   };
+
+  
+////////////////////////////////////////////////////////////////////////////////////
+  import * as emailjs from "emailjs-com";
+
+
+
+let email = "oceanfightersofficial@gmail.com"; // Variable con el correo por defecto
+let mensaje = "Hubo una modificacion en uno de sus Eventos"; // Variable con el mensaje por defecto
+let name = "Ocean Fighters"; // Variable con el nombre por defecto
+
+
+const sendNotification = async (correoenviar) => {
+  
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+  console.log("FUNCION");
+  //console.log("OBJETO", usuarios);
+  console.log("PASO A LA FUNCION"+ correoenviar);
+   const e = {
+    email: correoenviar,
+    mensaje: mensaje,
+    name: name
+  }
+  console.log("OBJETO", e);
+  sendEmail(e);
+  
+    
+  
+  alert("Notificación enviada");
+  mensaje = "";
+  
+};
+
+
+function sendEmail(e) {
+  console.log("FUNCION");
+  console.log("OBJETO", e);
+  emailjs
+  .send("service_ujz2xlc", "template_55iycxs", e, "IQK-_LSRVvit9Nnr_")
+    .then(
+      (result) => {
+        console.log("SUCCESS!", result.text);
+      },
+      (error) => {
+        console.log("FAILED...", error.text);
+      }
+    );
+}
+////////////////////////////////////////////////////////////////////////////////////////
+
+
 
   //funciones para ingresar un evento en la store
   const gotoEvento = (evento: any) => {
