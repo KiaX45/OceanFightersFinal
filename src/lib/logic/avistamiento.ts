@@ -7,4 +7,5 @@ export type Avistamiento = {
     foto: string;
     idUsuario: string;
     visible: boolean;
+    visibleAdmin: boolean;
 };

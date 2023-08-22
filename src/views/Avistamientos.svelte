@@ -42,6 +42,7 @@
     foto: "",
     idUsuario: "",
     visible: false,
+    visibleAdmin: true,
   };
 
   //Funciones para la subida de imagenes
@@ -185,6 +186,7 @@
       foto: "",
       idUsuario: "",
       visible: false,
+      visibleAdmin: true,
     };
     selectedImage = undefined;
     availableUpload = false;
