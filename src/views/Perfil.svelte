@@ -162,165 +162,136 @@ const showSucces = (mensaje) => {
 
 </script>
 
-<body class="body">
-  <div class="row">
-    <div class="item_full">
-      <h1 class="text_center">Bienvenido, {username}</h1>
-    </div>
-  </div>
-
-  <div class="row_options">
-    <div class="item_admin">
-      <br />
-      <p class="text_center">Tu foto</p>
-      <section class="center_image">
+<body>
+  <div class="container">
+    <div class="item">
+      <h1 class="text_title">Bienvenido, {username}</h1>
+      <div class="center-image">
         <img alt="Imagen de perfil" width="200px" height="200px" src={imagen}/>
-      </section>
-      <br />
-      <p class="text_center">Tu correo</p>
-      <p class="text_center">{correo}</p>
-      <br />
+        <p class="email">{correo}</p>
+      </div>
     </div>
-
-    <div class="item_options">
-      <section class="center_image">
+    <div class="options">
+      <div class="notification-card">
+        <h1 class="text_center" style="align-items: center; display: flex; justify-content: center;" >Notificaciones</h1>
         {#if $admin}
-          <div class="text_center">
-            <h1>Notificaciones</h1>
-          </div>
           {#if notificaciones.length <= 0}
-            <h1 class="text_center">
-              <br />
-              No hay notificaciones
-            </h1>
+            <h2 class="text_center">No hay notificaciones</h2>
           {:else}
             {#each notificaciones as notificacion}
-              <div class="notification_card">
-                <h1>{notificacion.nombreEvento}</h1>
-                <h1>{notificacion.mensaje}</h1>
-                <h1>{notificacion.fecha}</h1>
-                <button
-                  class="button_action_notify"
-                  on:click={() => resolverNotificacion(notificacion)}
-                  >Resolver notificacion</button
-                >
+              <div class="notification-card-int">
+                <h2>{notificacion.nombreEvento}</h2>
+                <p>{notificacion.mensaje}</p>
+                <p>{notificacion.fecha}</p>
+                <button class="button-action" on:click={() => resolverNotificacion(notificacion)}>
+                  Resolver notificación
+                </button>
               </div>
             {/each}
           {/if}
         {/if}
-      </section>
+      </div>
     </div>
   </div>
 </body>
 
 <style>
-  .body {
-    background-color: #082543;
+  body {
+    background-color: #f2f5fa;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image: url(https://firebasestorage.googleapis.com/v0/b/ocean-ad72b.appspot.com/o/Perfil%2Fmar.JPG?alt=media&token=69f22291-e29c-478c-94c6-503cc73b465b);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
   }
-  /*Trabajar filas y columnas*/
-  .row {
+
+  .container {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px; /* Espacio entre filas */
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
   }
-  .item_admin {
-    background-image: url(https://plustatic.com/4059/conversions/diferencias-mar-oceano-social.jpg);
-    background-repeat: no-repeat;
-    background-size: auto;
-    align-items: center;
-    align-content: center;
-    flex-basis: calc(50% - 10px); /* Ancho de las columnas con margen */
-    background-color: #1e72b7;
-    flex-direction: column;
+
+  .item {
+    flex-basis: 40%;
+    padding: 20px;
+    background-color: #ffffff;
     border-radius: 15px;
-    min-height: 400px; /* Tamaño mínimo en altura */
-    max-width: 50%;
-  }
-
-  .item_options {
-    background-image: url(https://plustatic.com/4059/conversions/diferencias-mar-oceano-social.jpg);
-    background-repeat: no-repeat;
-    background-size: auto;
-    align-items: center;
-    align-content: center;
-    flex-basis: calc(50% - 10px); /* Ancho de las columnas con margen */
-    flex-direction: column;
-    border-radius: 15px;
-    min-height: 400px; /* Tamaño mínimo en altura */
-    max-width: 50%;
-  }
-
-  .item_full {
-    flex-basis: calc(99.33% - 10px); /* Ancho de las columnas con margen */
-    justify-content: center;
-    align-items: center;
-  }
-
-  .text_center {
-    align-items: center;
-    justify-content: center;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
-    font-family: "Times New Roman", Times, serif;
-    font-size: larger;
-    color: white;
+    margin-top: 20px;
   }
 
-  .row_options {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px; /* Espacio entre filas */
-    align-items: center;
+  .item h1 {
+    font-size: 24px;
+    margin-top: 0;
+    color: #333333;
   }
 
-  .center_image {
+  .center-image {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin-top: 20px;
   }
 
-  .notification_card {
-    border: 2px solid #1687ed;
-    padding: 15px;
+  img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .email {
+    font-size: 18px;
+    color: #555555;
+    margin-top: 10px;
+  }
+
+  .options {
+    flex-basis: 60%;
+    padding-left: 100px;
+    width: 100%;
+  }
+
+  .notification-card {
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #f9fafb;
     border-radius: 10px;
-    width: 80%;
-    background-color: #5eacf0;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-family: 'Times New Roman', Times, serif;
-    font-size: larger;
   }
 
-  .notification_card:hover {
+  .notification-card-int {
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #f5f0c2;
+    border-radius: 10px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+  }
+
+  .notification-card:hover {
     transform: translateY(-5px);
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
   }
 
-  .button_action_notify {
-    background-color: goldenrod;
+  .button-action {
+    background-color: #ffa500;
+    color: white;
+    border: none;
     border-radius: 10px;
-    transition: transform 200ms ease-in-out, box-shadow 200ms ease-in-out;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
   }
 
-  .button_action_notify:hover {
-    animation: pulse 1s infinite;
-    box-shadow: 0 0 10px 5px rgba(0, 255, 255, 0.7);
-  }
-
-  @keyframes pulse {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.1);
-    } /* Cambia el tamaño a un 10% más grande */
-    100% {
-      transform: scale(1);
-    }
+  .button-action:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255, 165, 0, 0.7);
   }
 </style>
