@@ -178,7 +178,7 @@ const showSucces = (mensaje) => {
       </section>
       <br />
       <p class="text_center">Tu correo</p>
-      <p class="text_center">Correo Aqui {correo}</p>
+      <p class="text_center">{correo}</p>
       <br />
     </div>
 
