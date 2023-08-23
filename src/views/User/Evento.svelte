@@ -203,15 +203,264 @@
   };
 </script>
 
-<h1>{evento.nombre}</h1>
-<h1>{currentid}</h1>
+<body>
+  <header class="header">
+    <div class="header-content container">
+      <div class="header-txt">
+        <h1 class="neon">EVENTOS</h1>
+        <p>información acerca del evento</p>
+      </div>
+    </div>
+  </header>
 
-<!--Boton para participar-->
-{#if availableParticipation}
-  <button on:click={participar}>¿Quieres Participar?</button>
-{:else}
-  <button disabled>Ya estas participando</button>
-{/if}
+  <div class="Medina">
+    <h1>Evento: {evento.nombre}</h1>
+    <h1>{currentid}</h1>
+  </div>
+
+  <section class="containerEventos color-change-3x">
+    <div class="container">
+      <div class="containerEventos-txt">
+        <div class="event-image">
+          <img
+            src={evento.imagen}
+            alt="Imagen del evento"
+            style="width: 20%; height: 20%;"
+          />
+        </div>
+        <div class="event-details">
+          <h1 style="text-transform: uppercase;">{evento.nombre}</h1>
+          <p>El evento consta de: {evento.descripcion}</p>
+          <p>Se llevará a cabo: {evento.dia} {evento.hora}</p>
+          <p>
+            Participantes actuales: {evento.participantes} Participantes maximos:
+            {evento.maxParticipantes}
+          </p>
+          <p>Si deseas participar puedes hacerlo desde el boton de abajo</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="btn-border">
+    <!--Boton para participar-->
+    {#if availableParticipation}
+      <button on:click={participar} class="btn">¿Quieres Participar?</button>
+    {:else}
+      <button disabled class="btn-2">Ya estas participando</button>
+    {/if}
+  </div>
+</body>
 
 <style>
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+  @import url("https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap");
+
+  * {
+    font-family: "Poppins", sans-serif;
+  }
+  body {
+    background: -webkit-linear-gradient(
+      -180deg,
+      rgb(22, 135, 237),
+      rgb(8, 37, 67)
+    );
+    background: linear-gradient(-180deg, rgb(22, 135, 237), rgb(8, 37, 67));
+  }
+
+  .header {
+    background-color: #082543;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 70vh;
+    align-items: center;
+    display: flex;
+    padding-top: 50px;
+  }
+
+  .header-txt {
+    padding-top: 10px;
+    text-align: center;
+    margin-left: 200px;
+  }
+
+  .header-txt h1 {
+    font-size: 85px;
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    animation: fadeInUp 1s ease 0.5s; /* Agregamos una animación fadeInUp con un retraso */
+  }
+
+  .header-txt p {
+    color: #fff;
+    font-size: 20px;
+    padding: 0 250px;
+    margin-bottom: 45px;
+    animation: fadeInUp 1s ease 0.5s; /* Agregamos una animación fadeInUp con un retraso */
+  }
+  /* Animación fadeInUp */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .neon {
+    font-size: 6em;
+    font-weight: 500;
+    color: #fff;
+    text-shadow: 0 0 5px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4,
+      0 0 100px #03e9f4;
+    letter-spacing: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: 1s;
+  }
+
+  .neon:hover {
+    color: #fff;
+    text-shadow: 0 0 100px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4,
+      0 0 100px #03e9f4;
+  }
+
+  .container {
+    display: flex;
+    justify-content: space-between; /* Distribuir el contenido horizontalmente */
+    align-items: center; /* Centrar verticalmente el contenido */
+    padding: 20px; /* Espaciado opcional */
+  }
+
+  .containerEventos {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+  }
+
+  .Medina {
+    display: none;
+  }
+
+  .containerEventos-txt {
+    display: flex;
+    flex-direction: row; /* Colocar elementos en fila */
+    align-items: center; /* Centrar verticalmente los elementos */
+    width: 100%; /* Ocupar todo el ancho disponible */
+    color: #fff;
+  }
+
+  .event-details {
+    flex: 1; /* Ocupar la mitad izquierda */
+  }
+
+  .event-image {
+    flex: 1; /* Ocupar la mitad derecha */
+    text-align: center; /* Centrar la imagen horizontalmente */
+  }
+
+  .event-image img {
+    min-height: 300px;
+    min-width: 300px;
+    max-width: 100%; /* Asegurarse de que la imagen no se desborde */
+    height: auto; /* Mantener la proporción de aspecto de la imagen */
+  }
+
+  .btn-border {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+  }
+
+  /* Estilos para los botones */
+  .btn,
+  .btn-2 {
+    padding: 10px 20px; /* Ajusta el padding según tus necesidades */
+    /* Otros estilos de los botones */
+  }
+
+  .btn,
+  .btn-2 {
+    border: none;
+    margin-left: 30px;
+    background: #a37125;
+    padding: 10px 20px;
+    border-radius: 30px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 15px;
+    transition: 0.4s;
+  }
+
+  .btn:hover {
+    color: #30a6ff;
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+
+  .btn::after {
+    color: #f0726c;
+  }
+
+  .btn-2 {
+    background-color: #f0726c;
+  }
+
+  .color-change-3x {
+    -webkit-animation: color-change-3x 4s linear infinite alternate both;
+    animation: color-change-3x 4s linear infinite alternate both;
+  }
+
+  /* ----------------------------------------------
+ * Generated by Animista on 2023-8-22 21:21:0
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+  /**
+ * ----------------------------------------
+ * animation color-change-3x
+ * ----------------------------------------
+ */
+  @-webkit-keyframes color-change-3x {
+    0% {
+      background: #0a3f6e;
+    }
+    50% {
+      background: #1687ed;
+    }
+    100% {
+      background: #116bba;
+    }
+  }
+  @keyframes color-change-3x {
+    0% {
+      background: #0a3f6e;
+    }
+    50% {
+      background: #1687ed;
+    }
+    100% {
+      background: #116bba;
+    }
+  }
+
+  .containerEventos:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+  }
 </style>

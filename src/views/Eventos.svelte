@@ -281,7 +281,6 @@
     unsub();
     getParticipantes();
     getUsuarios();
-   
   });
 
   //función para comprobar si un evento sigue estando vigenete
@@ -321,13 +320,12 @@
   let correos: any[] = [];
   let participantes2: any[] = [];
 
-  const getParticipantes =onSnapshot(
+  const getParticipantes = onSnapshot(
     collection(db, "participantes"),
     (querySnapshot) => {
       participantes2 = querySnapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id }; //con esto decimos que por cada recorrido trasformamos los datos en un objeto
       });
-     
     },
     (error) => {
       console.log(error);
@@ -351,30 +349,30 @@
     }
   );
 
-  const getCorreos = (evnetoCorreosid) =>{
-      console.log(participantes2);
-      console.log(evnetoCorreosid);
-      console.log(usuarios);
-      //vamos a filtrrar los participantes para que solo salgan los correos de los que estan participando en el evento a editar
-      participantes2 = participantes2.filter((participante) => {
-        return participante.uidEvento == evnetoCorreosid;
-      });
-      console.log(participantes2);  
+  const getCorreos = (evnetoCorreosid) => {
+    console.log(participantes2);
+    console.log(evnetoCorreosid);
+    console.log(usuarios);
+    //vamos a filtrrar los participantes para que solo salgan los correos de los que estan participando en el evento a editar
+    participantes2 = participantes2.filter((participante) => {
+      return participante.uidEvento == evnetoCorreosid;
+    });
+    console.log(participantes2);
 
-      //vamos a extraer los correos de los participantes
-      participantes2.forEach((participante) => {
-        //vamos a filtrar los usuarios para que solo salgan los que estan participando en el evento a editar
-        usuarios = usuariosSinFiltrar.filter((usuario) => {
-          return usuario.uid == participante.uidParticipante;
-        });
-        //vamos a extraer los correos de los usuarios
-        usuarios.forEach((usuario) => {
-          correos.push(usuario.email);
-        });
+    //vamos a extraer los correos de los participantes
+    participantes2.forEach((participante) => {
+      //vamos a filtrar los usuarios para que solo salgan los que estan participando en el evento a editar
+      usuarios = usuariosSinFiltrar.filter((usuario) => {
+        return usuario.uid == participante.uidParticipante;
       });
+      //vamos a extraer los correos de los usuarios
+      usuarios.forEach((usuario) => {
+        correos.push(usuario.email);
+      });
+    });
 
-      console.log(correos);
-      return correos;
+    console.log(correos);
+    return correos;
   };
 
   //funcion para actualizar los datos de un evento
@@ -425,14 +423,11 @@
       console.log("Document successfully updated!");
       //Obtenemos los correos de los participantes
       //console.log(getCorreos(currentid));
-      let correos5 =  getCorreos(currentid);
+      let correos5 = getCorreos(currentid);
       for (let index = 0; index < correos5.length; index++) {
-           console.log(correos5[index]);
-           sendNotification(correos5[index]);
- 
+        console.log(correos5[index]);
+        sendNotification(correos5[index]);
       }
-        
-       
 
       //cambiamos el valor de la variable onEdit
       onEdit = false;
@@ -443,56 +438,45 @@
     }
   };
 
-  
-////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////
   import * as emailjs from "emailjs-com";
 
+  let email = "oceanfightersofficial@gmail.com"; // Variable con el correo por defecto
+  let mensaje = "Hubo una modificacion en uno de sus Eventos"; // Variable con el mensaje por defecto
+  let name = "Ocean Fighters"; // Variable con el nombre por defecto
 
+  const sendNotification = async (correoenviar) => {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    console.log("FUNCION");
+    //console.log("OBJETO", usuarios);
+    console.log("PASO A LA FUNCION" + correoenviar);
+    const e = {
+      email: correoenviar,
+      mensaje: mensaje,
+      name: name,
+    };
+    console.log("OBJETO", e);
+    sendEmail(e);
 
-let email = "oceanfightersofficial@gmail.com"; // Variable con el correo por defecto
-let mensaje = "Hubo una modificacion en uno de sus Eventos"; // Variable con el mensaje por defecto
-let name = "Ocean Fighters"; // Variable con el nombre por defecto
+    alert("Notificación enviada");
+    mensaje = "";
+  };
 
-
-const sendNotification = async (correoenviar) => {
-  
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  console.log("FUNCION");
-  //console.log("OBJETO", usuarios);
-  console.log("PASO A LA FUNCION"+ correoenviar);
-   const e = {
-    email: correoenviar,
-    mensaje: mensaje,
-    name: name
+  function sendEmail(e) {
+    console.log("FUNCION");
+    console.log("OBJETO", e);
+    emailjs
+      .send("service_ujz2xlc", "template_55iycxs", e, "IQK-_LSRVvit9Nnr_")
+      .then(
+        (result) => {
+          console.log("SUCCESS!", result.text);
+        },
+        (error) => {
+          console.log("FAILED...", error.text);
+        }
+      );
   }
-  console.log("OBJETO", e);
-  sendEmail(e);
-  
-    
-  
-  alert("Notificación enviada");
-  mensaje = "";
-  
-};
-
-
-function sendEmail(e) {
-  console.log("FUNCION");
-  console.log("OBJETO", e);
-  emailjs
-  .send("service_ujz2xlc", "template_55iycxs", e, "IQK-_LSRVvit9Nnr_")
-    .then(
-      (result) => {
-        console.log("SUCCESS!", result.text);
-      },
-      (error) => {
-        console.log("FAILED...", error.text);
-      }
-    );
-}
-////////////////////////////////////////////////////////////////////////////////////////
-
-
+  ////////////////////////////////////////////////////////////////////////////////////////
 
   //funciones para ingresar un evento en la store
   const gotoEvento = (evento: any) => {
@@ -600,99 +584,252 @@ function sendEmail(e) {
       //Cambiamos la visibilidad de los eventos que ya no son viables
       changeVisibility();
     }, 3000);
-    
   });
 </script>
 
-<!--Apartado para mostrar los eventos previamente creados-->
-{#each eventos as evento}
-  <div class="containerEventos">
-    <h1>{evento.nombre}</h1>
-    <p>{evento.dia}</p>
-    <img
-      src={evento.imagen}
-      alt="Imagen del evento"
-      style="width: 20%; height: 20%;"
-    />
-    {#if $admin}
-      <button on:click={() => onEditEvent(evento)}>Editar</button>
-      {#if evento.visible}
-        <button on:click={() => showOrHideEvent(evento)}>Ocultar</button>
-      {:else}
-        <button on:click={() => showOrHideEvent(evento)}>Mostrar</button>
-      {/if}
-      <button on:click={() => eliminarEvento(evento)}>Eliminar</button>
-    {:else}
-      <button on:click={() => gotoEvento(evento)}>Mas información</button>
-    {/if}
-  </div>
-{/each}
-
-<!--Apartado solo para los administradores paea adicionar un nuevo evento-->
-{#if $admin}
-  <form on:submit|preventDefault={handleSubmit}>
-    <label>
-      Nombre:
-      <input type="text" bind:value={evento.nombre} />
-    </label>
-
-    <label>
-      Descripción:
-      <textarea bind:value={evento.descripcion} />
-    </label>
-
-    <label>
-      Día:
-      <input type="date" bind:value={evento.dia} class="flatpickr-input" />
-    </label>
-
-    <label>
-      Hora:
-      <input type="time" bind:value={evento.hora} class="flatpickr-time" />
-    </label>
-
-    <div class="file-input-container">
-      <label for="imagen">Imagen:</label>
-      <input
-        type="file"
-        on:change|preventDefault={handleImageSelect}
-        accept="image/*"
-      />
+<body>
+  <header class="header">
+    <div class="header-content container">
+      <div class="header-txt">
+        <h1 class="neon text-pop-up-top">EVENTOS</h1>
+        <p>
+          Selecciona un evento de interes para conocer más información acerca
+          del mismo
+        </p>
+      </div>
     </div>
+  </header>
 
-    <label>
-      Participantes:
-      <input type="number" bind:value={evento.participantes} />
-    </label>
+  <!--Apartado para mostrar los eventos previamente creados-->
+  {#each eventos as evento}
+    <section class="containerEventos">
+      <div class="container">
+        <div class="containerEventos-txt">
+          <div class="event-details">
+            <h1 style="text-transform: uppercase;">{evento.nombre}</h1>
+            <p>{evento.descripcion}</p>
+            <p>{evento.dia} {evento.hora}</p>
+            <p>
+              Participantes actuales: {evento.participantes} Participantes maximos:
+              {evento.maxParticipantes}
+            </p>
+          </div>
+          <div class="event-image">
+            <img
+              src={evento.imagen}
+              alt="Imagen del evento"
+              style="width: 20%; height: 20%;"
+            />
+          </div>
+        </div>
+      </div>
+      <div>
+        {#if $admin}
+          <button on:click={() => onEditEvent(evento)}>Editar</button>
+          {#if evento.visible}
+            <button on:click={() => showOrHideEvent(evento)}>Ocultar</button>
+          {:else}
+            <button on:click={() => showOrHideEvent(evento)}>Mostrar</button>
+          {/if}
+          <button on:click={() => eliminarEvento(evento)}>Eliminar</button>
+        {:else}
+          <button on:click={() => gotoEvento(evento)}>Mas información</button>
+        {/if}
+      </div>
+    </section>
+  {/each}
 
-    <label>
-      Maximo de participantes:
-      <input type="number" bind:value={evento.maxParticipantes} />
-    </label>
+  {#if $admin}
+    <section>
+      <h2
+        class="neon"
+        style="font-size: 40px; margin-top:30px; margin-bottom:30px; margin-left:33%"
+      >
+        Agregar eventos
+      </h2>
+      <div class="container">
+        <!--Apartado solo para los administradores paea adicionar un nuevo evento-->
 
-    <label>
-      Visible:
-      <input type="checkbox" bind:checked={evento.visible} />
-    </label>
+        <div class="container-form">
+          <form on:submit|preventDefault={handleSubmit}>
+            <label>
+              Nombre:
+              <input type="text" bind:value={evento.nombre} />
+            </label>
+            <label
+              >Descripción: <textarea bind:value={evento.descripcion} />
+            </label>
+            <label
+              >Día:<input
+                type="date"
+                bind:value={evento.dia}
+                class="flatpickr-input"
+              />
+            </label>
+            <label>
+              Hora:
+              <input
+                type="time"
+                bind:value={evento.hora}
+                class="flatpickr-time"
+              />
+            </label>
+            <div class="file-input-container">
+              <label for="imagen">Imagen:</label>
+              <input
+                type="file"
+                on:change|preventDefault={handleImageSelect}
+                accept="image/*"
+              />
+            </div>
+            <label>
+              Participantes:
+              <input type="number" bind:value={evento.participantes} />
+            </label>
+            <label>
+              Maximo de participantes:
+              <input type="number" bind:value={evento.maxParticipantes} />
+            </label>
+            <label>
+              Visible:
+              <input type="checkbox" bind:checked={evento.visible} />
+            </label>
+            <button type="submit">Enviar</button>
+          </form>
+        </div>
 
-    <button type="submit">Enviar</button>
-  </form>
-
-  <!--Apartado para la imagen de previsualización-->
-  {#if showimagePreview && selectedImage != undefined}
-    <div style="justify-content: center; align-items: center;">
-      <img
-        src={URL.createObjectURL(selectedImage)}
-        alt="Imagen seleccionada"
-        style="width: 70%; height: 70%;  margin: 1"
-      />
-    </div>
+        <!--Apartado para la imagen de previsualización-->
+        {#if showimagePreview && selectedImage != undefined}
+          <div class="container-form-image">
+            <h3>Previsualización de la imagen</h3>
+            <img
+              class="pulsate-bck"
+              src={URL.createObjectURL(selectedImage)}
+              alt="Imagen seleccionada"
+            />
+          </div>
+        {/if}
+      </div>
+    </section>
   {/if}
-{/if}
+</body>
 
 <style>
-  /*Estilos para los eventos*/
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+  @import url("https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap");
+
+  *{
+    font-family: "Poppins", sans-serif;
+  }
+  body {
+    background: -webkit-linear-gradient(
+      -180deg,
+      rgb(22, 135, 237),
+      rgb(8, 37, 67)
+    );
+    background: linear-gradient(-180deg, rgb(22, 135, 237), rgb(8, 37, 67));
+  }
+
+  .header {
+    background-color: #082543;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 70vh;
+    align-items: center;
+    display: flex;
+    padding-top: 50px;
+  }
+
+  .header-txt {
+    padding-top: 10px;
+    text-align: center;
+  }
+
+  .header-txt h1 {
+    font-size: 85px;
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    animation: fadeInUp 1s ease 0.5s; /* Agregamos una animación fadeInUp con un retraso */
+  }
+
+  .header-txt p {
+    color: #fff;
+    font-size: 20px;
+    padding: 0 250px;
+    margin-bottom: 45px;
+    animation: fadeInUp 1s ease 0.5s; /* Agregamos una animación fadeInUp con un retraso */
+  }
+  /* Animación fadeInUp */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .neon {
+    font-size: 6em;
+    font-weight: 500;
+    color: #fff;
+    text-shadow: 0 0 5px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4,
+      0 0 100px #03e9f4;
+    letter-spacing: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: 1s;
+  }
+
+  .neon:hover {
+    color: #fff;
+    text-shadow: 0 0 100px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4,
+      0 0 100px #03e9f4;
+  }
+
+  .container {
+    display: flex;
+    justify-content: space-between; /* Distribuir el contenido horizontalmente */
+    align-items: center; /* Centrar verticalmente el contenido */
+    padding: 20px; /* Espaciado opcional */
+  }
+
+  .containerEventos-txt {
+    display: flex;
+    flex-direction: row; /* Colocar elementos en fila */
+    align-items: center; /* Centrar verticalmente los elementos */
+    width: 100%; /* Ocupar todo el ancho disponible */
+    color: #fff;
+  }
+
+  .event-details {
+    flex: 1; /* Ocupar la mitad izquierda */
+  }
+
+  .event-image {
+    flex: 1; /* Ocupar la mitad derecha */
+    text-align: center; /* Centrar la imagen horizontalmente */
+  }
+
+  .event-image img {
+    min-height: 300px;
+    min-width: 300px;
+    max-width: 100%; /* Asegurarse de que la imagen no se desborde */
+    height: auto; /* Mantener la proporción de aspecto de la imagen */
+  }
+
+  /*Estilos para los eventos MEDINA*/
   .containerEventos {
+    background-image: url(https://plustatic.com/4059/conversions/diferencias-mar-oceano-social.jpg);
+    background-repeat: no-repeat;
+    background-size: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -701,6 +838,7 @@ function sendEmail(e) {
     border-radius: 5px;
     margin: 10px;
     padding: 10px;
+    min-height: 80vh;
   }
 
   /*Estilos delformulario*/
@@ -743,16 +881,20 @@ function sendEmail(e) {
 
   button {
     padding: 10px 15px;
-    background-color: #4caf50;
+    background-color: #a37125;
     color: white;
     border: none;
     border-radius: 3px;
     cursor: pointer;
     font-size: 16px;
+    transition: 0.4s;
   }
 
   button:hover {
-    background-color: #45a049;
+    color: #a37125;
+    background-color: #efbc70;
+    transform: scale(1.1);
+    cursor: pointer;
   }
 
   .flatpickr-input {
@@ -771,4 +913,121 @@ function sendEmail(e) {
     border-radius: 3px;
     font-size: 16px;
   }
+
+  .container-form {
+    min-width: 500px;
+    height: auto;
+  }
+
+  .container-form-image h3 {
+    color: #fff;
+    margin: 30px;
+  }
+
+  .pulsate-bck {
+    -webkit-animation: pulsate-bck 4s ease-in-out infinite both;
+    animation: pulsate-bck 4s ease-in-out infinite both;
+  }
+
+  /* ----------------------------------------------
+ * Generated by Animista on 2023-8-14 20:56:6
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+  /**
+ * ----------------------------------------
+ * animation pulsate-bck
+ * ----------------------------------------
+ */
+  @-webkit-keyframes pulsate-bck {
+    0% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+    50% {
+      -webkit-transform: scale(0.9);
+      transform: scale(0.9);
+    }
+    100% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+  }
+  @keyframes pulsate-bck {
+    0% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+    50% {
+      -webkit-transform: scale(0.9);
+      transform: scale(0.9);
+    }
+    100% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+  }
+
+  .text-pop-up-top {
+    -webkit-animation: text-pop-up-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+      both;
+    animation: text-pop-up-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  /* ----------------------------------------------
+ * Generated by Animista on 2023-8-22 21:16:38
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+  /**
+ * ----------------------------------------
+ * animation text-pop-up-top
+ * ----------------------------------------
+ */
+  @-webkit-keyframes text-pop-up-top {
+    0% {
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+      -webkit-transform-origin: 50% 50%;
+      transform-origin: 50% 50%;
+      text-shadow: none;
+    }
+    100% {
+      -webkit-transform: translateY(-50px);
+      transform: translateY(-50px);
+      -webkit-transform-origin: 50% 50%;
+      transform-origin: 50% 50%;
+      text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc,
+        0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc,
+        0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
+    }
+  }
+  @keyframes text-pop-up-top {
+    0% {
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+      -webkit-transform-origin: 50% 50%;
+      transform-origin: 50% 50%;
+      text-shadow: none;
+    }
+    100% {
+      -webkit-transform: translateY(-50px);
+      transform: translateY(-50px);
+      -webkit-transform-origin: 50% 50%;
+      transform-origin: 50% 50%;
+      text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc,
+        0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc,
+        0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  .containerEventos:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
 </style>
