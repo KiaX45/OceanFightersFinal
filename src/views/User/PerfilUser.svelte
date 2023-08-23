@@ -279,6 +279,11 @@
           {#each eventos as evento}
             <div class="event-card">
               <br />
+              <img
+                src={evento.imagen}
+                alt="Imagen del evento"
+                style="width: 20%; height: 20%;"
+              />
               <h1>{evento.nombre}</h1>
               <h1>{evento.dia}</h1>
               {#if isAvailable(evento)}
@@ -397,7 +402,7 @@
     }
   }
   .button_action_cancel {
-    background-color: #AB2A3E;
+    background-color: #ab2a3e;
     border-radius: 10px;
     transition: transform 200ms ease-in-out, box-shadow 200ms ease-in-out;
     color: white;
@@ -409,17 +414,17 @@
   }
 
   .button_action_cancel:focus {
-  background-color: #AB2A3E; 
-  color: white; 
-  outline: none; 
-}
+    background-color: #ab2a3e;
+    color: white;
+    outline: none;
+  }
 
   .event-card {
-    border: 2px solid #1687ED;
+    border: 2px solid #1687ed;
     padding: 15px;
     border-radius: 10px;
     width: 80%;
-    background-color: #5EACF0;
+    background-color: #5eacf0;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     align-items: center;
