@@ -37,7 +37,12 @@
 
   //Creamos un array con los uid de los administradores
 
-  const adminUid = ["rrXXm7j0UNbo5qdb10SFgp84Co82", "UgTZ9HuP1Og66qii9of6WbCKuzD2", "7x3tWOQWjFckGTBWNC8srj1ddat1"];
+  const adminUid = [
+    "rrXXm7j0UNbo5qdb10SFgp84Co82",
+    "UgTZ9HuP1Og66qii9of6WbCKuzD2",
+    "7x3tWOQWjFckGTBWNC8srj1ddat1",
+    "86IlIu9FVkdLFZXRqiQZlihLScI3",
+  ];
 
   onAuthStateChanged(auth, (authUser) => {
     if (!authUser) {
