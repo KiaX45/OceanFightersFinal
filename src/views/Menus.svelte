@@ -79,6 +79,10 @@
     calificando = !calificando;
   };
 
+let calificado = false;
+const restauranteCalificado = () => {
+    calificado = !calificado;
+  };
 
  
 </script>
@@ -100,38 +104,43 @@
 
 
 <div class="button-container">
+  {#if !calificado}
   {#if !calificando }
-    <button class="custom-button" on:click={mostrarMenuCalificacion} >Calificar Restaurante</button>
-  {:else}
-  <div class="center">
-  <div class="form-container">
-    <div class="stars-container">
-      <div class="stars">
-        <input type="radio" id="five" name="rate" value="5" bind:group={selectedRating}>
-        <label for="five"></label>
-        <input type="radio" id="four" name="rate" value="4" bind:group={selectedRating}>
-        <label for="four"></label>
-        <input type="radio" id="three" name="rate" value="3" bind:group={selectedRating}>
-        <label for="three"></label>
-        <input type="radio" id="two" name="rate" value="2" bind:group={selectedRating}>
-        <label for="two"></label>
-        <input type="radio" id="one" name="rate" value="1" bind:group={selectedRating}>
-        <label for="one"></label>
-        <span class="result"></span>
-      </div>
-    </div>
-
-    <div class="text-input">
-      <label for="review">Ingresa tu opinión:</label>
-      <textarea id="review" name="review" rows="4" cols="50" bind:value={reviewText}></textarea>
+  <button class="custom-button" on:click={mostrarMenuCalificacion} >Calificar Restaurante</button>
+{:else}
+<div class="center">
+<div class="form-container">
+  <div class="stars-container">
+    <div class="stars">
+      <input type="radio" id="five" name="rate" value="5" bind:group={selectedRating}>
+      <label for="five"></label>
+      <input type="radio" id="four" name="rate" value="4" bind:group={selectedRating}>
+      <label for="four"></label>
+      <input type="radio" id="three" name="rate" value="3" bind:group={selectedRating}>
+      <label for="three"></label>
+      <input type="radio" id="two" name="rate" value="2" bind:group={selectedRating}>
+      <label for="two"></label>
+      <input type="radio" id="one" name="rate" value="1" bind:group={selectedRating}>
+      <label for="one"></label>
+      <span class="result"></span>
     </div>
   </div>
+
+  <div class="text-input">
+    <label for="review">Ingresa tu opinión:</label>
+    <textarea id="review" name="review" rows="4" cols="50" bind:value={reviewText}></textarea>
+  </div>
+</div>
 </div>
 
-    <div class="button-container-before">
-      <button class="custom-button" on:click={mostrarMenuCalificacion} >Enviar calificación</button>
-    </div>
+  <div class="button-container-before">
+    <button class="custom-button" on:click={mostrarMenuCalificacion, restauranteCalificado} >Enviar calificación</button>
+  </div>
+{/if}  
+  {:else}
+   <h1 >Gracias por tu Calificación!</h1>
   {/if}
+  
 </div>
 
 <style>
