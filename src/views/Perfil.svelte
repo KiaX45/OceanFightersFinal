@@ -256,6 +256,8 @@ const showSucces = (mensaje) => {
     align-items: center;
     justify-content: center;
     text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: larger;
   }
 
   .notification_card:hover {
