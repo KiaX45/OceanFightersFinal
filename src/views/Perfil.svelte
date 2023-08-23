@@ -51,81 +51,141 @@
       );
       showSucces("Notificacion resuelta");
     } catch (error) {
-      console.log(error);
+      showMistake(error);
     }
   };
 
-  //funciones de muestra de notificaciones
-  const showSucces = (message: String) => {
-    //crear notificacion de exito
-    Toastify({
-      text: message,
+   //funciones para mopstrar notificaciones de errores
+   let notificationShown = false;
+
+const styleElement = document.createElement("style");
+styleElement.innerHTML = `
+@keyframes vibrate {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(3px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+`;
+document.head.appendChild(styleElement);
+
+const showMistake = (mensaje) => {
+  if (!notificationShown) {
+    notificationShown = true;
+
+    const toast = Toastify({
+      text: mensaje,
       duration: 3000,
       close: true,
       gravity: "top",
       position: "center",
-      backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
       stopOnFocus: true,
-    }).showToast();
-  };
+      style: {
+        animation: "fadeIn 0.5s ease-in-out, vibrate 0.2s infinite",
+        background: "linear-gradient(to right, #ff0000, #FF8F00)",
+        boxShadow: "0px 10px 60px rgba(256, 0, 0, 10)",
+      },
+    });
+
+    toast.showToast();
+
+    setTimeout(() => {
+      notificationShown = false;
+    }, 3000);
+  }
+};
+
+//funciones para mopstrar notificaciones de exito
+let successNotificationShown = false;
+
+const showSucces = (mensaje) => {
+  if (!successNotificationShown) {
+    successNotificationShown = true;
+
+    const toast = Toastify({
+      text: mensaje,
+      duration: 3000,
+      close: true,
+      gravity: "top",
+      position: "center",
+      stopOnFocus: true,
+      style: {
+        animation: "fadeIn 0.5s ease-in-out, vibrate 0.2s infinite",
+        background: "linear-gradient(to right, #1BF81F, #05DE6E)",
+        boxShadow: "0px 10px 60px rgba(0, 0, 0, 10)",
+        color: "black",
+      },
+    });
+
+    toast.showToast();
+
+    setTimeout(() => {
+      successNotificationShown = false;
+    }, 3000); // Reset the flag after the notification duration
+  }
+};
 </script>
 
-<body>
+<body class="body">
   <div class="row">
     <div class="item_full">
-      <h1 class="text_center">Bienvenido a tu perfil</h1>
+      <h1 class="text_center">Bienvenido,</h1>
     </div>
   </div>
 
   <div class="row_options">
     <div class="item_admin">
-      <h4 class="text_top">Seccion para foto e informacion Mas adelante</h4>
+      <br />
+      <p class="text_center">Tu foto</p>
+      <section class="center_image">
+        <img alt="Imagen de perfil" width="200px" height="200px" />
+      </section>
+      <br />
+      <p class="text_center">Tu correo</p>
+      <p class="text_center">Correo Aqui</p>
+      <br />
     </div>
+
     <div class="item_options">
-      <h5 class="text_top">Seccion para resolver notificaciones</h5>
-      {#if $admin}
-        <div class="text_center">
-          <h1>notificaciones</h1>
-        </div>
-        {#if notificaciones.length <= 0}
-          <h1>No hay notificaciones</h1>
-        {:else}
-          {#each notificaciones as notificacion}
-            <div class="notifications">
-              <h1>{notificacion.nombreEvento}</h1>
-              <h1>{notificacion.mensaje}</h1>
-              <h1>{notificacion.fecha}</h1>
-              <button on:click={() => resolverNotificacion(notificacion)}
-                >Resolver notificacion</button
-              >
-            </div>
-          {/each}
+      <section class="center_image">
+        {#if $admin}
+          <div class="text_center">
+            <h1>Notificaciones</h1>
+          </div>
+          {#if notificaciones.length <= 0}
+            <h1 class="text_center">
+              <br />
+              No hay notificaciones
+            </h1>
+          {:else}
+            {#each notificaciones as notificacion}
+              <div class="notification_card">
+                <h1>{notificacion.nombreEvento}</h1>
+                <h1>{notificacion.mensaje}</h1>
+                <h1>{notificacion.fecha}</h1>
+                <button
+                  class="button_action_notify"
+                  on:click={() => resolverNotificacion(notificacion)}
+                  >Resolver notificacion</button
+                >
+              </div>
+            {/each}
+          {/if}
         {/if}
-      {/if}
+      </section>
     </div>
   </div>
 </body>
 
 <style>
-  /*Estilos para las notificaciones*/
-  .notifications {
-    border: 1px solid black;
-    margin: 10px;
-    padding: 10px;
-    border-radius: 10px;
+  .body {
+    background-color: #082543;
   }
-  /*estilos para los botones dentro de notificaiones*/
-  .notifications button {
-    margin: 10px;
-    padding: 10px;
-    border-radius: 10px;
-    border: none;
-    background-color: #ff416c;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-  }
-
   /*Trabajar filas y columnas*/
   .row {
     display: flex;
@@ -135,28 +195,29 @@
     justify-content: center;
   }
   .item_admin {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
+    align-items: center;
+    align-content: center;
     flex-basis: calc(50% - 10px); /* Ancho de las columnas con margen */
-    background-color: lightgray;
-    border: 1px solid gray;
+    background-color: #1e72b7;
+    flex-direction: column;
+    border-radius: 15px;
+    min-height: 400px; /* Tamaño mínimo en altura */
+    max-width: 50%;
   }
 
   .item_options {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
+    align-items: center;
+    align-content: center;
     flex-basis: calc(50% - 10px); /* Ancho de las columnas con margen */
-    background-color: lightgray;
-    border: 1px solid gray;
+    background-color: #1e72b7;
+    flex-direction: column;
+    border-radius: 15px;
+    min-height: 400px; /* Tamaño mínimo en altura */
+    max-width: 50%;
   }
 
   .item_full {
     flex-basis: calc(99.33% - 10px); /* Ancho de las columnas con margen */
-    background-color: rgb(211, 211, 211);
-    padding: 10px;
-    border: 1px solid gray;
     justify-content: center;
     align-items: center;
   }
@@ -167,13 +228,7 @@
     text-align: center;
     font-family: "Times New Roman", Times, serif;
     font-size: larger;
-  }
-
-  .text_top {
-    display: flex;
-    align-items: flex-start;
-    font-family: "Times New Roman", Times, serif;
-    font-size: larger;
+    color: white;
   }
 
   .row_options {
@@ -181,5 +236,53 @@
     justify-content: space-between;
     margin-bottom: 10px; /* Espacio entre filas */
     align-items: center;
+  }
+
+  .center_image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .notification_card {
+    border: 2px solid #1687ed;
+    padding: 15px;
+    border-radius: 10px;
+    width: 80%;
+    background-color: #5eacf0;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .notification_card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .button_action_notify {
+    background-color: goldenrod;
+    border-radius: 10px;
+    transition: transform 200ms ease-in-out, box-shadow 200ms ease-in-out;
+  }
+
+  .button_action_notify:hover {
+    animation: pulse 1s infinite;
+    box-shadow: 0 0 10px 5px rgba(0, 255, 255, 0.7);
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    } /* Cambia el tamaño a un 10% más grande */
+    100% {
+      transform: scale(1);
+    }
   }
 </style>
