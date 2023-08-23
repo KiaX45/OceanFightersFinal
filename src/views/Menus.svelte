@@ -78,46 +78,61 @@
   const mostrarMenuCalificacion = () => {
     calificando = !calificando;
   };
- 
+
 
  
 </script>
 <div class="menus">
-  <h1>Menu's</h1>
-  <h1>{restaurante.nombre}</h1>
+  <!-- <h1>Menu's</h1>
+  <h1>{restaurante.nombre}</h1> -->
 
   {#each menus as menu}
-    <h1>{menu.nombre}</h1>
+    <div class="menu-card">
+      <img class="menu-image" src={menu.imagen} alt="Imagen del Menu" />
+      <div class="menu-details">
+        <h1 class="menu-name">{menu.nombre}</h1>
+        <h1 class="menu-description">{menu.descripcion}</h1>
+        <h1 class="menu-price">$ {menu.precio}</h1>
+      </div>
+    </div>
   {/each}
 </div>
 
-{#if !calificando}
-  <button on:click={mostrarMenuCalificacion}>Calificar restaurante</button>
-{:else}
+
+<div class="button-container">
+  {#if !calificando }
+    <button class="custom-button" on:click={mostrarMenuCalificacion} >Calificar Restaurante</button>
+  {:else}
   <div class="center">
-    <div class="stars">
-      <input type="radio" id="five" name="rate" value="5" bind:group={selectedRating}>
-      <label for="five"></label>
-      <input type="radio" id="four" name="rate" value="4" bind:group={selectedRating}>
-      <label for="four"></label>
-      <input type="radio" id="three" name="rate" value="3" bind:group={selectedRating}>
-      <label for="three"></label>
-      <input type="radio" id="two" name="rate" value="2" bind:group={selectedRating}>
-      <label for="two"></label>
-      <input type="radio" id="one" name="rate" value="1" bind:group={selectedRating}>
-      <label for="one"></label>
-      <span class="result"></span>
+  <div class="form-container">
+    <div class="stars-container">
+      <div class="stars">
+        <input type="radio" id="five" name="rate" value="5" bind:group={selectedRating}>
+        <label for="five"></label>
+        <input type="radio" id="four" name="rate" value="4" bind:group={selectedRating}>
+        <label for="four"></label>
+        <input type="radio" id="three" name="rate" value="3" bind:group={selectedRating}>
+        <label for="three"></label>
+        <input type="radio" id="two" name="rate" value="2" bind:group={selectedRating}>
+        <label for="two"></label>
+        <input type="radio" id="one" name="rate" value="1" bind:group={selectedRating}>
+        <label for="one"></label>
+        <span class="result"></span>
+      </div>
     </div>
 
     <div class="text-input">
       <label for="review">Ingresa tu opinión:</label>
       <textarea id="review" name="review" rows="4" cols="50" bind:value={reviewText}></textarea>
     </div>
-
   </div>
+</div>
 
-  <button on:click={mostrarMenuCalificacion}>Enviar calificación</button>
-{/if}
+    <div class="button-container-before">
+      <button class="custom-button" on:click={mostrarMenuCalificacion} >Enviar calificación</button>
+    </div>
+  {/if}
+</div>
 
 <style>
   *{
@@ -125,12 +140,58 @@
   padding: 0;
   box-sizing: border-box;
 }
-.center{
-  position: fixed;
-  top: 45%;
-  left: 20%;
-  transform: translate(-50%, -50%);
+
+.text-input {
+  margin-left: 100px;
 }
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .button-container-before {
+    display: flex;
+    justify-content: center;
+    align-items: left ;
+    margin-top: 500px;
+    margin-bottom: 20px;
+  }
+
+  .custom-button {
+    background-color: #FFAC30; /* Color de fondo naranja oscuro */
+    color: #ffffff; /* Color de texto blanco */
+    font-weight: bold; /* Fuente en negrita */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .custom-button:hover {
+    background-color: #FFC654; /* Color de fondo naranja claro al pasar el cursor */
+  }
+  .center {
+    display: flex;
+    justify-content: center;
+    background-color: #ffffff; /* Color amarillo pálido */
+    padding: 20px;
+  }
+
+  .form-container {
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semi-transparente */
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    margin-bottom: 0;
+  }
 .center .stars{
   height: 150px;
   width: 500px;
@@ -179,18 +240,77 @@
   display: block;
 }
 .stars #five:checked ~ .result:before{
-  content: "Me encanta ";
+  content: "";
 }
 .stars #four:checked ~ .result:before{
-  content: "Me gusta ";
+  content: "";
 }
 .stars #three:checked ~ .result:before{
-  content: "Está Bien ";
+  content: " ";
 }
 .stars #two:checked ~ .result:before{
-  content: "No me gusta ";
+  content: "";
 }
 .stars #one:checked ~ .result:before{
-  content: "Me disgusta ";
+  content: "";
 }
+
+
+
+
+
+
+.menus {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+  }
+
+  .menu-card {
+    display: flex;
+    width: 100%;
+    margin-bottom: 20px;
+    background-color: #FFDDC1; /* Color de fondo naranja claro */
+    border-radius: 10px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  .menu-image {
+    width: 40%; /* Tamaño fijo para las imágenes */
+  height: 250px; /* Ajusta la altura según tu preferencia */
+  object-fit: cover; /* Ajusta el comportamiento de la imagen */
+    
+  }
+
+  .menu-details {
+    padding: 20px;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #FFAC30; /* Color de fondo naranja oscuro */
+    border-radius: 0 10px 10px 0;
+  }
+
+  .menu-name {
+    font-size: 48px; /* Aumentar el tamaño de la fuente */
+    /*margin: 0 0 10px 0;*/ /* Ajustar los márgenes para reducir el espacio */
+    margin-bottom: 0;
+    color: #333333; /* Color de texto gris oscuro */
+  }
+
+  .menu-description {
+    font-size: 20px; /* Aumentar el tamaño de la fuente */
+    margin: 0 0 10px 0; /* Ajustar los márgenes para reducir el espacio */
+    color: #555555; /* Color de texto gris */
+  }
+
+  .menu-price {
+    font-size: 22px; /* Aumentar el tamaño de la fuente */
+    color: #333333; /* Color de texto gris oscuro */
+  }
+
 </style>
