@@ -84,7 +84,9 @@
     <div class="item_options">
       <h5 class="text_top">Seccion para resolver notificaciones</h5>
       {#if $admin}
-        <h1>notificaciones</h1>
+        <div class="text_center">
+          <h1>notificaciones</h1>
+        </div>
         {#if notificaciones.length <= 0}
           <h1>No hay notificaciones</h1>
         {:else}
