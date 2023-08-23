@@ -35,10 +35,39 @@
       console.log(error);
     }
   );
+  //vamos a traer la base de datos de usuarios
+  let usuarios = [];
+  let usuarioActual = null;
+  let correo;
+  let imagen;
+  let username;
+    const getUsers = onSnapshot(
+    collection(db, "Usuarios"),
+    (querySnapshot) => {
+      usuarios = querySnapshot.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id }; //con esto decimos que por cada recorrido trasformamos los datos en un objeto
+      });
+
+      //solo debemos traer el usuario 
+      usuarios = usuarios.filter((usuario) => {
+        return usuario.uid == $admin.uid;
+      });
+
+      usuarioActual = usuarios[0];
+      console.log(usuarioActual);
+      correo = usuarioActual.email;
+      imagen = usuarioActual.image;
+      username = usuarioActual.username;
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
 
   //Vamos a dejar de que escuche los cambios
   onDestroy(() => {
     unsub();
+    getUsers();
   });
 
   //funciones para resolver notificaciones
@@ -129,12 +158,14 @@ const showSucces = (mensaje) => {
     }, 3000); // Reset the flag after the notification duration
   }
 };
+
+
 </script>
 
 <body class="body">
   <div class="row">
     <div class="item_full">
-      <h1 class="text_center">Bienvenido,</h1>
+      <h1 class="text_center">Bienvenido, {username}</h1>
     </div>
   </div>
 
@@ -143,11 +174,11 @@ const showSucces = (mensaje) => {
       <br />
       <p class="text_center">Tu foto</p>
       <section class="center_image">
-        <img alt="Imagen de perfil" width="200px" height="200px" />
+        <img alt="Imagen de perfil" width="200px" height="200px" src={imagen}/>
       </section>
       <br />
       <p class="text_center">Tu correo</p>
-      <p class="text_center">Correo Aqui</p>
+      <p class="text_center">Correo Aqui {correo}</p>
       <br />
     </div>
 
