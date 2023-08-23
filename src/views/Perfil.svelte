@@ -226,6 +226,9 @@ const showSucces = (mensaje) => {
     justify-content: center;
   }
   .item_admin {
+    background-image: url(https://plustatic.com/4059/conversions/diferencias-mar-oceano-social.jpg);
+    background-repeat: no-repeat;
+    background-size: auto;
     align-items: center;
     align-content: center;
     flex-basis: calc(50% - 10px); /* Ancho de las columnas con margen */
@@ -237,10 +240,12 @@ const showSucces = (mensaje) => {
   }
 
   .item_options {
+    background-image: url(https://plustatic.com/4059/conversions/diferencias-mar-oceano-social.jpg);
+    background-repeat: no-repeat;
+    background-size: auto;
     align-items: center;
     align-content: center;
     flex-basis: calc(50% - 10px); /* Ancho de las columnas con margen */
-    background-color: #1e72b7;
     flex-direction: column;
     border-radius: 15px;
     min-height: 400px; /* Tamaño mínimo en altura */
