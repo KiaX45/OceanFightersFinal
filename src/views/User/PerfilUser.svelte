@@ -245,209 +245,142 @@
   };
 </script>
 
-<body class="body">
-  <!--Información del usuario-->
-  <div class="row">
-    <div class="item_full">
-      <h1 class="text_center">Bienvenido, {userNow.username}</h1>
+<body>
+  <div class="container">
+    <div class="item">
+      <h1 class="text_title">Bienvenido, {userNow.username}</h1>
+      <div class="center-image">
+        <img src={userNow.imagen} alt="Imagen de perfil" width="200px" height="200px" />
+        <p class="email">{userNow.email}</p>
+      </div>
     </div>
-  </div>
-
-  <div class="row_options">
-    <div class="item_admin">
-      <br />
-      <p class="text_center">Tu foto</p>
-      <section class="center_image">
-        <img
-          src={userNow.imagen}
-          alt="Imagen de perfil"
-          width="200px"
-          height="200px"
-        />
-      </section>
-      <br />
-      <p class="text_center">Tu correo</p>
-      <p class="text_center">{userNow.email}</p>
-      <br />
-    </div>
-
-    <div class="item_options">
-      <section class="center_image">
-        <!--Comprobamos si hay eventos para mostrar-->
-        {#if hayEventosDeParticipacion}
-          <!--Información de los eventos-->
-          {#each eventos as evento}
-            <div class="event-card">
-              <br />
-              <img
-                src={evento.imagen}
-                alt="Imagen del evento"
-                style="width: 20%; height: 20%;"
-              />
-              <h1>{evento.nombre}</h1>
-              <h1>{evento.dia}</h1>
-              {#if isAvailable(evento)}
-                <button
-                  class="button_action_cancel"
-                  on:click={() => cancelarParticipacion(evento)}
-                  >Cancelar Participación</button
-                >
-              {:else}
-                <h1 class="text_center_black">Este evento ya no esta disponible</h1>
-              {/if}
+    <div class="options">
+      <div class="notification-card">
+        <h1 class="text_center">Mis eventos</h1>
+        
+          {#if hayEventosDeParticipacion}
+            {#each eventos as evento}
+              <div class="notification-card-int">
+                <h2>{evento.nombre}</h2>
+                <p>{evento.dia}</p>
+                {#if isAvailable(evento)}
+                  <button class="button-action" on:click={() => cancelarParticipacion(evento)}>
+                    Cancelar Participación
+                  </button>
+                {:else}
+                  <p class="text_center_black">Este evento ya no está disponible</p>
+                {/if}
+              </div>
+            {/each}
+          {:else}
+            <div class="notification-card-int">
+              <h2>¿No has participado en ningún evento?, ¡inténtalo ahora!</h2>
+              <button class="button-action" on:click={goToEventos}>¿Quieres intentarlo?</button>
             </div>
-          {/each}
-        {:else}
-          <div class="event-card">
-            <h1>¿No has participado en ningun evento?, ¡intentalo ahora!</h1>
-            <button class="button_action" on:click={goToEventos}
-              >¿Quieres intentarlo?</button
-            >
-          </div>
-        {/if}
-      </section>
+          {/if}
+       
+      </div>
     </div>
   </div>
 </body>
 
 <style>
-  .body {
-    background-color: #082543;
-  }
-
-  .row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px; /* Espacio entre filas */
-    align-items: center;
-    justify-content: center;
-  }
-
-  .item_full {
-    flex-basis: calc(99.33% - 10px); /* Ancho de las columnas con margen */
-    /*background-color: rgb(211, 211, 211);
-    border: 1px solid gray;*/
-    padding: 10px;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .text_center {
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-family: "Times New Roman", Times, serif;
-    font-size: larger;
-    color: white;
-  }
-
-  .text_center_black {
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-family: "Times New Roman", Times, serif;
-    font-size: larger;
-    color: black;
-    font-style: oblique;
-  }
-
-  .row_options {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px; /* Espacio entre filas */
-    align-items: center;
-  }
-
-  .item_admin {
-    background-image: url(https://plustatic.com/4059/conversions/diferencias-mar-oceano-social.jpg);
+  body {
+    background-color: #f2f5fa;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image: url(https://firebasestorage.googleapis.com/v0/b/ocean-ad72b.appspot.com/o/Perfil%2Fmar.JPG?alt=media&token=69f22291-e29c-478c-94c6-503cc73b465b);
+    background-size: cover;
     background-repeat: no-repeat;
-    background-size: auto;
-    align-items: center;
-    align-content: center;
-    flex-basis: calc(50% - 10px); /* Ancho de las columnas con margen */
-    /*border: 1px solid gray;*/
-    flex-direction: column;
-    border-radius: 15px;
-    min-height: 400px; /* Tamaño mínimo en altura */
-    max-width: 50%;
+    background-attachment: fixed;
   }
 
-  .item_options {
-    background-image: url(https://plustatic.com/4059/conversions/diferencias-mar-oceano-social.jpg);
-    background-repeat: no-repeat;
-    background-size: auto;
-    align-items: center;
-    align-content: center;
-    flex-basis: calc(50% - 10px); /* Ancho de las columnas con margen */
-    /*border: 1px solid gray;*/
-    flex-direction: column;
-    border-radius: 15px;
-    min-height: 400px; /* Tamaño mínimo en altura */
-    max-width: 50%;
+  .container {
+    display: flex;
+    align-items: flex-start;
+    padding: 20px;
   }
 
-  .center_image {
+  .item {
+    flex-basis: 40%;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .item h1 {
+    font-size: 24px;
+    margin-top: 0;
+    color: #333333;
+  }
+
+  .center-image {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin-top: 20px;
   }
 
-  .button_action {
-    background-color: aqua;
+  img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .email {
+    font-size: 18px;
+    color: #555555;
+    margin-top: 10px;
+  }
+
+  .options {
+    flex-basis: 60%;
+    padding-left: 100px;
+    width: 100%;
+  }
+
+  .notification-card {
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #f9fafb;
     border-radius: 10px;
-    transition: transform 200ms ease-in-out, box-shadow 200ms ease-in-out;
-  }
-
-  .button_action:hover {
-    animation: pulse 1s infinite;
-    box-shadow: 0 0 10px 5px rgba(0, 255, 255, 0.7);
-  }
-
-  @keyframes pulse {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.1);
-    } /* Cambia el tamaño a un 10% más grande */
-    100% {
-      transform: scale(1);
-    }
-  }
-  .button_action_cancel {
-    background-color: #ab2a3e;
-    border-radius: 10px;
-    transition: transform 200ms ease-in-out, box-shadow 200ms ease-in-out;
-    color: white;
-  }
-
-  .button_action_cancel:hover {
-    animation: pulse 1s infinite; /* Aplicar animación al pasar el cursor sobre el botón */
-    box-shadow: 0 0 10px 5px rgba(255, 42, 0, 0.7);
-  }
-
-  .button_action_cancel:focus {
-    background-color: #ab2a3e;
-    color: white;
-    outline: none;
-  }
-
-  .event-card {
-    border: 2px solid #1687ed;
-    padding: 15px;
-    border-radius: 10px;
-    width: 80%;
-    background-color: #5eacf0;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
   }
 
-  .event-card:hover {
+  .notification-card-int {
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #f5f0c2;
+    border-radius: 10px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+  }
+
+  .notification-card:hover {
     transform: translateY(-5px);
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .button-action {
+    background-color: #ffa500;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .button-action:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255, 165, 0, 0.7);
   }
 </style>
