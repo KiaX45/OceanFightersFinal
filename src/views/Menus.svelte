@@ -51,10 +51,6 @@
   // VARIABLES PARA CALIFICACION DE RESTAURANTE
   let selectedRating = null;
   let reviewText = "";
-  
-  
-
-
 
   const unsub = onSnapshot(
     collection(db, "Menus"),
@@ -74,8 +70,30 @@
     }
   );
 
+  //Vamos a traer las calificaciones
+  let calificaciones = [];
+  let calificcacionesSinFiltrar = [];
+  const getCalifications = onSnapshot(
+    collection(db, "CalificacionesRestaurante"),
+    (querySnapshot) => {
+      calificaciones = querySnapshot.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id }; //con esto decimos que por cada recorrido trasformamos los datos en un objeto
+      });
+      calificcacionesSinFiltrar = calificaciones;
+      calificaciones = calificcacionesSinFiltrar.filter((calificaion) => {
+        return calificaion.idRestaurante == restaurante.idRestaurante;
+      });
+
+      console.log(calificaciones);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+
   onDestroy(() => {
     unsub();
+    getCalifications();
   });
 
   //Funciones para calaificar un menu
@@ -101,6 +119,12 @@
     //Validamos que se haya escrito una opinión
     if (reviewText == "") {
       alert("Por favor escribe una opinión");
+      return;
+    }
+
+    //Validamos que el usuario no haya calificado el restaurante
+    if (calificadoPorUsuarion()) {
+      alert("Ya calificaste este restaurante");
       return;
     }
 
@@ -133,7 +157,55 @@
     }
 
     //Actualizamos la calificación del restaurante
+    let calificacionTotal = 0;
+    console.log(calificaciones);
+    calificaciones.forEach((calificacion) => {
+      //se debe cambiar a numero antes de sumar
+      calificacionTotal += Number(calificacion.calificacion);
+    });
+    console.log(calificacionTotal);
 
+    calificacionTotal = calificacionTotal / calificaciones.length;
+
+    console.log(calificacionTotal);
+
+    restaurante.puntuacion = calificacionTotal;
+    if (calificaciones.length == 0) {
+      restaurante.puntuacion = selectedRating;
+      console.log("entro");
+    }
+
+    if (!restaurante || !restaurante.idRestaurante) {
+      console.error("El objeto restaurante o su ID no están definidos");
+      return;
+    }
+
+    let currentid = restaurante.id;
+    console.log(currentid)
+    console.log(restaurante)
+
+    try {
+      await updateDoc(doc(db, "Restaurantes", currentid), restaurante);
+    } catch (error) {
+      console.error("Error al actualizar el documento:", error);
+    }
+  };
+
+  //fucniones para comprobar si ya se califico el restaurante
+  const calificadoPorUsuarion = () => {
+    //traemos las calificaiones del restaurante
+    let idComparation;
+    if ($user) {
+      idComparation = $user.uid;
+    } else {
+      idComparation = $admin.uid;
+    }
+    for (let index = 0; index < calificaciones.length; index++) {
+      if (calificaciones[index].uidUsuario == idComparation) {
+        return true;
+      }
+    }
+    return false;
   };
 </script>
 
@@ -152,7 +224,6 @@
     </div>
   {/each}
 </div>
-
 
 <div class="button-container">
   {#if !calificado}
@@ -225,8 +296,9 @@
       <div class="button-container-before">
         <button
           class="custom-button"
-          on:click={(mostrarMenuCalificacion, restauranteCalificado, calificarRestaurante)}
-          >Enviar calificación</button
+          on:click={(mostrarMenuCalificacion,
+          restauranteCalificado,
+          calificarRestaurante)}>Enviar calificación</button
         >
       </div>
     {/if}
