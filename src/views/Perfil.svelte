@@ -11,6 +11,9 @@
     updateDoc,
     doc,
   } from "firebase/firestore";
+  //importamos lo necesario para la subida de imagenes
+  import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+  import { storage } from "../firebase";
 
   //importamos onDestroy para que se ejecute cuando se destruya el componente
   import { onDestroy } from "svelte";
@@ -159,6 +162,54 @@ const showSucces = (mensaje) => {
   }
 };
 
+let selectedImage: File | undefined;
+  //Función para seleccionar la imagen
+  function handleImageSelect(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      selectedImage = input.files[0];
+      console.log(selectedImage);
+      mostrarbotonenviar = true;
+    }
+  }
+
+//Metodos para cambiar la imagen de usuario
+let resultImage: string | undefined;
+let mostrarbotonenviar = false;
+  async function uploadFile(file) {
+    const storageRef = ref(storage, `usuarios/${username}`);
+    await uploadBytes(storageRef, file);
+    resultImage = await getDownloadURL(storageRef);
+    console.log(resultImage);
+    if (resultImage) {
+      mostrarbotonenviar = true;
+      usuarioActual.image = resultImage;
+      handleEdit();
+    }
+  };
+
+  const handleEdit = async () => {
+    //creamos la función de editar restaurante
+    try {
+      //pedimos una confirmación
+      if(confirm("¿Estas seguro de cambiar la imagen?")){
+        console.log(usuarioActual);
+        //await uploadFile(selectedImage);
+        let currentid = usuarioActual.id;
+        await updateDoc(doc(db, "Usuarios", currentid), usuarioActual);
+        showSucces("Imagen cambiada");
+        imagen = resultImage;
+        mostrarbotonenviar = false;
+      }
+      else{
+        mostrarbotonenviar = false;
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 
 </script>
 
@@ -180,6 +231,8 @@ const showSucces = (mensaje) => {
       <p class="text_center">Tu correo</p>
       <p class="text_center">Correo Aqui {correo}</p>
       <br />
+
+      
     </div>
 
     <div class="item_options">
@@ -212,6 +265,8 @@ const showSucces = (mensaje) => {
     </div>
   </div>
 </body>
+  
+ 
 
 <style>
   .body {
