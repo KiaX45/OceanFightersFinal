@@ -268,74 +268,180 @@
     };
 </script>
 
-<h1>Adición restaurantes</h1>
+<body>
+  <h1 class="title">Adición de Restaurantes</h1>
+  <main>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <form class="form" on:submit|preventDefault={handleSubmit}>
+            <label for="img">URL de la imagen:</label>
+            <input type="file" class="input" on:change|preventDefault={handleImageSelect} accept="image/*" />
 
-<!--Creación de un formulario de adición de restaurantes-->
-<main>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <form on:submit|preventDefault={handleSubmit}>
-          <label for="img">URL de la imagen:</label>
-          <input
-            type="file"
-            on:change|preventDefault={handleImageSelect}
-            accept="image/*"
-          />
+            <label for="nombre">Nombre:</label>
+            <input type="text" class="input" id="nombre" bind:value={restaurante.nombre} />
 
-          <label for="nombre">Nombre:</label>
-          <input type="text" id="nombre" bind:value={restaurante.nombre} />
+            <label for="direccion">Dirección:</label>
+            <input type="text" class="input" id="direccion" bind:value={restaurante.direccion} />
 
-          <label for="direccion">Dirección:</label>
-          <input
-            type="text"
-            id="direccion"
-            bind:value={restaurante.direccion}
-          />
+            <label for="telefono">Teléfono:</label>
+            <input type="number" class="input" id="telefono" bind:value={restaurante.telefono} />
 
-          <label for="telefono">Teléfono:</label>
-          <input
-            type="number"
-            id="telefono"
-            bind:value={restaurante.telefono}
-          />
+            <label for="horario">Hora Apertura:</label>
+            <input type="time" class="input" id="horario" bind:value={restaurante.horaApertura} />
 
-          <label for="horario">Hora Apertura:</label>
-          <input
-            type="time"
-            id="horario"
-            bind:value={restaurante.horaApertura}
-          />
+            <label for="horario">Hora Cierre:</label>
+            <input type="time" class="input" id="horario" bind:value={restaurante.horaCierre} />
 
-          <label for="horario">Hora Cierre:</label>
-          <input type="time" id="horario" bind:value={restaurante.horaCierre} />
+            <label for="descripcion">Descripción:</label>
+            <textarea class="textarea" id="descripcion" bind:value={restaurante.descripcion}></textarea>
 
-          <label for="descripcion">Descripción:</label>
-          <textarea id="descripcion" bind:value={restaurante.descripcion} />
-
-          <button type="submit">Guardar</button>
-          <button on:click={goToAddMenu}>Adicionar Menu</button>
-        </form>
-      </div>
-      <!--En esta columna se mostraran los restaurantes ya añadidos-->
-      <div class="col-md-6">
-        {#each restaurantes as restaurante}
-          <div style="border: 2px solid;">
-            <div class="form-control h-100">
-              {restaurante.nombre}
-              {restaurante.idRestaurante}
-              <img src={restaurante.img} alt="Imagen del restaurante" style="width: 300px; height: 200px;">
+            <button class="btn" type="submit">Guardar</button>
+            <button class="btn" on:click={goToAddMenu}>Adicionar Menú</button>
+          </form>
+        </div>
+        <div class="col-md-6">
+          {#each restaurantes as restaurante}
+            <div class="card">
+              <div class="card-content">
+                <h2 class="card-title">{restaurante.nombre}</h2>
+                
+                <img src={restaurante.img} alt="Imagen del restaurante" class="card-img">
+              </div>
+              <div class="card-buttons">
+                <button class="btn btn-edit" on:click={() => editTask(restaurante)}>Editar</button>
+                {#if restaurante.visible}
+                  <button class="btn btn-toggle" on:click={() => ShoworHideRestaurant(restaurante)}>Dejar de Mostrar</button>
+                {:else}
+                  <button class="btn btn-toggle" on:click={() => ShoworHideRestaurant(restaurante)}>Mostrar</button>
+                {/if}
+              </div>
             </div>
-
-            <button on:click={() => editTask(restaurante)}>Editar</button>
-            {#if restaurante.visible}
-              <button on:click={() => ShoworHideRestaurant(restaurante)}>Dejar De mostrar</button>
-            {:else}
-              <button on:click={() => ShoworHideRestaurant(restaurante)}> Mostrar</button>
-            {/if}
-          </div>
-        {/each}
+          {/each}
+        </div>
       </div>
     </div>
-  </div>
-</main>
+  </main>
+</body>
+
+<style>
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+}
+
+.title {
+  text-align: center;
+  margin-top: 20px;
+  color: #3498db; /* Azul celeste */
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.col-md-6 {
+  flex: 0 0 calc(50% - 10px);
+  background-color: #ecf0f1; /* Gris claro */
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form label, .card-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+  color: #3498db; /* Azul celeste */
+}
+
+.input, .textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.textarea {
+  resize: vertical;
+}
+
+.btn {
+  padding: 10px 20px;
+  background-color: #3498db; /* Azul celeste */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #2980b9; /* Azul más oscuro */
+}
+
+.card {
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #ecf0f1; /* Gris claro */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra los elementos horizontalmente */
+}
+
+.card-content {
+  flex: 1;
+  padding: 10px;
+  text-align: center; /* Centra el texto en el centro */
+}
+
+.card-title {
+  margin: 0;
+  color: #3498db; /* Azul celeste */
+}
+
+.card-id {
+  color: #888;
+  margin-bottom: 5px;
+}
+
+.card-img {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  display: block; /* Para centrar la imagen */
+  margin: 10px auto; /* Centra la imagen verticalmente */
+}
+
+.card-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.btn-edit {
+  background-color: #f39c12; /* Naranja claro */
+  margin-bottom: 5px;
+}
+
+.btn-toggle {
+  background-color: #27ae60; /* Verde oscuro */
+  margin-bottom: 5px;
+}
+</style>

@@ -259,127 +259,179 @@
   };
 </script>
 
-<h1>Adición Menus</h1>
-
-<!--Mostramos los valores guardados en la store-->
-<h1>{restaurante.nombre}</h1>
-<h1>{restaurante.idRestaurante}</h1>
-
-<div class="container">
-  <div class="row">
-    <!--Creación del formulario para la adición de menus -->
-    <div class="col-md-6">
-      <div class="form-container">
-        <form on:submit|preventDefault={handleSubmit}>
-          <div class="form-group">
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" bind:value={menu.nombre} required />
+<body>
+  <h1 class="title">{restaurante.nombre}</h1>
+  
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-container">
+          <form class="form" on:submit|preventDefault={handleSubmit}>
+            <div class="form-group">
+              <label for="nombre">Nombre:</label>
+              <input type="text" id="nombre" bind:value={menu.nombre} required />
+            </div>
+            <div class="form-group">
+              <label for="precio">Precio:</label>
+              <input type="number" id="precio" bind:value={menu.precio} required />
+            </div>
+            <div class="form-group">
+              <label for="descripcion">Descripción:</label>
+              <textarea id="descripcion" bind:value={menu.descripcion} required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="imagen">Imagen:</label>
+              <input type="file" on:change|preventDefault={handleImageSelect} accept="image/*" />
+            </div>
+            <div class="form-group">
+              <label for="visible">Visible:</label>
+              <input type="checkbox" id="visible" bind:checked={menu.visible} />
+            </div>
+            <div class="form-group">
+              <button type="submit">Guardar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h1 class="title">Menus</h1>
+        {#each menus as menu}
+          <div class="card">
+            <div class="card-content">
+              <h2 class="card-title">{menu.nombre}</h2>
+              <img src={menu.imagen} alt="Imagen del restaurante" class="card-img">
+            </div>
+            <div class="card-buttons">
+              <button class="btn btn-edit" on:click={() => editTask(menu)}>Editar</button>
+              {#if menu.visible}
+                <button class="btn btn-toggle" on:click={() => showOrHide(menu)}>Ocultar</button>
+              {:else}
+                <button class="btn btn-toggle" on:click={() => showOrHide(menu)}>Mostrar</button>
+              {/if}
+            </div>
           </div>
-          <div class="form-group">
-            <label for="precio">Precio:</label>
-            <input
-              type="number"
-              id="precio"
-              bind:value={menu.precio}
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="descripcion">Descripción:</label>
-            <textarea id="descripcion" bind:value={menu.descripcion} required />
-          </div>
-          <div class="form-group">
-            <label for="imagen">Imagen:</label>
-            <input
-              type="file"
-              on:change|preventDefault={handleImageSelect}
-              accept="image/*"
-            />
-          </div>
-          <div class="form-group">
-            <label for="visible">Visible:</label>
-            <input type="checkbox" id="visible" bind:checked={menu.visible} />
-          </div>
-          <div class="form-group">
-            <button type="submit">Guardar</button>
-          </div>
-        </form>
+        {/each}
       </div>
     </div>
-    <!--Mostrar los menus ya creados-->
-    <div class="col-md-6">
-      <h1>Menus</h1>
-      {#each menus as menu}
-        <div style="border: 2px solid; height: 30 px;">
-          {#if menu.idRestaurante == restaurante.idRestaurante}
-            <h1>{menu.nombre}</h1>
-            <h1>{menu.idRestaurante}</h1>
-            <img
-              src={menu.imagen}
-              alt="Imagen del restaurante"
-              style="width: 300px; height: 200px;"
-            />
-
-            <button on:click={() => editTask(menu)}>Editar</button>
-
-            {#if menu.visible}
-              <button on:click={() => showOrHide(menu)}> Ocultar </button>
-            {:else}
-              <button on:click={() => showOrHide(menu)}> Mostrar </button>
-            {/if}
-          {/if}
-        </div>
-      {/each}
-    </div>
   </div>
-</div>
+</body>
 
 <style>
-  .form-container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    width: 100%;
-  }
+     body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+    }
+    
+    .title {
+      text-align: center;
+      margin-top: 20px;
+      color: #3498db; /* Azul celeste */
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    
+    .col-md-6 {
+      flex: 0 0 calc(50% - 10px);
+      background-color: #ecf0f1; /* Gris claro */
+      border-radius: 5px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .form-group label, .card-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+      display: block;
+      color: #3498db; /* Azul celeste */
+    }
+    
+    .form-group input[type="text"],
+    .form-group input[type="number"],
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+    
+    .form-group textarea {
+      resize: vertical;
+    }
+    
+    .form-group button {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
 
-  .form-group {
-    margin-bottom: 20px;
-  }
+    .card {
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      padding: 10px;
+      background-color: #ecf0f1; /* Gris claro */
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Centra los elementos horizontalmente */
+    }
 
-  .form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
+    .card-content {
+      flex: 1;
+      padding: 10px;
+      text-align: center; /* Centra el texto en el centro */
+    }
 
-  .form-group input[type="text"],
-  .form-group input[type="number"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-  }
+    .card-title {
+      margin: 0;
+      color: #3498db; /* Azul celeste */
+    }
 
-  .form-group textarea {
-    width: 100%;
-    height: 100px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    resize: vertical;
-  }
+    .card-id {
+      color: #888;
+      margin-bottom: 5px;
+    }
 
-  .form-group button {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-  }
+    .card-img {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      display: block; /* Para centrar la imagen */
+      margin: 10px auto; /* Centra la imagen verticalmente */
+    }
+
+    .card-buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .btn-edit {
+      background-color: #f39c12; /* Naranja claro */
+      margin-bottom: 5px;
+    }
+
+    .btn-toggle {
+      background-color: #27ae60; /* Verde oscuro */
+      margin-bottom: 5px;
+    }
 </style>
