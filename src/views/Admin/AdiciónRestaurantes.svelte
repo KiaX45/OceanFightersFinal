@@ -269,32 +269,76 @@
 </script>
 
 <body>
-  <h1 class="title">Adición de Restaurantes</h1>
+  <header class="header">
+    <div class="header-content container">
+      <div class="header-txt">
+        <h1 class="neon text-pop-up-top">ADICIÓN DE RESTAURANTES</h1>
+        <p>
+          Lugar par ala adición de nuevos restaurante o editar los antiguos para
+          ser presentados al público en general
+        </p>
+      </div>
+    </div>
+  </header>
   <main>
     <div class="container">
       <div class="row">
         <div class="col-md-6">
           <form class="form" on:submit|preventDefault={handleSubmit}>
             <label for="img">URL de la imagen:</label>
-            <input type="file" class="input" on:change|preventDefault={handleImageSelect} accept="image/*" />
+            <input
+              type="file"
+              class="input"
+              on:change|preventDefault={handleImageSelect}
+              accept="image/*"
+            />
 
             <label for="nombre">Nombre:</label>
-            <input type="text" class="input" id="nombre" bind:value={restaurante.nombre} />
+            <input
+              type="text"
+              class="input"
+              id="nombre"
+              bind:value={restaurante.nombre}
+            />
 
             <label for="direccion">Dirección:</label>
-            <input type="text" class="input" id="direccion" bind:value={restaurante.direccion} />
+            <input
+              type="text"
+              class="input"
+              id="direccion"
+              bind:value={restaurante.direccion}
+            />
 
             <label for="telefono">Teléfono:</label>
-            <input type="number" class="input" id="telefono" bind:value={restaurante.telefono} />
+            <input
+              type="number"
+              class="input"
+              id="telefono"
+              bind:value={restaurante.telefono}
+            />
 
             <label for="horario">Hora Apertura:</label>
-            <input type="time" class="input" id="horario" bind:value={restaurante.horaApertura} />
+            <input
+              type="time"
+              class="input"
+              id="horario"
+              bind:value={restaurante.horaApertura}
+            />
 
             <label for="horario">Hora Cierre:</label>
-            <input type="time" class="input" id="horario" bind:value={restaurante.horaCierre} />
+            <input
+              type="time"
+              class="input"
+              id="horario"
+              bind:value={restaurante.horaCierre}
+            />
 
             <label for="descripcion">Descripción:</label>
-            <textarea class="textarea" id="descripcion" bind:value={restaurante.descripcion}></textarea>
+            <textarea
+              class="textarea"
+              id="descripcion"
+              bind:value={restaurante.descripcion}
+            />
 
             <button class="btn" type="submit">Guardar</button>
             <button class="btn" on:click={goToAddMenu}>Adicionar Menú</button>
@@ -305,15 +349,30 @@
             <div class="card">
               <div class="card-content">
                 <h2 class="card-title">{restaurante.nombre}</h2>
-                
-                <img src={restaurante.img} alt="Imagen del restaurante" class="card-img">
+
+                <img
+                  src={restaurante.img}
+                  alt="Imagen del restaurante"
+                  class="card-img"
+                />
               </div>
               <div class="card-buttons">
-                <button class="btn btn-edit" on:click={() => editTask(restaurante)}>Editar</button>
+                <button
+                  class="btn btn-edit"
+                  on:click={() => editTask(restaurante)}>Editar</button
+                >
                 {#if restaurante.visible}
-                  <button class="btn btn-toggle" on:click={() => ShoworHideRestaurant(restaurante)}>Dejar de Mostrar</button>
+                  <button
+                    class="btn btn-toggle"
+                    on:click={() => ShoworHideRestaurant(restaurante)}
+                    >Dejar de Mostrar</button
+                  >
                 {:else}
-                  <button class="btn btn-toggle" on:click={() => ShoworHideRestaurant(restaurante)}>Mostrar</button>
+                  <button
+                    class="btn btn-toggle"
+                    on:click={() => ShoworHideRestaurant(restaurante)}
+                    >Mostrar</button
+                  >
                 {/if}
               </div>
             </div>
@@ -325,123 +384,186 @@
 </body>
 
 <style>
+  
+  .header {
+    background-color: #082543;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 70vh;
+    align-items: center;
+    display: flex;
+    padding-top: 50px;
+  }
 
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f5f5f5;
-}
+  .header-txt {
+    padding-top: 10px;
+    text-align: center;
+  }
 
-.title {
-  text-align: center;
-  margin-top: 20px;
-  color: #3498db; /* Azul celeste */
-}
+  .header-txt h1 {
+    font-size: 45px;
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    animation: fadeInUp 1s ease 0.5s; /* Agregamos una animación fadeInUp con un retraso */
+  }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
+  .header-txt p {
+    color: #fff;
+    font-size: 20px;
+    padding: 0 250px;
+    margin-bottom: 45px;
+    animation: fadeInUp 1s ease 0.5s; /* Agregamos una animación fadeInUp con un retraso */
+  }
+  /* Animación fadeInUp */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
+  .neon {
+    font-size: 6em;
+    font-weight: 500;
+    color: #fff;
+    text-shadow: 0 0 5px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4,
+      0 0 100px #03e9f4;
+    letter-spacing: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: 1s;
+  }
 
-.col-md-6 {
-  flex: 0 0 calc(50% - 10px);
-  background-color: #ecf0f1; /* Gris claro */
-  border-radius: 5px;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+  .neon:hover {
+    color: #fff;
+    text-shadow: 0 0 100px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4,
+      0 0 100px #03e9f4;
+  }
 
-.form label, .card-title {
-  font-weight: bold;
-  margin-bottom: 5px;
-  display: block;
-  color: #3498db; /* Azul celeste */
-}
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+  }
 
-.input, .textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 15px;
-}
+  .title {
+    text-align: center;
+    margin-top: 20px;
+    color: #3498db; /* Azul celeste */
+  }
 
-.textarea {
-  resize: vertical;
-}
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
 
-.btn {
-  padding: 10px 20px;
-  background-color: #3498db; /* Azul celeste */
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
 
-.btn:hover {
-  background-color: #2980b9; /* Azul más oscuro */
-}
+  .col-md-6 {
+    flex: 0 0 calc(50% - 10px);
+    background-color: #ecf0f1; /* Gris claro */
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
 
-.card {
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  padding: 10px;
-  background-color: #ecf0f1; /* Gris claro */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Centra los elementos horizontalmente */
-}
+  .form label,
+  .card-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    color: #3498db; /* Azul celeste */
+  }
 
-.card-content {
-  flex: 1;
-  padding: 10px;
-  text-align: center; /* Centra el texto en el centro */
-}
+  .input,
+  .textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
 
-.card-title {
-  margin: 0;
-  color: #3498db; /* Azul celeste */
-}
+  .textarea {
+    resize: vertical;
+  }
 
-.card-id {
-  color: #888;
-  margin-bottom: 5px;
-}
+  .btn {
+    padding: 10px 20px;
+    background-color: #3498db; /* Azul celeste */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
 
-.card-img {
-  width: 100%;
-  max-width: 300px;
-  height: auto;
-  display: block; /* Para centrar la imagen */
-  margin: 10px auto; /* Centra la imagen verticalmente */
-}
+  .btn:hover {
+    background-color: #2980b9; /* Azul más oscuro */
+  }
 
-.card-buttons {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 10px;
-}
+  .card {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #ecf0f1; /* Gris claro */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra los elementos horizontalmente */
+  }
 
-.btn-edit {
-  background-color: #f39c12; /* Naranja claro */
-  margin-bottom: 5px;
-}
+  .card-content {
+    flex: 1;
+    padding: 10px;
+    text-align: center; /* Centra el texto en el centro */
+  }
 
-.btn-toggle {
-  background-color: #27ae60; /* Verde oscuro */
-  margin-bottom: 5px;
-}
+  .card-title {
+    margin: 0;
+    color: #3498db; /* Azul celeste */
+  }
+
+  .card-id {
+    color: #888;
+    margin-bottom: 5px;
+  }
+
+  .card-img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    display: block; /* Para centrar la imagen */
+    margin: 10px auto; /* Centra la imagen verticalmente */
+  }
+
+  .card-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  .btn-edit {
+    background-color: #f39c12; /* Naranja claro */
+    margin-bottom: 5px;
+  }
+
+  .btn-toggle {
+    background-color: #27ae60; /* Verde oscuro */
+    margin-bottom: 5px;
+  }
 </style>

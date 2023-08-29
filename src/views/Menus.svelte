@@ -181,8 +181,8 @@
     }
 
     let currentid = restaurante.id;
-    console.log(currentid)
-    console.log(restaurante)
+    console.log(currentid);
+    console.log(restaurante);
 
     try {
       await updateDoc(doc(db, "Restaurantes", currentid), restaurante);
@@ -209,103 +209,107 @@
   };
 </script>
 
-<div class="menus">
-  <!-- <h1>Menu's</h1>
-  <h1>{restaurante.nombre}</h1> -->
+<body>
+  <header style="margin-top:150px;" />
 
-  {#each menus as menu}
-    <div class="menu-card">
-      <img class="menu-image" src={menu.imagen} alt="Imagen del Menu" />
-      <div class="menu-details">
-        <h1 class="menu-name">{menu.nombre}</h1>
-        <h1 class="menu-description">{menu.descripcion}</h1>
-        <h1 class="menu-price">$ {menu.precio}</h1>
-      </div>
-    </div>
-  {/each}
-</div>
+  <div class="menus">
+    <!-- <h1>Menu's</h1>
+    <h1>{restaurante.nombre}</h1> -->
 
-<div class="button-container">
-  {#if !calificado}
-    {#if !calificando}
-      <button class="custom-button" on:click={mostrarMenuCalificacion}
-        >Calificar Restaurante</button
-      >
-    {:else}
-      <div class="center">
-        <div class="form-container">
-          <div class="stars-container">
-            <div class="stars">
-              <input
-                type="radio"
-                id="five"
-                name="rate"
-                value="5"
-                bind:group={selectedRating}
-              />
-              <label for="five" />
-              <input
-                type="radio"
-                id="four"
-                name="rate"
-                value="4"
-                bind:group={selectedRating}
-              />
-              <label for="four" />
-              <input
-                type="radio"
-                id="three"
-                name="rate"
-                value="3"
-                bind:group={selectedRating}
-              />
-              <label for="three" />
-              <input
-                type="radio"
-                id="two"
-                name="rate"
-                value="2"
-                bind:group={selectedRating}
-              />
-              <label for="two" />
-              <input
-                type="radio"
-                id="one"
-                name="rate"
-                value="1"
-                bind:group={selectedRating}
-              />
-              <label for="one" />
-              <span class="result" />
-            </div>
-          </div>
-
-          <div class="text-input">
-            <label for="review">Ingresa tu opinión:</label>
-            <textarea
-              id="review"
-              name="review"
-              rows="4"
-              cols="50"
-              bind:value={reviewText}
-            />
-          </div>
+    {#each menus as menu}
+      <div class="menu-card">
+        <img class="menu-image" src={menu.imagen} alt="Imagen del Menu" />
+        <div class="menu-details">
+          <h1 class="menu-name">{menu.nombre}</h1>
+          <h1 class="menu-description">{menu.descripcion}</h1>
+          <h1 class="menu-price">$ {menu.precio}</h1>
         </div>
       </div>
+    {/each}
+  </div>
 
-      <div class="button-container-before">
-        <button
-          class="custom-button"
-          on:click={(mostrarMenuCalificacion,
-          restauranteCalificado,
-          calificarRestaurante)}>Enviar calificación</button
+  <div class="button-container">
+    {#if !calificado}
+      {#if !calificando}
+        <button class="custom-button" on:click={mostrarMenuCalificacion}
+          >Calificar Restaurante</button
         >
-      </div>
+      {:else}
+        <div class="center">
+          <div class="form-container">
+            <div class="stars-container">
+              <div class="stars">
+                <input
+                  type="radio"
+                  id="five"
+                  name="rate"
+                  value="5"
+                  bind:group={selectedRating}
+                />
+                <label for="five" />
+                <input
+                  type="radio"
+                  id="four"
+                  name="rate"
+                  value="4"
+                  bind:group={selectedRating}
+                />
+                <label for="four" />
+                <input
+                  type="radio"
+                  id="three"
+                  name="rate"
+                  value="3"
+                  bind:group={selectedRating}
+                />
+                <label for="three" />
+                <input
+                  type="radio"
+                  id="two"
+                  name="rate"
+                  value="2"
+                  bind:group={selectedRating}
+                />
+                <label for="two" />
+                <input
+                  type="radio"
+                  id="one"
+                  name="rate"
+                  value="1"
+                  bind:group={selectedRating}
+                />
+                <label for="one" />
+                <span class="result" />
+              </div>
+            </div>
+
+            <div class="text-input">
+              <label for="review">Ingresa tu opinión:</label>
+              <textarea
+                id="review"
+                name="review"
+                rows="4"
+                cols="50"
+                bind:value={reviewText}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="button-container-before">
+          <button
+            class="custom-button"
+            on:click={(mostrarMenuCalificacion,
+            restauranteCalificado,
+            calificarRestaurante)}>Enviar calificación</button
+          >
+        </div>
+      {/if}
+    {:else}
+      <h1>Gracias por tu Calificación!</h1>
     {/if}
-  {:else}
-    <h1>Gracias por tu Calificación!</h1>
-  {/if}
-</div>
+  </div>
+</body>
 
 <style>
   * {
@@ -356,11 +360,10 @@
   }
 
   .form-container {
-    background-color: rgb(255, 255, 255); /* Fondo blanco semi-transparente */
+    background-color: rgba(255, 255, 255); /* Fondo blanco semi-transparente */
     border-radius: 10px;
     padding: 20px;
     text-align: center;
-   
     max-width: 400px;
     width: 100%;
     margin-bottom: 0;
