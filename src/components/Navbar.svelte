@@ -39,13 +39,6 @@
 
   <header class="header">
     <a href="#" class="logo pulsate-fwd">O/F</a>
-    <label for="" class="icons">
-      <i class="bx bx-water" />
-    </label>
-
-    <label for="" class="icons-1">
-      <i class="bx bx-water pulsate-fwd" />
-    </label>
 
     <nav class="navbar">
       <!--Links para las vistas de todo el publico -->
@@ -93,7 +86,6 @@
   }
 
   body {
-    margin-bottom: 100px;
   }
 
   .header {
@@ -144,7 +136,7 @@
 
   .logo {
     font-family: "Dancing Script", cursive;
-    font-size: 2rem;
+    font-size: 1.6rem;
     color: #1F64A1;
     text-decoration: none;
     font-weight: 700;
@@ -162,18 +154,6 @@
     color: #efbc70;
   }
 
-  .icons {
-    font-size: 2.8rem;
-    color: #fff;
-    cursor: pointer;
-    display: none;
-  }
-
-  .icons {
-    font-size: 2.8rem;
-    color: #fff;
-    cursor: pointer;
-  }
 
   .btn {
     border: none;

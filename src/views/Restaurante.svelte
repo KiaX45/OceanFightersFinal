@@ -81,7 +81,7 @@
 
 </script>
 <body>
-  <h1 style="color: #ee8b09; display: flex; justify-content: center;">Restaurantes</h1>
+  <h1 style="color: #ee8b09; display: flex; justify-content: center; margin-top:120px;">Restaurantes</h1>
 
   <!--Busqueda de restaurantes-->
   <div style="display: flex; justify-content: center;">

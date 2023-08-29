@@ -246,6 +246,7 @@
 </script>
 
 <body>
+  <header style="margin-top:120px;"></header>
   <div class="container">
     <div class="item">
       <h1 class="text_title">Bienvenido, {userNow.username}</h1>

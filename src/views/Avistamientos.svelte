@@ -121,7 +121,7 @@
     console.log(resultImage);
     if (resultImage) {
       avistamiento.foto = resultImage;
-    };
+    }
 
     //Comprobamos si el usuario lleno correctamente el formulario
     if (!checkForm()) {
@@ -133,7 +133,7 @@
 
     //llamamos a la función para subir los datos
     addAvistamiento();
-  };
+  }
 
   //funciones para la adición de fecha
   const getActualDate = () => {
@@ -283,7 +283,7 @@
     avistamientos = avistamientosSinFiltrar.filter((avistamiento: any) => {
       return avistamiento.visible == true && avistamiento.locacion == locacion;
     });
-  };
+  }
   //funciones para la parte de evento mas especifico
   const gotoEvento = () => {
     navigate("/evento");
@@ -302,94 +302,259 @@
       close: true,
     }).showToast();
   };
-
 </script>
 
-<!--Creamos las tags necesarias para mostrar las locaciones correspondientes-->
-
-<div class="containerTags">
-  <button on:click|preventDefault={() => handleChange(1)}>Locación 1</button>
-  <button on:click|preventDefault={() => handleChange(2)}>Locación 2</button>
-  <button on:click|preventDefault={() => handleChange(3)}>Locación 3</button>
-  <button on:click|preventDefault={() => handleChange(4)}>Locación 4</button>
-</div>
-
-<!--Parte de la carga de las imagenes subidas por el usuario-->
-<!--Comprobamos si el arreglo esta vació-->
-{#if avistamientos.length == 0}
-  <h1>No hay avistamientos</h1>
-{:else}
-  <!--Se mostraran los avistamientos de la locacion seleccionada-->
-  {#each avistamientos as avistamiento}
-    <div class="containerAvistamientos">
-      <img src={avistamiento.foto} alt="" style="width: 60%; height: 60%;" />
-      <div class="conteinertagsAvistamiento">
-        <p>{avistamiento.nombre}</p>
-        <p>{avistamiento.fecha}</p>
-        <p>{avistamiento.locacion}</p>
-        <p>{avistamiento.descripcion}</p>
+<body>
+  <header class="header">
+    <div class="header-content container">
+      <div class="header-txt">
+        <h1 class="neon text-pop-up-top">AVISTAMIENTOS</h1>
+        <p>
+          Lugares donde se han avistado signos de vida maritima en distintas
+          locaciones del planeta
+        </p>
       </div>
     </div>
-  {/each}
-{/if}
-<!--Parte de la solicitud de subida de imagenes-->
-{#if !availableUpload}
-  <button on:click|preventDefault={handleUpload}>Sube tu propia imagen</button>
-{:else}
-  <div class="container">
-    <div class="row">
-      <!--Creación del formulario para la adición de menus -->
-      <div class="col-md-6">
-        <form>
-          <label for="nombre">Nombre:</label>
-          <input type="text" id="nombre" bind:value={avistamiento.nombre} />
+  </header>
 
-          <label for="locacion">Locación:</label>
-          <select id="locacion" bind:value={avistamiento.locacion}>
-            <option value="" disabled selected>Seleccione una opción</option>
-            <option value="Locación 1">Locación 1</option>
-            <option value="Locación 2">Locación 2</option>
-            <option value="Locación 3">Locación 3</option>
-            <option value="Locación 4">Locación 4</option>
-            <!-- Puedes agregar más opciones aquí -->
-          </select>
+  <!--Creamos las tags necesarias para mostrar las locaciones correspondientes-->
 
-          <label for="descripcion">Descripción:</label>
-          <textarea id="descripcion" bind:value={avistamiento.descripcion} />
-
-          <div class="file-input-container">
-            <label for="imagen">Imagen:</label>
-            <input
-              type="file"
-              on:change|preventDefault={handleImageSelect}
-              accept="image/*"
-            />
-          </div>
-
-          <button type="submit" on:click|preventDefault={handleSubmit}
-            >Guardar</button
-          >
-        </form>
-      </div>
-
-      <div class="col-md-6">
-        {#if selectedImage}
-          <div style="justify-content: center; align-items: center;">
-            <img
-              src={URL.createObjectURL(selectedImage)}
-              alt="Imagen seleccionada"
-              style="width: 70%; height: 70%;  margin: 1"
-            />
-          </div>
-        {:else}
-          <p>Selecciona una imagen</p>
-        {/if}
-      </div>
-    </div>
+  <div class="containerTags color-change-2x">
+    <button on:click|preventDefault={() => handleChange(1)}>Locación 1</button>
+    <button on:click|preventDefault={() => handleChange(2)}>Locación 2</button>
+    <button on:click|preventDefault={() => handleChange(3)}>Locación 3</button>
+    <button on:click|preventDefault={() => handleChange(4)}>Locación 4</button>
   </div>
-{/if}
+
+  <section class="containerEventos">
+    {#if avistamientos.length == 0}
+      <h1 style="color:#fff; text-transform: uppercase;">
+        No hay avistamientos
+      </h1>
+    {:else}
+      <!--Se mostraran los avistamientos de la locacion seleccionada-->
+      {#each avistamientos as avistamiento}
+        <div class="container">
+          <div class="containerEventos-txt">
+            <div class="event-details">
+              <!--Parte de la carga de las imagenes subidas por el usuario-->
+              <!--Comprobamos si el arreglo esta vació-->
+              <h1 style="text-transform: uppercase;">{avistamiento.nombre}</h1>
+              <p>{avistamiento.fecha}</p>
+              <p>{avistamiento.locacion}</p>
+              <p>{avistamiento.descripcion}</p>
+            </div>
+            <div class="event-image">
+              <img
+                src={avistamiento.foto}
+                alt=""
+                style="width: 60%; height: 60%;"
+              />
+            </div>
+          </div>
+        </div>
+      {/each}
+    {/if}
+  </section>
+
+  <section>
+    <!--Parte de la solicitud de subida de imagenes-->
+
+    {#if !availableUpload}
+      <div class="container10">
+        <button class="neon1" on:click|preventDefault={handleUpload}
+          >Sube tu propia imagen</button
+        >
+      </div>
+    {:else}
+      <div class="container1">
+        <div class="row">
+          <!--Creación del formulario para la adición de menus -->
+          <div class="col-md-6">
+            <div class="container">
+              <div class="container-form">
+                <form>
+                  <label for="nombre">Nombre:</label>
+                  <input
+                    type="text"
+                    id="nombre"
+                    bind:value={avistamiento.nombre}
+                  />
+
+                  <label for="locacion">Locación:</label>
+                  <select id="locacion" bind:value={avistamiento.locacion}>
+                    <option value="" disabled selected
+                      >Seleccione una opción</option
+                    >
+                    <option value="Locación 1">Locación 1</option>
+                    <option value="Locación 2">Locación 2</option>
+                    <option value="Locación 3">Locación 3</option>
+                    <option value="Locación 4">Locación 4</option>
+                    <!-- Puedes agregar más opciones aquí -->
+                  </select>
+
+                  <label for="descripcion">Descripción:</label>
+                  <textarea
+                    id="descripcion"
+                    bind:value={avistamiento.descripcion}
+                  />
+
+                  <div class="file-input-container">
+                    <label for="imagen">Imagen:</label>
+                    <input 
+                      type="file"
+                      on:change|preventDefault={handleImageSelect}
+                      accept="image/*"
+                    /> (FILE CHOOSE)
+                  </div>
+
+                  <button type="submit" on:click|preventDefault={handleSubmit}
+                    >Guardar</button
+                  >
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="container-form-image">
+              {#if selectedImage}
+                <div style="justify-content: center; align-items: center;">
+                  <h3>Previsualización de la imagen</h3>
+                  <img
+                    class="pulsate-bck"
+                    src={URL.createObjectURL(selectedImage)}
+                    alt="Imagen seleccionada"
+                  />
+                </div>
+              {:else}
+                <p>Selecciona una imagen</p>
+              {/if}
+            </div>
+          </div>
+        </div>
+      </div>
+    {/if}
+  </section>
+</body>
 
 <style>
+  body {
+    background: -webkit-linear-gradient(
+      -180deg,
+      rgb(22, 135, 237),
+      rgb(8, 37, 67)
+    );
+    background: linear-gradient(-180deg, rgb(22, 135, 237), rgb(8, 37, 67));
+  }
+  .header {
+    background-color: #082543;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 70vh;
+    align-items: center;
+    display: flex;
+    padding-top: 50px;
+  }
+
+  .header-txt {
+    padding-top: 10px;
+    text-align: center;
+  }
+
+  .header-txt h1 {
+    font-size: 85px;
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    animation: fadeInUp 1s ease 0.5s; /* Agregamos una animación fadeInUp con un retraso */
+  }
+
+  .header-txt p {
+    color: #fff;
+    font-size: 20px;
+    padding: 0 250px;
+    margin-bottom: 45px;
+    animation: fadeInUp 1s ease 0.5s; /* Agregamos una animación fadeInUp con un retraso */
+  }
+  /* Animación fadeInUp */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .neon {
+    font-size: 6em;
+    font-weight: 500;
+    color: #fff;
+    text-shadow: 0 0 5px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4,
+      0 0 100px #03e9f4;
+    letter-spacing: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: 1s;
+  }
+
+  .neon:hover {
+    color: #fff;
+    text-shadow: 0 0 100px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4,
+      0 0 100px #03e9f4;
+  }
+
+  .container {
+    display: flex;
+    justify-content: space-between; /* Distribuir el contenido horizontalmente */
+    align-items: center; /* Centrar verticalmente el contenido */
+    padding: 20px; /* Espaciado opcional */
+  }
+
+  .containerEventos-txt {
+    display: flex;
+    flex-direction: row; /* Colocar elementos en fila */
+    align-items: center; /* Centrar verticalmente los elementos */
+    width: 100%; /* Ocupar todo el ancho disponible */
+    color: #fff;
+  }
+
+  .event-details {
+    flex: 1; /* Ocupar la mitad izquierda */
+  }
+
+  .event-image {
+    flex: 1; /* Ocupar la mitad derecha */
+    text-align: center; /* Centrar la imagen horizontalmente */
+  }
+
+  .event-image img {
+    min-height: 300px;
+    min-width: 300px;
+    max-width: 100%; /* Asegurarse de que la imagen no se desborde */
+    height: auto; /* Mantener la proporción de aspecto de la imagen */
+  }
+
+  /*Estilos para los eventos MEDINA*/
+  .containerEventos {
+    background-image: url(https://plustatic.com/4059/conversions/diferencias-mar-oceano-social.jpg);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+    min-height: 80vh;
+  }
+
   .containerTags {
     display: flex;
     flex-direction: row;
@@ -397,7 +562,7 @@
     align-items: center;
     width: 100%;
     height: 100px;
-    background-color: #f1f1f1;
+    border: 1px solid black;
     border-radius: 10px;
     margin: 10px;
   }
@@ -433,23 +598,32 @@
   }
 
   button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
+    color: transparent;
     padding: 10px 15px;
-    font-size: 16px;
+    background-color: #a37125;
+    color: white;
+    border: none;
+    border-radius: 3px;
     cursor: pointer;
+    font-size: 16px;
+    transition: 0.4s;
   }
 
   button:hover {
-    background-color: #0056b3;
+    color: #a37125;
+    background-color: #efbc70;
+    transform: scale(1.1);
+    cursor: pointer;
   }
 
   /* Estilos específicos para el campo de foto */
   .file-input-container {
     position: relative;
     overflow: hidden;
+  }
+
+  .file-input-container{
+    color: #fff;
   }
 
   .file-input-container input[type="file"] {
@@ -509,28 +683,138 @@
     background-color: #f8f8f8;
   }
 
+  .color-change-2x {
+    -webkit-animation: color-change-3x 4s linear infinite alternate both;
+    animation: color-change-3x 4s linear infinite alternate both;
+  }
   /*estilos para las locaciones*/
-  .containerAvistamientos {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    height: 500px;
-    background-color: #f1f1f1;
-    border-radius: 10px;
-    margin: 10px;
+  /* ----------------------------------------------
+ * Generated by Animista on 2023-8-28 20:53:9
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+  /**
+ * ----------------------------------------
+ * animation color-change-2x
+ * ----------------------------------------
+ */
+  @-webkit-keyframes color-change-3x {
+    0% {
+      background: #0a3f6e;
+    }
+    50% {
+      background: #1687ed;
+    }
+    100% {
+      background: #116bba;
+    }
+  }
+  @keyframes color-change-3x {
+    0% {
+      background: #0a3f6e;
+    }
+    50% {
+      background: #1687ed;
+    }
+    100% {
+      background: #116bba;
+    }
   }
 
-  .conteinertagsAvistamiento {
+  .container-form {
+    min-width: 500px;
+    height: auto;
+  }
+
+  .container-form-image{
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
     align-items: center;
-    width: 100%;
-    height: 100px;
-    background-color: #f1f1f1;
-    border-radius: 10px;
-    margin: 10px;
+    align-content: center;
+  }
+
+  .container-form-image img{
+    width: 400px;
+    height: auto;
+  }
+
+  .container-form-image h3 {
+    color: #fff;
+    margin: 30px;
+  }
+
+  .pulsate-bck {
+    -webkit-animation: pulsate-bck 4s ease-in-out infinite both;
+    animation: pulsate-bck 4s ease-in-out infinite both;
+  }
+
+  /* ----------------------------------------------
+ * Generated by Animista on 2023-8-14 20:56:6
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+  /**
+ * ----------------------------------------
+ * animation pulsate-bck
+ * ----------------------------------------
+ */
+  @-webkit-keyframes pulsate-bck {
+    0% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+    50% {
+      -webkit-transform: scale(0.9);
+      transform: scale(0.9);
+    }
+    100% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+  }
+  @keyframes pulsate-bck {
+    0% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+    50% {
+      -webkit-transform: scale(0.9);
+      transform: scale(0.9);
+    }
+    100% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+  }
+
+  .neon1 {
+    font-size: 1em;
+    font-weight: 50;
+    color: #fff;
+    text-shadow: 0 0 5px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4,
+      0 0 100px #03e9f4;
+    letter-spacing: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: 1s;
+  }
+
+  .neon1:hover {
+    color: #fff;
+    text-shadow: 0 0 100px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4,
+      0 0 100px #03e9f4;
+  }
+
+  .container10 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .container10 button {
+    margin: 30px;
   }
 </style>

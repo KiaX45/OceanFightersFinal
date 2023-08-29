@@ -593,8 +593,7 @@
       <div class="header-txt">
         <h1 class="neon text-pop-up-top">EVENTOS</h1>
         <p>
-          Selecciona un evento de interes para conocer más información acerca
-          del mismo
+          Comprobar los lugares de los avistamientos
         </p>
       </div>
     </div>
