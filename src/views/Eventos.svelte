@@ -432,10 +432,20 @@
       console.log(correos5.length);
       for (let index = 0; index < correos5.length; index++) {
         console.log(correos5[index]);
-        //sendNotification(correos5[index]);
+        sendNotification(correos5[index]);
         console.log(index)
       }
-
+      //reestablecemos la variable correos
+      correos = [];
+      //mensaje de exito 
+      Toastify({
+        text: "Notificación enviada",
+        duration: 3000,
+        gravity: "top",
+        position: "center",
+        backgroundColor: "#00ff00",
+        stopOnFocus: true,
+      }).showToast();
       //cambiamos el valor de la variable onEdit
       onEdit = false;
       //reestablecemos el formulario
