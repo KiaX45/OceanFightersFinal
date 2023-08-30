@@ -129,15 +129,33 @@
 
   //Funciones para corroborar si un evento sigue estando vigente
   const isAvailable = (eventoOnSelect) => {
-    console.log(eventoOnSelect.dia);
-    let fechaEvento = new Date(eventoOnSelect.dia);
-    let fechaActual = new Date();
-    if (fechaEvento > fechaActual) {
-      return true;
-    } else {
-      return false;
-    }
-  };
+  if (!eventoOnSelect || !eventoOnSelect.dia) {
+    console.log("Evento o fecha del evento no proporcionados");
+    return false;
+  }
+
+  // Descomponer la fecha en componentes (año, mes, día)
+  const [year, month, day] = eventoOnSelect.dia.split('-').map(Number);
+
+  // Crear objetos de fecha en la zona horaria local
+  const fechaEvento = new Date(year, month - 1, day); // Los meses en JavaScript van de 0 a 11
+  fechaEvento.setHours(0, 0, 0, 0); // Establecer la hora a medianoche para la comparación
+
+  const fechaActual = new Date();
+  fechaActual.setHours(0, 0, 0, 0); // Establecer la hora a medianoche para la comparación
+
+  console.log(fechaEvento);
+  console.log(fechaActual);
+
+  if (fechaEvento.getTime() > fechaActual.getTime()) {
+    console.log("Este evento sigue disponible");
+    return true;
+  } else {
+    console.log("Este evento ya no está disponible");
+    return false;
+  }
+};
+
 
   let confirmation;
   //Funciones para dejar de participar
@@ -246,40 +264,51 @@
 </script>
 
 <body>
-  <header style="margin-top:120px;"></header>
+  <header style="margin-top:120px;" />
   <div class="container">
     <div class="item">
       <h1 class="text_title">Bienvenido, {userNow.username}</h1>
       <div class="center-image">
-        <img src={userNow.imagen} alt="Imagen de perfil" width="200px" height="200px" />
+        <img
+          src={userNow.imagen}
+          alt="Imagen de perfil"
+          width="200px"
+          height="200px"
+        />
         <p class="email">{userNow.email}</p>
       </div>
     </div>
     <div class="options">
       <div class="notification-card">
         <h1 class="text_center">Mis eventos</h1>
-        
-          {#if hayEventosDeParticipacion}
-            {#each eventos as evento}
-              <div class="notification-card-int">
-                <h2>{evento.nombre}</h2>
-                <p>{evento.dia}</p>
-                {#if isAvailable(evento)}
-                  <button class="button-action" on:click={() => cancelarParticipacion(evento)}>
-                    Cancelar Participación
-                  </button>
-                {:else}
-                  <p class="text_center_black">Este evento ya no está disponible</p>
-                {/if}
-              </div>
-            {/each}
-          {:else}
+
+        {#if hayEventosDeParticipacion}
+          {#each eventos as evento}
             <div class="notification-card-int">
-              <h2>¿No has participado en ningún evento?, ¡inténtalo ahora!</h2>
-              <button class="button-action" on:click={goToEventos}>¿Quieres intentarlo?</button>
+              <h2>{evento.nombre}</h2>
+              <p>{evento.dia}</p>
+              {#if isAvailable(evento)}
+                <button
+                  class="button-action"
+                  on:click={() => cancelarParticipacion(evento)}
+                >
+                  Cancelar Participación
+                </button>
+              {:else}
+                <p class="text_center_black">
+                  Este evento ya no está disponible
+                </p>
+              {/if}
             </div>
-          {/if}
-       
+          {/each}
+        {:else}
+          <div class="notification-card-int">
+            <h2>¿No has participado en ningún evento?, ¡inténtalo ahora!</h2>
+            <button class="button-action" on:click={goToEventos}
+              >¿Quieres intentarlo?</button
+            >
+          </div>
+        {/if}
       </div>
     </div>
   </div>

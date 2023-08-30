@@ -175,6 +175,11 @@
   const saveUser = async () => {
     try {
       console.log(userSave);
+      if(comprobarUsuario(userSave)){
+        console.log("El usuario ya esta registrado");
+        return;
+      }
+      console.log("El usuario no esta registrado");
       const docRef = await addDoc(collection(db, "Usuarios"), userSave);
       //addDoc es un elemento propio de firebase para añadir documentos a la base de datos tenemos que enviar por parametros el db que lo importamos anteriormente y el nombre de la coleccion en la que queremos guardar el documento adicional a esto le enviamos el objeto que queremos guardar si no hay una colección con el nombre que le enviamos se creara una nueva y si ya existe se añadira el documento a la colección
       console.log("Document written with ID: ", docRef.id);
@@ -207,6 +212,40 @@
       console.log(err);
     }
   );
+
+  //traemos la base de datos usuarios 
+  let usuariosdb = [];
+  const getUsuarios = onSnapshot(
+    collection(db, "Usuarios"),
+    (querySnapshot) => {
+      usuariosdb = querySnapshot.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id }; //con esto decimos que por cada recorrido trasformamos los datos en un objeto
+      });
+
+      console.log(usuarios);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+
+  //funciones para comprobar si el usuario que agregamos ya esta en el array
+  const comprobarUsuario = (usuarioComprobar) => {
+    
+    let usuarioEncontrado = false;
+    usuariosdb.forEach((usuario) => {
+      console.log(usuario.username);
+      console.log(usuarioComprobar.username);
+      if (usuario.username.trim() == usuarioComprobar.username.trim()) {
+        usuarioEncontrado = true;
+      }
+    });
+    return usuarioEncontrado;
+  };
+
+  onDestroy(() => {
+    getUsuarios();
+  });
 
   onMount(() => {
     if (!$user) {

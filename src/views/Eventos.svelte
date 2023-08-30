@@ -371,6 +371,11 @@
       });
     });
 
+    //si el coreo esta repetido se elimina
+    correos = correos.filter((correo, index) => {
+      return correos.indexOf(correo) === index;
+    });
+
     console.log(correos);
     return correos;
   };
@@ -424,9 +429,11 @@
       //Obtenemos los correos de los participantes
       //console.log(getCorreos(currentid));
       let correos5 = getCorreos(currentid);
+      console.log(correos5.length);
       for (let index = 0; index < correos5.length; index++) {
         console.log(correos5[index]);
-        sendNotification(correos5[index]);
+        //sendNotification(correos5[index]);
+        console.log(index)
       }
 
       //cambiamos el valor de la variable onEdit
@@ -458,7 +465,7 @@
     console.log("OBJETO", e);
     sendEmail(e);
 
-    alert("Notificación enviada");
+   // alert("Notificación enviada");
     mensaje = "";
   };
 
