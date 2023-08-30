@@ -179,7 +179,31 @@
           );
         });
         console.log(idParticipante);
+        //volvemos a comprobar si hay eventos de participación de este usuario
+        if (participantes.length == 1) {
+          hayEventosDeParticipacion = false;
+        }
         deleteDoc(doc(db, "participantes", idParticipante[0].id));
+        //actualizamos los eventos en los que esta participando este usuario
+        //debemos actualizar el numero de participantes del evento 
+        //creamos un objeto Evento
+        let evento = {
+          nombre: eventoOnSelect.nombre,
+          descripcion: eventoOnSelect.descripcion,
+          dia: eventoOnSelect.dia,
+          hora: eventoOnSelect.hora,
+          participantes: eventoOnSelect.participantes,
+          uid: eventoOnSelect.id,
+          imagen: eventoOnSelect.imagen,
+        };
+        console.log(evento.uid);
+        console.log(evento.id);
+        console.log(evento.participantes);
+        updateDoc(doc(db, "Eventos", evento.uid), evento);
+        eventos = eventos.filter((evento) => {
+          return evento.id != currentid;
+        });
+        console.log(eventos);
         showSucces("Has cancelado tu participación en el evento");
       } catch (error) {
         console.log(error);

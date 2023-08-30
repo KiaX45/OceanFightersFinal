@@ -234,8 +234,8 @@
     
     let usuarioEncontrado = false;
     usuariosdb.forEach((usuario) => {
-      console.log(usuario.username);
-      console.log(usuarioComprobar.username);
+     //console.log(usuario.username);
+      //console.log(usuarioComprobar.username);
       if (usuario.username.trim() == usuarioComprobar.username.trim()) {
         usuarioEncontrado = true;
       }
